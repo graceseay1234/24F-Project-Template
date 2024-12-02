@@ -44,7 +44,7 @@ def PredictionNav():
 
 def ClassificationNav():
     st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
+        "pages/13_Classification.py", label="Classification Demo", icon="🤠"
     )
 
 
