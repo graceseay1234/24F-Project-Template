@@ -1,19 +1,18 @@
-import logging
-logger = logging.getLogger(__name__)
-
 import streamlit as st
+from streamlit_extras.app_logo import add_logo
 from modules.nav import SideBarLinks
-import requests
-
-st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
-st.title('System Admin Home Page')
+st.write("# About this App")
 
-if st.button('Update ML Models',
-             type='primary',
-             use_container_width=True):
-  st.switch_page('pages/21_ML_Model_Mgmt.py')
+st.markdown (
+    """
+    This is a demo app for CS 3200 Course Project.  
 
-#This is what was originally in 20_Admin_Home.py
+    The goal of this demo is to provide information on the tech stack 
+    being used as well as demo some of the features of the various platforms. 
+
+    Stay tuned for more information and features to come!
+    """
+        )

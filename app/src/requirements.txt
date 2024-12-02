@@ -1,6 +1,7 @@
 altair
 pandas
 streamlit
+streamlit-antd-components
 streamlit-extras
 world-bank-data
 matplotlib
@@ -13,3 +14,4 @@ plotly
 seaborn
 scikit-learn
 shap
+

@@ -7,9 +7,6 @@ from modules.nav import SideBarLinks
 
 logger = logging.getLogger(__name__)
 
-# Set wide layout and page configuration
-st.set_page_config(layout='wide')
-
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
