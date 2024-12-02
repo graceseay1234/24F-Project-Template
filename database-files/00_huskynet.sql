@@ -1,0 +1,4 @@
+DROP SCHEMA IF EXISTS `huskynet` ;
+CREATE SCHEMA IF NOT EXISTS `huskynet` DEFAULT CHARACTER SET latin1 ;
+USE `huskynet` ;
+
