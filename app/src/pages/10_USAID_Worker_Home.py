@@ -1,4 +1,4 @@
-#SYSTEM ADMIN
+#SYSTEM ADMIN DASHBOARD
 import logging
 import streamlit as st
 import pandas as pd
@@ -27,9 +27,6 @@ sac.divider(align='center', color='gray')
 
 #st.write("### What would you like to do today?")
 #st.write("Please select an action from the options below:")
-# Create two columns for layout
-# Create two columns for layout
-
 # Create two columns for layout
 col1, col2 = st.columns([2, 2])
 
