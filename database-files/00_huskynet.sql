@@ -220,7 +220,7 @@ CREATE TABLE Actions (
   AlumniID INT,
   AdminID INT,
   ActionType VARCHAR(50),
-  ActionTS VARCHAR(50),
+  ActionTS datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (ActionID)
 
 );
@@ -792,3 +792,131 @@ insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, En
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (38, 11, 'Operations Supervisor', 'Mydeo', '2021-12-11', '2024-06-14', false);
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (39, 15, 'Administrative Assistant', 'Photofeed', '2020-11-29', '2024-04-16', true);
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (40, 27, 'Warehouse Worker', 'Voonder', '2022-12-14', '2024-09-04', true);
+
+
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (1, 18, 10, 'followed a user', '2023-12-08 23:45:49');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (2, 32, 30, 'liked a post', '2024-01-03 18:18:28');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (3, 38, 40, 'commented on a video', '2023-12-23 02:50:08');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (4, 5, 1, 'created a new post', '2024-01-08 13:31:29');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (5, 39, 5, 'sent a message', '2023-12-19 07:43:52');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (6, 27, 11, 'rated a product', '2023-12-17 00:13:50');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (7, 37, 39, 'liked a post', '2023-12-26 08:58:52');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (8, 28, 10, 'commented on a video', '2023-12-05 17:07:51');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (9, 30, 11, 'saved a link', '2023-12-13 14:41:33');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (10, 10, 23, 'rated a product', '2023-12-11 17:04:01');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (11, 29, 17, 'saved a link', '2023-12-15 14:31:30');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (12, 36, 24, 'updated profile picture', '2023-12-07 12:35:48');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (13, 19, 16, 'saved a link', '2023-12-17 23:56:14');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (14, 33, 28, 'sent a message', '2024-01-05 20:18:41');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (15, 30, 6, 'created a new post', '2023-12-12 19:37:44');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (16, 29, 10, 'updated profile picture', '2023-12-30 14:17:47');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (17, 13, 34, 'rated a product', '2023-12-29 07:52:23');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (18, 11, 4, 'followed a user', '2023-12-27 08:31:36');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (19, 7, 8, 'sent a message', '2024-01-09 14:45:13');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (20, 5, 38, 'logged in', '2023-12-18 03:25:20');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (21, 19, 23, 'logged in', '2024-01-09 18:33:25');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (22, 5, 7, 'logged in', '2023-12-25 23:50:00');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (23, 7, 38, 'followed a user', '2023-12-25 14:14:48');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (24, 39, 31, 'logged in', '2023-12-03 06:49:30');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (25, 26, 35, 'rated a product', '2023-12-06 18:20:24');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (26, 28, 1, 'sent a message', '2023-12-28 13:05:57');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (27, 9, 14, 'shared a photo', '2024-01-06 06:47:33');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (28, 38, 8, 'logged in', '2023-12-12 02:40:36');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (29, 4, 6, 'shared a photo', '2024-01-06 21:09:22');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (30, 15, 6, 'sent a message', '2023-12-24 16:59:48');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (31, 31, 29, 'logged in', '2024-01-04 20:46:59');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (32, 34, 1, 'liked a post', '2023-12-05 06:01:05');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (33, 17, 8, 'created a new post', '2024-01-05 12:40:51');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (34, 25, 21, 'logged in', '2024-01-04 22:11:01');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (35, 13, 39, 'updated profile picture', '2023-12-06 05:45:38');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (36, 4, 9, 'sent a message', '2023-12-31 16:00:02');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (37, 22, 4, 'logged in', '2023-12-23 19:46:41');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (38, 6, 19, 'liked a post', '2024-01-03 23:16:39');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (39, 3, 13, 'created a new post', '2023-12-14 17:10:54');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (40, 11, 5, 'commented on a video', '2023-12-03 10:35:34');
+
+
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (1, 28, 8, 'Engaging in illegal activities', '2023-12-18 22:41:05');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (2, 26, 7, 'Violating terms of service', '2023-12-09 01:58:34');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (3, 9, 29, 'Posting inappropriate content', '2023-12-07 00:24:04');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (4, 6, 26, 'Violating community guidelines', '2023-12-04 04:51:26');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (5, 19, 18, 'Spamming', '2023-12-22 20:59:15');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (6, 20, 11, 'Fraudulent activity', '2023-12-13 21:54:55');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (7, 23, 22, 'Inappropriate language', '2023-12-23 06:52:39');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (8, 13, 31, 'Inappropriate language', '2023-12-29 16:07:14');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (9, 2, 3, 'Posting inappropriate content', '2023-12-15 04:34:12');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (10, 28, 8, 'Inappropriate language', '2023-12-15 04:35:04');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (11, 15, 2, 'Posting inappropriate content', '2024-01-05 05:23:00');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (12, 9, 12, 'Inappropriate language', '2023-12-30 13:00:38');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (13, 27, 23, 'Spamming', '2023-12-21 02:44:09');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (14, 19, 28, 'Sharing personal information', '2023-12-06 09:56:40');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (15, 33, 3, 'Inappropriate language', '2024-01-05 07:39:19');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (16, 17, 35, 'Sharing personal information', '2023-12-11 08:27:06');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (17, 32, 38, 'Spamming', '2023-12-07 03:52:38');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (18, 4, 9, 'Fraudulent activity', '2023-12-13 01:04:06');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (19, 5, 11, 'Inappropriate language', '2023-12-12 09:02:12');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (20, 31, 9, 'Inappropriate language', '2023-12-08 05:51:44');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (21, 23, 5, 'Inappropriate language', '2023-12-04 10:06:53');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (22, 11, 11, 'Spamming', '2023-12-11 13:40:28');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (23, 31, 30, 'Spamming', '2023-12-09 04:25:03');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (24, 29, 7, 'Fraudulent activity', '2023-12-25 16:27:05');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (25, 21, 27, 'Spamming', '2023-12-22 23:30:08');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (26, 10, 2, 'Inappropriate language', '2023-12-19 16:36:42');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (27, 32, 11, 'Violating community guidelines', '2023-12-23 16:48:12');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (28, 10, 26, 'Violating terms of service', '2024-01-01 02:44:25');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (29, 3, 33, 'Impersonation', '2023-12-05 08:06:23');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (30, 31, 12, 'Sharing personal information', '2023-12-22 16:41:19');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (31, 29, 36, 'Sharing personal information', '2023-12-24 19:28:53');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (32, 18, 38, 'Sharing personal information', '2023-12-12 12:43:19');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (33, 31, 8, 'Fraudulent activity', '2023-12-30 13:30:40');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (34, 6, 14, 'Harassment', '2023-12-29 02:23:44');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (35, 21, 2, 'Spamming', '2023-12-08 06:56:48');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (36, 21, 31, 'Violating terms of service', '2024-01-03 13:04:08');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (37, 37, 31, 'Violating terms of service', '2024-01-05 17:43:09');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (38, 26, 12, 'Violating community guidelines', '2023-12-14 01:13:46');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (39, 16, 12, 'Fraudulent activity', '2023-12-23 12:45:29');
+insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (40, 16, 8, 'Engaging in illegal activities', '2023-12-30 15:41:13');
+
+
+insert into Administrator (AdminID, Name, Email, Role) values (1, 'Julietta Maskelyne', 'jmaskelyne0@adobe.com', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (2, 'Amelia Jon', 'ajon1@cnet.com', 'Moderator');
+insert into Administrator (AdminID, Name, Email, Role) values (3, 'Rodolph Billin', 'rbillin2@plala.or.jp', 'Moderator');
+insert into Administrator (AdminID, Name, Email, Role) values (4, 'Nanny Swett', 'nswett3@miibeian.gov.cn', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (5, 'Daveta Lowdwell', 'dlowdwell4@yahoo.co.jp', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (6, 'Alexandrina Dart', 'adart5@goo.ne.jp', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (7, 'Harriett Drew-Clifton', 'hdrewclifton6@cbc.ca', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (8, 'Dorotea Colecrough', 'dcolecrough7@alexa.com', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (9, 'Karlotte Mora', 'kmora8@e-recht24.de', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (10, 'Miquela Emmet', 'memmet9@loc.gov', 'Manager');
+insert into Administrator (AdminID, Name, Email, Role) values (11, 'Eziechiele Ellery', 'eellerya@reddit.com', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (12, 'Con Hennington', 'chenningtonb@networksolutions.com', 'Support');
+insert into Administrator (AdminID, Name, Email, Role) values (13, 'Judon Satchell', 'jsatchellc@nature.com', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (14, 'Marc Oseman', 'mosemand@cdc.gov', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (15, 'Lovell MacGown', 'lmacgowne@boston.com', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (16, 'Nico Hoyle', 'nhoylef@youku.com', 'Tester');
+insert into Administrator (AdminID, Name, Email, Role) values (17, 'Silvio Riolfi', 'sriolfig@acquirethisname.com', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (18, 'De Yurchishin', 'dyurchishinh@geocities.com', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (19, 'Davy Toe', 'dtoei@liveinternet.ru', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (20, 'Karlotte Braisby', 'kbraisbyj@uiuc.edu', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (21, 'Trev Edrich', 'tedrichk@howstuffworks.com', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (22, 'Milty Paynton', 'mpayntonl@sakura.ne.jp', 'Developer');
+insert into Administrator (AdminID, Name, Email, Role) values (23, 'Ferdie Elloit', 'felloitm@hatena.ne.jp', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (24, 'Nora Blint', 'nblintn@g.co', 'Developer');
+insert into Administrator (AdminID, Name, Email, Role) values (25, 'Nichole Softley', 'nsoftleyo@people.com.cn', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (26, 'Guthrie Sommerly', 'gsommerlyp@japanpost.jp', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (27, 'Anabelle Afonso', 'aafonsoq@bizjournals.com', 'Tester');
+insert into Administrator (AdminID, Name, Email, Role) values (28, 'Elayne Aucutt', 'eaucuttr@lycos.com', 'Support');
+insert into Administrator (AdminID, Name, Email, Role) values (29, 'Donella Crowther', 'dcrowthers@i2i.jp', 'Support');
+insert into Administrator (AdminID, Name, Email, Role) values (30, 'Kingsly Dunphy', 'kdunphyt@bbb.org', 'Developer');
+insert into Administrator (AdminID, Name, Email, Role) values (31, 'Collie Brookes', 'cbrookesu@rediff.com', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (32, 'Maura Tanfield', 'mtanfieldv@timesonline.co.uk', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (33, 'Virgil Maevela', 'vmaevelaw@constantcontact.com', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (34, 'Carmine Crunden', 'ccrundenx@plala.or.jp', 'Moderator');
+insert into Administrator (AdminID, Name, Email, Role) values (35, 'Sherwood Liversage', 'sliversagey@weebly.com', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (36, 'Kassandra Alejandro', 'kalejandroz@go.com', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (37, 'Shane Erdes', 'serdes10@last.fm', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (38, 'Thurstan Spurman', 'tspurman11@taobao.com', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (39, 'Ranee Covolini', 'rcovolini12@independent.co.uk', 'Tester');
+insert into Administrator (AdminID, Name, Email, Role) values (40, 'Alwyn Belson', 'abelson13@cargocollective.com', 'Tester');
+
+
