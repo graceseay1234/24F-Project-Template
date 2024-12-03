@@ -9,7 +9,7 @@ USE huskynet;
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Job (
-  JobID INT AUTO_INCREMENT NOT NULL,
+  JobID VARCHAR(50) NOT NULL,
   Title VARCHAR(75) NOT NULL,
   Description VARCHAR(1000),
   Status VARCHAR(100),
@@ -25,7 +25,7 @@ CREATE INDEX job_id ON Job (JobID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Trait (
-  TraitID INT AUTO_INCREMENT NOT NULL,
+  TraitID VARCHAR(50) NOT NULL,
   Name VARCHAR(50) NOT NULL,
   Description VARCHAR(1000),
   PRIMARY KEY (TraitID)
@@ -39,16 +39,13 @@ CREATE INDEX trait_id ON Trait (TraitID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Candidate (
-  CandidateID INT AUTO_INCREMENT NOT NULL,
+  CandidateID VARCHAR(50) NOT NULL,
   Name VARCHAR(50) NOT NULL,
   InterviewNotes VARCHAR(1000),
   Status VARCHAR(50),
   Qualitites VARCHAR(1000),
-  PRIMARY KEY (CandidateID),
-  CONSTRAINT fk_candidate FOREIGN KEY (CandidateID) REFERENCES Trait(TraitID)
-  ON UPDATE cascade ON DELETE restrict,
-  CONSTRAINT fk_candidate2 FOREIGN KEY (CandidateID) REFERENCES Job(JobID)
-  ON UPDATE cascade ON DELETE restrict
+  PRIMARY KEY (CandidateID)
+
 );
 
 CREATE INDEX candidate_id ON Candidate (CandidateID);
@@ -58,16 +55,14 @@ CREATE INDEX candidate_id ON Candidate (CandidateID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE HiringUser (
-  UserID INT AUTO_INCREMENT NOT NULL,
+  UserID VARCHAR(50) NOT NULL,
   Name VARCHAR(50),
   Role VARCHAR(50),
 
   PRIMARY KEY (UserID),
   CONSTRAINT fk_user FOREIGN KEY (UserID) REFERENCES Job(JobID)
   ON UPDATE cascade ON DELETE restrict,
-  CONSTRAINT fk2_user FOREIGN KEY (UserID) REFERENCES Trait(TraitID)
-  ON UPDATE cascade ON DELETE restrict,
-  CONSTRAINT fk3_user FOREIGN KEY (UserID) REFERENCES Candidate(CandidateID)
+  CONSTRAINT fk2_user FOREIGN KEY (UserID) REFERENCES Candidate(CandidateID)
   ON UPDATE cascade ON DELETE restrict
 );
 
@@ -78,7 +73,7 @@ CREATE INDEX users_id ON HiringUser (UserID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Engagement (
-  EngagementID INT AUTO_INCREMENT NOT NULL,
+  EngagementID VARCHAR(50) NOT NULL,
   ConnectionsReq VARCHAR(50),
   ActiveUserCount INT,
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -92,7 +87,7 @@ CREATE INDEX engagement_id ON Engagement (EngagementID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Feedback (
-  FeedbackID INT AUTO_INCREMENT NOT NULL,
+  FeedbackID VARCHAR(50) NOT NULL,
   Content VARCHAR(2000),
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (FeedbackID)
@@ -106,7 +101,7 @@ CREATE INDEX feedback_id ON Feedback (FeedbackID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE PerformanceMetrics (
-  MetricID INT AUTO_INCREMENT NOT NULL,
+  MetricID VARCHAR(50) NOT NULL,
   ResponseTime TIME,
   Uptime TIME,
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -123,7 +118,7 @@ CREATE INDEX metric_id ON PerformanceMetrics(MetricID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Feature (
-  FeatureID INT AUTO_INCREMENT NOT NULL,
+  FeatureID VARCHAR(50) NOT NULL,
   Name VARCHAR(2000),
   UserCount INT,
   PRIMARY KEY (FeatureID),
@@ -140,7 +135,7 @@ CREATE INDEX feature_id ON Feature (FeatureID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE AnalyticsUser (
-  UserID INT AUTO_INCREMENT NOT NULL,
+  UserID VARCHAR(50) NOT NULL,
   Location VARCHAR(50),
   Major VARCHAR(50),
 
@@ -160,7 +155,7 @@ CREATE INDEX anausers_id ON AnalyticsUser (UserID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE SearchFilters (
-  FilterID INT AUTO_INCREMENT NOT NULL,
+  FilterID VARCHAR(50) NOT NULL,
   FilterType VARCHAR(50),
   PRIMARY KEY (FilterID)
 );
@@ -173,7 +168,7 @@ CREATE INDEX filter_id ON SearchFilters(FilterID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Skills (
-  SkillID INT AUTO_INCREMENT NOT NULL,
+  SkillID VARCHAR(50) NOT NULL,
   SkillName VARCHAR(200),
   AlumniID INT,
   PRIMARY KEY (SkillID)
@@ -187,7 +182,7 @@ CREATE INDEX skills_id ON Skills(SkillID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Messages (
-  MessageID INT AUTO_INCREMENT NOT NULL,
+  MessageID VARCHAR(50) NOT NULL,
   SenderAlumniID INT,
   RecieverAlumniID INT,
   MessageContent VARCHAR(2000),
@@ -203,7 +198,7 @@ CREATE INDEX msgs_id ON Messages(MessageID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE WorkExperience (
-  ExperienceID INT AUTO_INCREMENT NOT NULL,
+  ExperienceID VARCHAR(50) NOT NULL,
   AlumniID INT,
   Role VARCHAR(50),
   Company VARCHAR(50),
@@ -221,7 +216,7 @@ CREATE INDEX work_id ON WorkExperience(ExperienceID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Actions (
-  ActionID INT AUTO_INCREMENT NOT NULL,
+  ActionID VARCHAR(50) NOT NULL,
   AlumniID INT,
   AdminID INT,
   ActionType VARCHAR(50),
@@ -237,7 +232,7 @@ CREATE INDEX action_id ON Actions(ActionID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Warnings (
-  WarningID INT AUTO_INCREMENT NOT NULL,
+  WarningID VARCHAR(50) NOT NULL,
   AlumniID INT,
   AdminID INT,
   Reason VARCHAR(500),
@@ -253,7 +248,7 @@ CREATE INDEX warn_id ON Warnings(WarningID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Administrator (
-  AdminID INT AUTO_INCREMENT NOT NULL,
+  AdminID VARCHAR(50) NOT NULL,
   Name VARCHAR(50),
   Email VARCHAR(100),
   Role VARCHAR(100),
@@ -273,7 +268,7 @@ CREATE INDEX admin_id ON Administrator(AdminID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Alumni (
-  AlumniID INT AUTO_INCREMENT NOT NULL,
+  AlumniID VARCHAR(50) NOT NULL,
   Name VARCHAR(50) NOT NULL,
   Major VARCHAR(50) NOT NULL,
   AboutMe VARCHAR(2000),
@@ -281,8 +276,6 @@ CREATE TABLE Alumni (
   WorkExperience VARCHAR(2000),
   GradYear INT,
   PRIMARY KEY (AlumniID),
-  CONSTRAINT fk_alumni FOREIGN KEY (AlumniID) REFERENCES Skills(SkillID)
-  ON UPDATE cascade ON DELETE restrict,
   CONSTRAINT fk2_alumni FOREIGN KEY (AlumniID) REFERENCES Messages(MessageID)
   ON UPDATE cascade ON DELETE restrict,
   CONSTRAINT fk3_alumni FOREIGN KEY (AlumniID) REFERENCES WorkExperience(ExperienceID)
@@ -297,5 +290,31 @@ CREATE TABLE Alumni (
 CREATE INDEX alumni_id ON Alumni(AlumniID);
 
 
+#Bridge tables
+# ---------------------------------------------------------------------- #
+# Add table "Candidate_Traits"                                           #
+# ---------------------------------------------------------------------- #
 
+CREATE TABLE Candidate_Traits (
+  CandidateID VARCHAR(50) NOT NULL,
+  TraitID VARCHAR(50) NOT NULL,
+  CONSTRAINT ct_pk PRIMARY KEY(CandidateID, TraitID),
+  CONSTRAINT fk_ct FOREIGN KEY (CandidateID) REFERENCES Candidate(CandidateID)
+  ON UPDATE cascade ON DELETE restrict,
+  CONSTRAINT fk_ct2 FOREIGN KEY (TraitID) REFERENCES Trait(TraitID)
+  ON UPDATE cascade ON DELETE restrict
+);
 
+# ---------------------------------------------------------------------- #
+# Add table "Alumni_Skills"                                           #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE Alumni_Skills (
+  AlumniID VARCHAR(50) NOT NULL,
+  SkillsID VARCHAR(50) NOT NULL,
+  CONSTRAINT as_pk PRIMARY KEY(AlumniID, SkillsID),
+  CONSTRAINT fk_as FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
+  ON UPDATE cascade ON DELETE restrict,
+  CONSTRAINT fk_as2 FOREIGN KEY (SkillsID) REFERENCES Skills(SkillID)
+  ON UPDATE cascade ON DELETE restrict
+);
