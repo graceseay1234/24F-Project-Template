@@ -11,6 +11,14 @@ logger = logging.getLogger(__name__)
 # as SideBarLinks function from src/modules folder
 import streamlit as st
 from modules.nav import SideBarLinks
+try:
+    import streamlit_antd_components as sac
+except ModuleNotFoundError:
+    import os
+    os.system('pip install streamlit-antd-components')
+    import streamlit_antd_components as sac
+
+    
 
 m = st.markdown("""
 <style>
@@ -37,7 +45,7 @@ m = st.markdown("""
 
     div.stSelectbox > div > div > div > select {
         font-size: 18px;  /* Increase the font size */
-        padding: 30px;    /* Increase the padding for larger select boxes */
+        padding: 20px;    /* Increase the padding for larger select boxes */
         border-radius: 8px;  /* Optional: Make the select box rounded */
         border: 2px solid #ddd;  /* Optional: Change the border color */
     }
@@ -53,6 +61,7 @@ m = st.markdown("""
         border-radius: 0px 8px 8px 0px;
         text-align: left; 
     }
+            
 
 </style>""", unsafe_allow_html=True)
 
@@ -71,6 +80,8 @@ st.session_state['authenticated'] = False
 # showSidebarNavigation = false in the [client] section
 SideBarLinks(show_home=True)
 
+
+
 # ***************************************************
 #    The major content of this page
 # ***************************************************
@@ -81,6 +92,7 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Welcome to</h1>', uns
 st.markdown('<h1 style="font-size: 70px; font-weight: 600;">HuskyNet</h1>', unsafe_allow_html=True)  # Larger font for 'HuskyNet'
 st.write('\n\n')
 st.markdown('<p class="light-text" style="font-size: 24px;">HI! Please select your role to login.</p>', unsafe_allow_html=True)
+
 
 # Create individual selectboxes for each role with names.
 role_pol_strat_advisor = st.selectbox("", ["Alumni", "John"])
@@ -117,3 +129,25 @@ elif role_professor != "Student":
     logger.info(f"Logging in as {role_professor}")
     st.switch_page('pages/20_Admin_home.py')
 
+
+
+
+
+
+sac.menu([
+        sac.MenuItem(type='divider'),
+        sac.MenuItem('Alumni', icon='person', children=[
+            sac.MenuItem('John', icon='key'),
+        ]),
+        sac.MenuItem(type='divider'),
+        sac.MenuItem('System Admin', icon='person', children=[
+            sac.MenuItem('John', icon='key'),
+        ]),
+
+    sac.MenuItem('disabled', disabled=True),
+    sac.MenuItem(type='divider'),
+    sac.MenuItem('link', type='group', children=[
+        sac.MenuItem('antd-menu', icon='heart-fill', href='https://ant.design/components/menu#menu'),
+        sac.MenuItem('bootstrap-icon', icon='bootstrap-fill', href='https://icons.getbootstrap.com/'),
+    ]),
+], open_all=True)
