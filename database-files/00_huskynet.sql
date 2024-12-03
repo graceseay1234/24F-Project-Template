@@ -220,7 +220,7 @@ CREATE TABLE Actions (
   AlumniID INT,
   AdminID INT,
   ActionType VARCHAR(50),
-  ActionTS VARCHAR(50),
+  ActionTS datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (ActionID)
 
 );
@@ -792,3 +792,45 @@ insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, En
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (38, 11, 'Operations Supervisor', 'Mydeo', '2021-12-11', '2024-06-14', false);
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (39, 15, 'Administrative Assistant', 'Photofeed', '2020-11-29', '2024-04-16', true);
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (40, 27, 'Warehouse Worker', 'Voonder', '2022-12-14', '2024-09-04', true);
+
+
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (1, 18, 10, 'followed a user', '2023-12-08 23:45:49');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (2, 32, 30, 'liked a post', '2024-01-03 18:18:28');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (3, 38, 40, 'commented on a video', '2023-12-23 02:50:08');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (4, 5, 1, 'created a new post', '2024-01-08 13:31:29');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (5, 39, 5, 'sent a message', '2023-12-19 07:43:52');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (6, 27, 11, 'rated a product', '2023-12-17 00:13:50');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (7, 37, 39, 'liked a post', '2023-12-26 08:58:52');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (8, 28, 10, 'commented on a video', '2023-12-05 17:07:51');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (9, 30, 11, 'saved a link', '2023-12-13 14:41:33');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (10, 10, 23, 'rated a product', '2023-12-11 17:04:01');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (11, 29, 17, 'saved a link', '2023-12-15 14:31:30');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (12, 36, 24, 'updated profile picture', '2023-12-07 12:35:48');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (13, 19, 16, 'saved a link', '2023-12-17 23:56:14');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (14, 33, 28, 'sent a message', '2024-01-05 20:18:41');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (15, 30, 6, 'created a new post', '2023-12-12 19:37:44');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (16, 29, 10, 'updated profile picture', '2023-12-30 14:17:47');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (17, 13, 34, 'rated a product', '2023-12-29 07:52:23');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (18, 11, 4, 'followed a user', '2023-12-27 08:31:36');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (19, 7, 8, 'sent a message', '2024-01-09 14:45:13');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (20, 5, 38, 'logged in', '2023-12-18 03:25:20');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (21, 19, 23, 'logged in', '2024-01-09 18:33:25');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (22, 5, 7, 'logged in', '2023-12-25 23:50:00');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (23, 7, 38, 'followed a user', '2023-12-25 14:14:48');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (24, 39, 31, 'logged in', '2023-12-03 06:49:30');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (25, 26, 35, 'rated a product', '2023-12-06 18:20:24');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (26, 28, 1, 'sent a message', '2023-12-28 13:05:57');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (27, 9, 14, 'shared a photo', '2024-01-06 06:47:33');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (28, 38, 8, 'logged in', '2023-12-12 02:40:36');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (29, 4, 6, 'shared a photo', '2024-01-06 21:09:22');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (30, 15, 6, 'sent a message', '2023-12-24 16:59:48');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (31, 31, 29, 'logged in', '2024-01-04 20:46:59');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (32, 34, 1, 'liked a post', '2023-12-05 06:01:05');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (33, 17, 8, 'created a new post', '2024-01-05 12:40:51');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (34, 25, 21, 'logged in', '2024-01-04 22:11:01');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (35, 13, 39, 'updated profile picture', '2023-12-06 05:45:38');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (36, 4, 9, 'sent a message', '2023-12-31 16:00:02');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (37, 22, 4, 'logged in', '2023-12-23 19:46:41');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (38, 6, 19, 'liked a post', '2024-01-03 23:16:39');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (39, 3, 13, 'created a new post', '2023-12-14 17:10:54');
+insert into Actions (ActionID, AlumniID, AdminID, ActionType, ActionTS) values (40, 11, 5, 'commented on a video', '2023-12-03 10:35:34');
