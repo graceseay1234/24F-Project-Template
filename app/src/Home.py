@@ -17,24 +17,10 @@ except ModuleNotFoundError:
     import os
     os.system('pip install streamlit-antd-components')
     import streamlit_antd_components as sac
-
-try:
-    import streamlit_shadcn_ui as ui
-except ModuleNotFoundError:
-    import os
-    os.system('pip install streamlit_shadcn_ui')
-    import streamlit_shadcn_ui as ui
-
-cols = st.columns(3)
-with cols[0]:
-    ui.metric_card(title="Total Revenue", content="$45,231.89", description="+20.1% from last month", key="card1")
-with cols[1]:
-    ui.metric_card(title="Total Revenue", content="$45,231.89", description="+20.1% from last month", key="card2")
-with cols[2]:
-    ui.metric_card(title="Total Revenue", content="$45,231.89", description="+20.1% from last month", key="card3")
+import pandas as pd
 
 
-    
+
 
 m = st.markdown("""
 <style>
@@ -73,9 +59,9 @@ m = st.markdown("""
         background-color: rgb(255,255,255);
         color: rgb(0,0,0);
         border: 1px solid rgb(235,235,235);
-        border-left: 1px solid rgb(0,0,0);
-        border-radius: 0px 8px 8px 0px;
+        border-radius: 8px 8px 8px 8px;
         text-align: left; 
+        box-shadow: rgba(211, 211, 211, 0.5) 0px 0px 0px 0.01rem;
     }
             
 
@@ -110,39 +96,33 @@ st.write('\n\n')
 st.markdown('<p class="light-text" style="font-size: 24px;">HI! Please select your role to login.</p>', unsafe_allow_html=True)
 
 
-# Create individual selectboxes for each role with names.
-role_pol_strat_advisor = st.selectbox("", ["Director of Alumni Relations", "Carson McCullers"])
-role_usaid_worker = st.selectbox("", ["System Admin", "Alice Walker"])
-role_admin = st.selectbox("", ["Recruiter", "Jordan Johnson"])
-role_professor = st.selectbox("", ["Student", "Margaret Mitchell"])
+# Sample data for positions and names
+data = {
+    "Position Title": ["Director of Alumni Relations", "System Admin", "Recruiter", "Student"],
+    "Name": ["Carson McCullers", "Alice Walker", "Jordan Johnson", "Margaret Mitchell"],
+    "Page": ["pages/00_Pol_Strat_Home.py", "pages/10_USAID_Worker_Home.py", 
+             "pages/20_Admin_Home.py", "pages/20_Admin_home.py"],
+    "Role": ["pol_strat_advisor", "usaid_worker", "administrator", "professor"]
+}
 
-# Handle the redirection based on the selected role
-if role_pol_strat_advisor != "Director of Alumni Relations":
+# Load data into DataFrame
+df = pd.DataFrame(data)
+
+position = st.selectbox("Select Position Title", df["Position Title"].unique())
+filtered_names = df[df["Position Title"] == position]["Name"].unique()
+name = st.selectbox("Select Your Name", filtered_names)
+
+# Login button logic
+if st.button("Login"):
+    user_data = df[(df["Position Title"] == position) & (df["Name"] == name)].iloc[0]
+    
+    # Update session state
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'pol_strat_advisor'
-    st.session_state['first_name'] = role_pol_strat_advisor
-    logger.info(f"Logging in as {role_pol_strat_advisor}")
-    st.switch_page('pages/00_Pol_Strat_Home.py')
-
-elif role_usaid_worker != "System Admin":
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
-    st.session_state['first_name'] = role_usaid_worker
-    logger.info(f"Logging in as {role_usaid_worker}")
-    st.switch_page('pages/10_USAID_Worker_Home.py')
-
-elif role_admin != "Recruiter":
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'administrator'
-    st.session_state['first_name'] = role_admin
-    logger.info(f"Logging in as {role_admin}")
-    st.switch_page('pages/20_Admin_Home.py')
-
-elif role_professor != "Student":
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'Professor'
-    st.session_state['first_name'] = role_professor
-    logger.info(f"Logging in as {role_professor}")
-    st.switch_page('pages/20_Admin_home.py')
-
-
+    st.session_state['role'] = user_data["Role"]
+    st.session_state['first_name'] = name
+    
+    # Logging (optional, remove if not using logger)
+    # logger.info(f"Logging in as {name}")
+    
+    # Redirect to the appropriate page
+    st.switch_page(user_data["Page"])

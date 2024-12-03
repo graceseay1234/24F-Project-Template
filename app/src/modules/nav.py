@@ -29,7 +29,7 @@ def WorldBankVizNav():
 
 
 def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon=":material/map:")
+    st.sidebar.page_link("pages/02_Map_Demo.py", label="Feature Usage Overview", icon=":material/map:")
 
 
 ## ------------------------ Examples for Role of usaid_worker ------------------------
