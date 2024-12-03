@@ -130,24 +130,3 @@ elif role_professor != "Student":
     st.switch_page('pages/20_Admin_home.py')
 
 
-
-
-
-
-sac.menu([
-        sac.MenuItem(type='divider'),
-        sac.MenuItem('Alumni', icon='person', children=[
-            sac.MenuItem('John', icon='key'),
-        ]),
-        sac.MenuItem(type='divider'),
-        sac.MenuItem('System Admin', icon='person', children=[
-            sac.MenuItem('John', icon='key'),
-        ]),
-
-    sac.MenuItem('disabled', disabled=True),
-    sac.MenuItem(type='divider'),
-    sac.MenuItem('link', type='group', children=[
-        sac.MenuItem('antd-menu', icon='heart-fill', href='https://ant.design/components/menu#menu'),
-        sac.MenuItem('bootstrap-icon', icon='bootstrap-fill', href='https://icons.getbootstrap.com/'),
-    ]),
-], open_all=True)
