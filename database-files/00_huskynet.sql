@@ -660,3 +660,9 @@ insert into AnalyticsUser (UserID, Location, Major) values (37, 'Iowa', 'Art His
 insert into AnalyticsUser (UserID, Location, Major) values (38, 'California', 'Biology');
 insert into AnalyticsUser (UserID, Location, Major) values (39, 'Wisconsin', 'Computer Science');
 insert into AnalyticsUser (UserID, Location, Major) values (40, 'Florida', 'Environmental Science');
+
+
+insert into SearchFilters (FilterID, FilterType) values (1, 'Last updated');
+insert into SearchFilters (FilterID, FilterType) values (2, 'Most active');
+insert into SearchFilters (FilterID, FilterType) values (3, 'Most popular');
+insert into SearchFilters (FilterID, FilterType) values (4, 'Newest');
