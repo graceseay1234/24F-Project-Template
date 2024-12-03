@@ -15,7 +15,7 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About HuskyNet", icon=":material/info:")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
+#### ------------------------ Examples for Director of Alumni Engagement ------------------------
 def PolStratAdvHomeNav():
     st.sidebar.page_link(
         "pages/00_Pol_Strat_Home.py", label="Alumni Engagment Dashboard", icon=":material/person:"
@@ -29,19 +29,19 @@ def WorldBankVizNav():
 
 
 ## ------------------------ Examples for Role of usaid_worker ------------------------
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon=":material/troubleshoot:")
+# def ApiTestNav():
+#     st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon=":material/troubleshoot:")
 
 
 def PredictionNav():
     st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon=":material/show_chart:"
+        "pages/11_Prediction.py", label="System Warnings", icon=":material/show_chart:"
     )
 
 
 def ClassificationNav():
     st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon=":material/data_table:"
+        "pages/13_Classification.py", label="Alumni Profiles", icon=":material/data_table:"
     )
 
 
@@ -86,7 +86,7 @@ def SideBarLinks(show_home=False):
         # If the user role is usaid worker, show the Api Testing page
         if st.session_state["role"] == "usaid_worker":
             PredictionNav()
-            ApiTestNav()
+            # ApiTestNav()
             ClassificationNav()
 
         # If the user is an administrator, give them access to the administrator pages

@@ -61,7 +61,8 @@ m = st.markdown("""
         color: rgb(0,0,0);
         border: 1px solid rgb(235,235,235);
         border-radius: 8px 8px 8px 8px;
-        text-align: left; 
+        text-align: left;
+
     }
 
 </style>""", unsafe_allow_html=True)
@@ -77,56 +78,63 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Engagment Dashboard</
 
 sac.divider(align='center', color='gray')
 
-## Place here:
-##    active user count
-# Generate random data for the chart (6 values between 0 and 200)
-random_data = np.random.randint(0, 200, size=6).tolist()
+col1, col2 = st.columns([1, 1])
+with col1:
+    with st.container(border=True):
+        ## Place here:
+        ##    active user count
+        # Generate random data for the chart (6 values between 0 and 200)
+        random_data = np.random.randint(0, 200, size=6).tolist()
 
-# Create DataFrame with the generated data
-data_df = pd.DataFrame({
-    "Active User Count": [random_data] ##CHANGE DATA
-})
+        # Create DataFrame with the generated data
+        data_df = pd.DataFrame({
+        "Active User Count": [random_data] ##CHANGE DATA
+        })
 
-# Display the editable data with an area chart
-st.data_editor(
-    data_df,
-    column_config={
+        # Display the editable data with an area chart
+        st.data_editor(
+        data_df,
+        column_config={
         "Active User Count": st.column_config.AreaChartColumn(
             "Active User Count",
             width="large",
             help="The connection requests over the last 6 months",
         ),
-    },
-    hide_index=True,
-)
+        },
+        hide_index=True,
+        )
 
-##    connection request
+        ##    connection request
 
-# Generate random data for the chart (6 values between 0 and 200)
-random_data = np.random.randint(0, 200, size=6).tolist()
+        # Generate random data for the chart (6 values between 0 and 200)
+        random_data = np.random.randint(0, 200, size=6).tolist()
 
-# Create DataFrame with the generated data
-data_df = pd.DataFrame({
-    "Connection Requests Over Time": [random_data]
-})
+        # Create DataFrame with the generated data
+        data_df = pd.DataFrame({
+        "Connection Requests Over Time": [random_data]
+        })
 
-# Display the editable data with an area chart
-st.data_editor(
-    data_df,
-    column_config={
+        # Display the editable data with an area chart
+        st.data_editor(
+        data_df,
+        column_config={
         "Connection Requests Over Time": st.column_config.AreaChartColumn(
             "Connection Requests Over Time",
             width="large",
             help="The connection requests over the last 6 months",
         ),
-    },
-    hide_index=True,
-)
+        },
+        hide_index=True,
+        )
 
 ##    user demographics:
         ##  major
         ##  location
 
+
+col1, col2 = st.columns([1, 1])
+with st.container(border=True):
+        st.subheader("User Demographics")
 
 # Create two columns for layout
 col1, col2 = st.columns([1, 1])  # First column for active users and connection requests, second column for demographics
@@ -134,47 +142,14 @@ col1, col2 = st.columns([1, 1])  # First column for active users and connection 
 # ----------------- Left Column (Active User Count and Connection Requests) -----------------
 
 
-
-## Example Containers (not very pretty; change graph sources):
-# Line graph for Active User Count
-with col1:
-    with st.container(border=True):
-        st.subheader("Active User Count Over Time")
-        days = np.arange(1, 31)
-        active_user_count = np.random.randint(50, 500, size=30)  # Simulated user counts
-
-        fig, ax = plt.subplots()
-        ax.plot(days, active_user_count, color='red', marker='o')
-        ax.set_title('Active User Count Over Time')
-        ax.set_xlabel('Days')
-        ax.set_ylabel('Active Users')
-        ax.grid(True)
-        st.pyplot(fig)
-
-# Line graph for Connection Requests
-with col1:
-    with st.container(border=True):
-        st.subheader("Connection Requests Over Time")
-        connection_requests = np.random.randint(10, 100, size=30)  # Simulated requests
-
-        fig, ax = plt.subplots()
-        ax.plot(days, connection_requests, color='red', marker='x')
-        ax.set_title('Connection Requests Over Time')
-        ax.set_xlabel('Days')
-        ax.set_ylabel('Connection Requests')
-        ax.grid(True)
-        st.pyplot(fig)
-
-# ----------------- Right Column (Demographics) -----------------
-
 # Custom colors
 custom_colors = ['#C63D2F', '#E25E3E', '#FF9B50', '#FFBB5C']
 custom_colors_blue = ['#C63D2F', '#E25E3E', '#FF9B50', '#FFBB5C']
 
 # Pie chart for User Demographics - Major
-with col2:
+with col1:
      with st.container(border=True):
-        st.subheader("User Demographics - Major")
+        st.subheader("Major Distribution")
         majors = ['Computer Science', 'Business', 'Psychology', 'Biology', 'Engineering']
         major_counts = np.random.randint(50, 150, size=5)  # Simulated counts of students in each major
 
@@ -183,19 +158,19 @@ with col2:
         'Count': major_counts
     })
 
-        fig = px.pie(major_data, values='Count', names='Major', title='Major Distribution', color_discrete_sequence=custom_colors)
+        fig = px.pie(major_data, values='Count', names='Major', color_discrete_sequence=custom_colors)
         st.plotly_chart(fig)
 
 # Pie chart for User Demographics - Location
 with col2:
     with st.container(border=True):
-     st.subheader("User Demographics - Location")
+     st.subheader("Location Distribution")
      locations = ['New York', 'California', 'Texas', 'Florida', 'Washington']
      location_counts = np.random.randint(50, 200, size=5)  # Simulated counts of users in each location
      location_data = pd.DataFrame({
         'Location': locations,
         'Count': location_counts})
-     fig = px.pie(location_data, values='Count', names='Location', title='Location Distribution', color_discrete_sequence=custom_colors_blue)
+     fig = px.pie(location_data, values='Count', names='Location', color_discrete_sequence=custom_colors_blue)
      st.plotly_chart(fig)   
 
     
