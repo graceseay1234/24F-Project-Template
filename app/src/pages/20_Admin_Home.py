@@ -74,9 +74,28 @@ candidates_data = {
 # Convert to DataFrame
 candidates_df = pd.DataFrame(candidates_data)
 
-# Display Candidate DataFrame
-st.subheader("Candidates Overview")
+
+
+col1, col2 = st.columns([0.9, 0.1])
+
+with col1:
+  # Display Candidate DataFrame
+  st.subheader("Candidates Overview")
+
 st.dataframe(candidates_df)
+
+with col2: 
+  pages = {
+      "Candidates Overview": "./pages/21_ML_Model_Mgmt.py",
+  }
+
+
+  # Button to switch page
+  switch_page = st.button("See More")
+  if switch_page:
+      # Switch to the selected page
+      page_file = pages["Candidates Overview": "./pages/21_ML_Model_Mgmt.py",]
+      st.switch_page(page_file)
 
 # Example Job Data with only Title, Status, and Description
 jobs_data = {
@@ -94,6 +113,26 @@ jobs_data = {
 # Convert to DataFrame
 jobs_df = pd.DataFrame(jobs_data)
 
+
+col1, col2 = st.columns([0.9, 0.1])
+
+with col1:
+    # Display Candidate DataFrame
+    st.subheader("Jobs Overview")
+
+
 # Display Job DataFrame
-st.subheader("Jobs Overview")
 st.dataframe(jobs_df)
+
+
+with col2: 
+  pages = {
+      "Jobs Overview": "./pages/40_Warehouse_home.py",
+  }
+
+  # Button to switch page
+  switch_page = st.button("Expand")
+  if switch_page:
+      # Switch to the selected page
+      page_file = pages["Jobs Overview": "./pages/40_Warehouse_home.py",]
+      st.switch_page(page_file)
