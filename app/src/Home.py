@@ -18,6 +18,22 @@ except ModuleNotFoundError:
     os.system('pip install streamlit-antd-components')
     import streamlit_antd_components as sac
 
+try:
+    import streamlit_shadcn_ui as ui
+except ModuleNotFoundError:
+    import os
+    os.system('pip install streamlit_shadcn_ui')
+    import streamlit_shadcn_ui as ui
+
+cols = st.columns(3)
+with cols[0]:
+    ui.metric_card(title="Total Revenue", content="$45,231.89", description="+20.1% from last month", key="card1")
+with cols[1]:
+    ui.metric_card(title="Total Revenue", content="$45,231.89", description="+20.1% from last month", key="card2")
+with cols[2]:
+    ui.metric_card(title="Total Revenue", content="$45,231.89", description="+20.1% from last month", key="card3")
+
+
     
 
 m = st.markdown("""
