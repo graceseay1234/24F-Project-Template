@@ -495,6 +495,45 @@ insert into Engagement (EngagementID, ConnectionsReq, ActiveUserCount, TimeStamp
 insert into Engagement (EngagementID, ConnectionsReq, ActiveUserCount, TimeStamp) values (40, '192.168.2.5:6000', 159753, '2022-10-07 05:00:15');
 
 
-
+insert into Feedback (FeedbackID, Content, TimeStamp) values (1, 'The design is modern and visually appealing.', '2024-04-08 18:19:50');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (2, 'The design is modern and visually appealing.', '2023-05-15 08:29:12');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (3, 'a solid app with room for growth.', '2023-06-14 22:28:28');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (4, 'Overall', '2022-11-25 18:58:55');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (5, 'Needs improvement in terms of speed and performance.', '2023-01-16 21:36:41');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (6, 'Would recommend this app to others.', '2023-03-23 05:21:49');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (7, 'please fix this issue.', '2022-07-14 05:07:26');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (8, 'Would recommend this app to others.', '2023-03-04 04:15:22');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (9, 'I love the new features added in the latest update.', '2024-05-12 02:40:40');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (10, 'The design is modern and visually appealing.', '2024-10-20 11:09:00');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (11, 'User interface is clean and easy to navigate.', '2023-03-21 14:42:41');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (12, 'The design is modern and visually appealing.', '2024-01-21 12:26:51');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (13, 'The app keeps crashing', '2024-03-05 17:52:11');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (14, 'Overall', '2023-08-15 04:06:20');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (15, 'Very helpful app', '2022-07-13 16:31:01');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (16, 'User interface is clean and easy to navigate.', '2023-10-26 04:55:10');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (17, 'please fix this issue.', '2024-10-28 04:04:34');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (18, 'I love the new features added in the latest update.', '2023-05-10 04:09:01');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (19, 'I love the new features added in the latest update.', '2024-02-02 10:15:00');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (20, 'User interface is clean and easy to navigate.', '2023-09-27 02:12:16');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (21, 'Would recommend this app to others.', '2023-05-13 19:23:21');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (22, 'The app keeps crashing', '2023-06-02 06:34:12');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (23, 'a solid app with room for growth.', '2024-06-17 07:32:21');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (24, 'Would recommend this app to others.', '2024-07-27 11:46:34');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (25, 'Could use more customization options.', '2023-04-15 04:37:47');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (26, 'The design is modern and visually appealing.', '2023-04-29 06:05:40');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (27, 'Would recommend this app to others.', '2024-07-14 14:31:06');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (28, 'saved me a lot of time.', '2023-06-17 15:57:33');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (29, 'Needs improvement in terms of speed and performance.', '2024-05-22 21:48:30');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (30, 'Great app! Very user-friendly and intuitive.', '2022-12-15 11:35:11');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (31, 'Could use more customization options.', '2024-07-21 13:43:17');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (32, 'Could use more customization options.', '2023-03-01 01:06:48');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (33, 'User interface is clean and easy to navigate.', '2024-03-16 18:27:43');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (34, 'please fix this issue.', '2023-01-21 03:38:20');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (35, 'The app keeps crashing', '2024-06-05 03:35:14');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (36, 'Very helpful app', '2023-05-21 05:10:27');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (37, 'I love the new features added in the latest update.', '2023-09-17 06:49:22');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (38, 'a solid app with room for growth.', '2023-05-23 15:21:42');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (39, 'I love the new features added in the latest update.', '2023-10-16 04:29:24');
+insert into Feedback (FeedbackID, Content, TimeStamp) values (40, 'saved me a lot of time.', '2024-03-11 03:16:57');
 
 
