@@ -3,7 +3,6 @@ logger = logging.getLogger(__name__)
 import pandas as pd
 import streamlit as st
 from streamlit_extras.app_logo import add_logo
-import world_bank_data as wb
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.express as px
@@ -121,3 +120,47 @@ with col1:
         # Optional: Detailed performance plot
         st.write("\n")  # Add spacing
         st.line_chart(np.random.randn(20, 3))  # Replace with real data when available
+
+# Load feedback data (assuming it's stored in 'user_feedback.csv')
+@st.cache_data  # Cache data to improve performance
+def load_feedback():
+    try:
+        feedback_df = pd.read_csv("user_feedback.csv")
+        return feedback_df
+    except FileNotFoundError:
+        return pd.DataFrame(columns=["Name", "Feedback", "Rating"])
+
+feedback_df = load_feedback()
+
+# Display feedback data if available
+if feedback_df.empty:
+    st.warning("No feedback data available.")
+else:
+    # Show the feedback table
+    st.subheader("All User Feedback")
+    st.dataframe(feedback_df, use_container_width=True)
+    
+    # Filter feedback by rating
+    st.subheader("Filter Feedback by Rating")
+    rating_filter = st.slider("Select rating range", 1, 5, (1, 5))
+    filtered_feedback = feedback_df[
+        (feedback_df["Rating"] >= rating_filter[0]) & 
+        (feedback_df["Rating"] <= rating_filter[1])
+    ]
+    st.dataframe(filtered_feedback, use_container_width=True)
+
+    # Display overall metrics
+    st.subheader("Feedback Summary")
+    average_rating = feedback_df["Rating"].mean()
+    st.write(f"**Average Rating:** {average_rating:.2f} / 5")
+
+    # Download button for exporting feedback
+    st.subheader("Download Feedback Report")
+    st.download_button(
+        label="Download CSV",
+        data=feedback_df.to_csv(index=False),
+        file_name='user_feedback_report.csv',
+        mime='text/csv'
+    )
+
+

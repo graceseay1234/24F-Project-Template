@@ -23,6 +23,7 @@ import plotly.express as px
 
 m = st.markdown("""
 <style>
+                
     /* Link to Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
     
@@ -36,12 +37,13 @@ m = st.markdown("""
         font-family: 'Open Sans', sans-serif;
         font-weight: 300;  /* light */
         margin-top: 10px;
+        margin-bottom: 0px;
     }
 
     /* Optional: Adjust the font size for titles */
     h1 {
         font-family: 'Open Sans', sans-serif;
-        margin-bottom: -30px;  /* Reduce the space below "Welcome to" */
+        margin-bottom: 0px;  /* Reduce the space below "Welcome to" */
     }
 
     div.stSelectbox > div > div > div > select {
@@ -70,9 +72,9 @@ SideBarLinks()
 
 # Header and personalized greeting
 #st.title(f"Welcome, System Administrator {st.session_state['first_name']}!")
-st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Engagment Dashboard</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
-
 st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, Director of Alumni Relations.</p>', unsafe_allow_html=True)
+st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Engagment Dashboard</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
+
 sac.divider(align='center', color='gray')
 
 ## Place here:
@@ -82,7 +84,7 @@ random_data = np.random.randint(0, 200, size=6).tolist()
 
 # Create DataFrame with the generated data
 data_df = pd.DataFrame({
-    "Active User Count": [random_data]
+    "Active User Count": [random_data] ##CHANGE DATA
 })
 
 # Display the editable data with an area chart
