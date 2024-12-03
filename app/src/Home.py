@@ -58,7 +58,7 @@ m = st.markdown("""
         background-color: #F4F4F5
     }
 
-    div.uiButton > button:first-child {
+    div.stButton > button:first-child {
         font-family: 'Open Sans', sans-serif;
         font-weight: 300; /* light weight */
         font-size: 16px;  
@@ -68,6 +68,11 @@ m = st.markdown("""
         border-radius: 8px 8px 8px 8px;
         text-align: left; 
         box-shadow: rgba(211, 211, 211, 0.5) 0px 0px 0px 0.01rem;
+    }
+
+     div.stButton > button:hover {
+        background-color: rgb(230,230,230); /* Slightly darker background on hover */
+        color: rgb(0,0,0);
     }
                 
      div[data-baseweb="select"] > div {
@@ -118,8 +123,8 @@ with col2:
         "Position Title": ["Director of Alumni Relations", "System Admin", "Recruiter", "Student"],
         "Name": ["Carson McCullers", "Alice Walker", "Jordan Johnson", "Margaret Mitchell"],
         "Page": ["pages/00_Pol_Strat_Home.py", "pages/10_USAID_Worker_Home.py", 
-                "pages/20_Admin_Home.py", "pages/20_Admin_home.py"],
-        "Role": ["pol_strat_advisor", "usaid_worker", "administrator", "professor"]
+                "pages/20_Admin_Home.py", "pages/31_Student_Home.py"],
+        "Role": ["pol_strat_advisor", "usaid_worker", "administrator", "student"]
     }
 
     # Load data into DataFrame

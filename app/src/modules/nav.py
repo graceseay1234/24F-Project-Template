@@ -18,18 +18,14 @@ def AboutPageNav():
 #### ------------------------ Examples for Role of pol_strat_advisor ------------------------
 def PolStratAdvHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon=":material/person:"
+        "pages/00_Pol_Strat_Home.py", label="Alumni Engagment Dashboard", icon=":material/person:"
     )
 
 
 def WorldBankVizNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="Alumni Engagment Overview", icon="🏦"
+        "pages/01_World_Bank_Viz.py", label="Feature Usage Overview", icon=":material/troubleshoot:"
     )
-
-
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Feature Usage Overview", icon=":material/map:")
 
 
 ## ------------------------ Examples for Role of usaid_worker ------------------------
@@ -57,6 +53,10 @@ def AdminPageNav():
     )
 
 
+#### ------------------------ Student Role ------------------------
+def StudentPageNav():
+    st.sidebar.page_link("pages/31_Student_Home.py", label="Student", icon="📚")
+
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
     """
@@ -82,7 +82,6 @@ def SideBarLinks(show_home=False):
         if st.session_state["role"] == "pol_strat_advisor":
             PolStratAdvHomeNav()
             WorldBankVizNav()
-            MapDemoNav()
 
         # If the user role is usaid worker, show the Api Testing page
         if st.session_state["role"] == "usaid_worker":
@@ -93,6 +92,10 @@ def SideBarLinks(show_home=False):
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
             AdminPageNav()
+
+        # If the user is an student, give them access to the administrator pages
+        if st.session_state["role"] == "student":
+            StudentPageNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()

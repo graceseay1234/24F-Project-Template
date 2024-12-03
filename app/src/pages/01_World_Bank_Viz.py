@@ -3,148 +3,164 @@ logger = logging.getLogger(__name__)
 import pandas as pd
 import streamlit as st
 from streamlit_extras.app_logo import add_logo
-import world_bank_data as wb
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.express as px
 from modules.nav import SideBarLinks
 
+try:
+    import streamlit_antd_components as sac
+except ModuleNotFoundError:
+    import os
+    os.system('pip install streamlit-antd-components')
+    import streamlit_antd_components as sac
+
 # Call the SideBarLinks from the nav module in the modules directory
 SideBarLinks()
 
-# Set the header of the page
-st.header('Alumni Engagement Overview')
 
-# Access the session state to make a more customized/personalized app experience
-st.write(f"### Hi, {st.session_state['first_name']}.")
+# Header and personalized greeting
+#st.title(f"Welcome, System Administrator {st.session_state['first_name']}!")
+st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Feature Usage Overview</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
 
-# Generate random data for the chart (6 values between 0 and 200)
-random_data = np.random.randint(0, 200, size=6).tolist()
+sac.divider(align='center', color='gray')
 
-# Create DataFrame with the generated data
-data_df = pd.DataFrame({
-    "Active User Count": [random_data]
-})
 
-# Display the editable data with an area chart
-st.data_editor(
-    data_df,
-    column_config={
-        "Active User Count": st.column_config.AreaChartColumn(
-            "Active User Count",
-            width="large",
-            help="The connection requests over the last 6 months",
-        ),
-    },
-    hide_index=True,
-)
+# # Get the countries from the world bank data
+# with st.echo(code_location='above'):
+#     countries: pd.DataFrame = wb.get_countries()
+#     st.dataframe(countries)
 
-# Generate random data for the chart (6 values between 0 and 200)
-random_data = np.random.randint(0, 200, size=6).tolist()
+# # Crosstab of countries for reference
+# with st.echo(code_location='above'):
+#     slim_countries = countries[countries['incomeLevel'] != 'Aggregates']
+#     data_crosstab = pd.crosstab(slim_countries['region'], slim_countries['incomeLevel'], margins=False) 
+#     st.table(data_crosstab)
 
-# Create DataFrame with the generated data
-data_df = pd.DataFrame({
-    "Connection Requests Over Time": [random_data]
-})
+# # Container example
+# with st.container(border=True):
+#     st.write("This is inside the container")
+#     st.bar_chart(np.random.randn(50, 3))
+# st.write("This is outside the container")
 
-# Display the editable data with an area chart
-st.data_editor(
-    data_df,
-    column_config={
-        "Connection Requests Over Time": st.column_config.AreaChartColumn(
-            "Connection Requests Over Time",
-            width="large",
-            help="The connection requests over the last 6 months",
-        ),
-    },
-    hide_index=True,
-)
-# Get the countries from the world bank data
-with st.echo(code_location='above'):
-    countries: pd.DataFrame = wb.get_countries()
-    st.dataframe(countries)
 
-# Create two columns for layout
-col1, col2 = st.columns([1, 1])  # First column for active users and connection requests, second column for demographics
+col1, col2 = st.columns([0.7, 0.3]) 
 
-# ----------------- Left Column (Active User Count and Connection Requests) -----------------
 
-# Line graph for Active User Count
 with col1:
     with st.container(border=True):
-        st.subheader("Active User Count Over Time")
-        days = np.arange(1, 31)
-        active_user_count = np.random.randint(50, 500, size=30)  # Simulated user counts
+# ---------------------------
+# Most Used Features Section
+# ---------------------------
+        st.subheader("Most Used Features")
 
-        fig, ax = plt.subplots()
-        ax.plot(days, active_user_count, color='red', marker='o')
-        ax.set_title('Active User Count Over Time')
-        ax.set_xlabel('Days')
-        ax.set_ylabel('Active Users')
-        ax.grid(True)
-        st.pyplot(fig)
+        # Sample data for feature usage
+        feature_data = {
+            "Feature": ["Login", "Data Export", "Performance Metrics", "User Management", "Reporting"],
+            "Usage Count": [1500, 1300, 900, 700, 500]
+        }
 
-# Line graph for Connection Requests
-with col1:
-    with st.container(border=True):
-        st.subheader("Connection Requests Over Time")
-        connection_requests = np.random.randint(10, 100, size=30)  # Simulated requests
+        df_features = pd.DataFrame(feature_data)
 
-        fig, ax = plt.subplots()
-        ax.plot(days, connection_requests, color='red', marker='x')
-        ax.set_title('Connection Requests Over Time')
-        ax.set_xlabel('Days')
-        ax.set_ylabel('Connection Requests')
-        ax.grid(True)
-        st.pyplot(fig)
+        # Plot bar chart
+        fig = px.bar(df_features, x='Feature', y='Usage Count',
+    
+                    labels={'Feature': 'Feature', 'Usage Count': 'Number of Uses'},
+                    color='Usage Count',
+                    color_continuous_scale='Blues')
 
-# ----------------- Right Column (Demographics) -----------------
-
-# Custom colors
-custom_colors = ['#C63D2F', '#E25E3E', '#FF9B50', '#FFBB5C']
-custom_colors_blue = ['#C63D2F', '#E25E3E', '#FF9B50', '#FFBB5C']
-
-# Pie chart for User Demographics - Major
-with col2:
-     with st.container(border=True):
-        st.subheader("User Demographics - Major")
-        majors = ['Computer Science', 'Business', 'Psychology', 'Biology', 'Engineering']
-        major_counts = np.random.randint(50, 150, size=5)  # Simulated counts of students in each major
-
-        major_data = pd.DataFrame({
-        'Major': majors,
-        'Count': major_counts
-    })
-
-        fig = px.pie(major_data, values='Count', names='Major', title='Major Distribution', color_discrete_sequence=custom_colors)
         st.plotly_chart(fig)
 
-# Pie chart for User Demographics - Location
-with col2:
+with col2: 
     with st.container(border=True):
-     st.subheader("User Demographics - Location")
-     locations = ['New York', 'California', 'Texas', 'Florida', 'Washington']
-     location_counts = np.random.randint(50, 200, size=5)  # Simulated counts of users in each location
-     location_data = pd.DataFrame({
-        'Location': locations,
-        'Count': location_counts})
-     fig = px.pie(location_data, values='Count', names='Location', title='Location Distribution', color_discrete_sequence=custom_colors_blue)
-     st.plotly_chart(fig)   
+        # ---------------------------
+        # Download Report Section
+        # ---------------------------
+        st.subheader("Download Reports")
 
+        # Buttons to download reports
+        col1, col2 = st.columns(2)
+        with col1:
+            st.download_button(label="Download Feature Report",
+                            data="Sample feature report content here...",
+                            file_name="feature_report.pdf",
+                            mime="application/pdf")
+
+        with col2:
+            st.download_button(label="Download Performance Metrics",
+                            data="Sample performance metrics content here...",
+                            file_name="performance_metrics.pdf",
+                            mime="application/pdf")
+
+
+col1, col2 = st.columns([0.9, 0.1]) 
+
+
+with col1:
+    with st.container(border=True):
+        # ---------------------------
+        # Performance Metrics Section
+        # ---------------------------
+        st.subheader("Performance Metrics")
+
+        # Sample performance data
+        performance_data = {
+            "Metric": ["Response Time (ms)", "Error Rate (%)", "User Satisfaction (%)"],
+            "Value": [120, 0.5, 85]
+        }
+
+        df_performance = pd.DataFrame(performance_data)
+
+        # Display metrics in columns
+        col1, col2, col3 = st.columns(3)
+        col1.metric(label=df_performance.iloc[0]['Metric'], value=df_performance.iloc[0]['Value'])
+        col2.metric(label=df_performance.iloc[1]['Metric'], value=df_performance.iloc[1]['Value'])
+        col3.metric(label=df_performance.iloc[2]['Metric'], value=df_performance.iloc[2]['Value'])
+
+        # Optional: Detailed performance plot
+        st.write("\n")  # Add spacing
+        st.line_chart(np.random.randn(20, 3))  # Replace with real data when available
+
+# Load feedback data (assuming it's stored in 'user_feedback.csv')
+@st.cache_data  # Cache data to improve performance
+def load_feedback():
+    try:
+        feedback_df = pd.read_csv("user_feedback.csv")
+        return feedback_df
+    except FileNotFoundError:
+        return pd.DataFrame(columns=["Name", "Feedback", "Rating"])
+
+feedback_df = load_feedback()
+
+# Display feedback data if available
+if feedback_df.empty:
+    st.warning("No feedback data available.")
+else:
+    # Show the feedback table
+    st.subheader("All User Feedback")
+    st.dataframe(feedback_df, use_container_width=True)
     
+    # Filter feedback by rating
+    st.subheader("Filter Feedback by Rating")
+    rating_filter = st.slider("Select rating range", 1, 5, (1, 5))
+    filtered_feedback = feedback_df[
+        (feedback_df["Rating"] >= rating_filter[0]) & 
+        (feedback_df["Rating"] <= rating_filter[1])
+    ]
+    st.dataframe(filtered_feedback, use_container_width=True)
 
-# Crosstab of countries for reference
-with st.echo(code_location='above'):
-    slim_countries = countries[countries['incomeLevel'] != 'Aggregates']
-    data_crosstab = pd.crosstab(slim_countries['region'], slim_countries['incomeLevel'], margins=False) 
-    st.table(data_crosstab)
+    # Display overall metrics
+    st.subheader("Feedback Summary")
+    average_rating = feedback_df["Rating"].mean()
+    st.write(f"**Average Rating:** {average_rating:.2f} / 5")
+
+    # Download button for exporting feedback
+    st.subheader("Download Feedback Report")
+    st.download_button(
+        label="Download CSV",
+        data=feedback_df.to_csv(index=False),
+        file_name='user_feedback_report.csv',
+        mime='text/csv'
+    )
 
 
-
-with st.container(border=True):
-    st.write("This is inside the container")
-
-    # You can call any Streamlit command, including custom components:
-    st.bar_chart(np.random.randn(50, 3))
-
-st.write("This is outside the container")
