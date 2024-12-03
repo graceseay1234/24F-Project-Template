@@ -48,7 +48,7 @@ with col1:
     connection_requests = np.random.randint(10, 100, size=30)  # Simulated requests
 
     fig, ax = plt.subplots()
-    ax.plot(days, connection_requests, color='blue', marker='x')
+    ax.plot(days, connection_requests, color='red', marker='x')
     ax.set_title('Connection Requests Over Time')
     ax.set_xlabel('Days')
     ax.set_ylabel('Connection Requests')
@@ -56,6 +56,10 @@ with col1:
     st.pyplot(fig)
 
 # ----------------- Right Column (Demographics) -----------------
+
+# Custom colors
+custom_colors = ['#C63D2F', '#E25E3E', '#FF9B50', '#FFBB5C']
+custom_colors_blue = ['#C63D2F', '#E25E3E', '#FF9B50', '#FFBB5C']
 
 # Pie chart for User Demographics - Major
 with col2:
@@ -68,7 +72,7 @@ with col2:
         'Count': major_counts
     })
 
-    fig = px.pie(major_data, values='Count', names='Major', title='Major Distribution')
+    fig = px.pie(major_data, values='Count', names='Major', title='Major Distribution', color_discrete_sequence=custom_colors)
     st.plotly_chart(fig)
 
 # Pie chart for User Demographics - Location
@@ -82,7 +86,7 @@ with col2:
         'Count': location_counts
     })
 
-    fig = px.pie(location_data, values='Count', names='Location', title='Location Distribution')
+    fig = px.pie(location_data, values='Count', names='Location', title='Location Distribution', color_discrete_sequence=custom_colors_blue)
     st.plotly_chart(fig)
 
 # Crosstab of countries for reference
