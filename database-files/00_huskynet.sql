@@ -537,3 +537,44 @@ insert into Feedback (FeedbackID, Content, TimeStamp) values (39, 'I love the ne
 insert into Feedback (FeedbackID, Content, TimeStamp) values (40, 'saved me a lot of time.', '2024-03-11 03:16:57');
 
 
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (1, '0:00:21', '0:01:40', '2023-10-03 11:34:12');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (2, '0:02:28', '0:02:58', '2024-04-20 05:13:07');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (3, '0:02:41', '0:04:21', '2023-06-10 07:08:18');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (4, '0:04:41', '0:02:20', '2022-07-29 00:20:53');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (5, '0:01:39', '0:02:24', '2023-04-30 16:06:15');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (6, '0:02:44', '0:04:06', '2023-07-30 03:28:22');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (7, '0:02:49', '0:03:03', '2024-03-02 06:30:36');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (8, '0:00:52', '0:02:31', '2024-06-10 15:51:34');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (9, '0:00:21', '0:02:47', '2022-11-20 08:46:12');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (10, '0:00:57', '0:01:37', '2022-12-02 07:16:24');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (11, '0:03:00', '0:01:24', '2023-04-13 22:00:25');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (12, '0:02:31', '0:03:36', '2022-10-19 11:08:57');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (13, '0:00:10', '0:02:30', '2024-02-10 10:54:31');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (14, '0:02:06', '0:02:59', '2022-10-10 12:36:10');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (15, '0:04:50', '0:01:46', '2023-01-18 10:44:22');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (16, '0:00:50', '0:02:52', '2024-05-21 20:04:57');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (17, '0:04:36', '0:04:39', '2024-10-27 11:44:31');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (18, '0:03:24', '0:01:20', '2023-04-26 08:46:45');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (19, '0:03:02', '0:02:17', '2024-11-18 10:55:47');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (20, '0:02:19', '0:04:20', '2022-08-26 00:17:12');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (21, '0:01:04', '0:03:20', '2024-05-15 04:42:10');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (22, '0:04:05', '0:01:38', '2023-05-28 22:49:06');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (23, '0:00:14', '0:04:22', '2023-12-12 21:59:35');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (24, '0:01:17', '0:00:50', '2024-02-29 10:55:46');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (25, '0:04:53', '0:01:42', '2024-04-02 19:09:00');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (26, '0:02:15', '0:04:23', '2024-09-16 09:25:35');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (27, '0:00:41', '0:02:48', '2024-08-17 03:48:12');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (28, '0:03:10', '0:00:21', '2024-05-28 09:40:49');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (29, '0:00:58', '0:01:51', '2023-08-13 17:37:16');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (30, '0:02:30', '0:01:24', '2023-11-08 09:25:51');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (31, '0:03:09', '0:02:23', '2022-12-28 07:22:37');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (32, '0:03:14', '0:01:35', '2022-09-18 10:04:57');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (33, '0:03:45', '0:01:19', '2024-11-21 06:55:19');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (34, '0:03:27', '0:02:54', '2024-10-23 01:50:47');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (35, '0:04:22', '0:03:08', '2024-06-24 11:53:22');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (36, '0:02:29', '0:04:26', '2024-05-12 21:25:16');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (37, '0:03:26', '0:00:53', '2023-06-04 13:55:36');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (38, '0:00:03', '0:02:22', '2022-06-16 06:49:32');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (39, '0:01:59', '0:02:36', '2023-11-28 10:34:21');
+insert into PerformanceMetrics (MetricID, ResponseTime, UpTime, TimeStamp) values (40, '0:02:49', '0:02:33', '2023-03-21 03:27:22');
+
