@@ -80,10 +80,10 @@ alumni_data = pd.DataFrame({
 })
 
 # create a 2 column layout
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 # add one number input for internship in column 2
-with col2:
+with col1:
     selected_internship = sac.cascader(
         items=[sac.CasItem(internship) for internship in alumni_data['internship'].unique()],
         label='Internship Experience',
@@ -95,7 +95,7 @@ with col2:
     )
 
 # add one number input for field of work in column 3
-with col3:
+with col2:
     selected_field_of_work = sac.cascader(
         items=[sac.CasItem(field) for field in alumni_data['field_of_work'].unique()],
         label='Field of Work',
@@ -107,7 +107,7 @@ with col3:
     )
 
 # add one number input for major in column 4
-with col4:
+with col3:
     selected_major = sac.cascader(
         items=[sac.CasItem(major) for major in alumni_data['major'].unique()],
         label='Major',

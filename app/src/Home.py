@@ -99,7 +99,7 @@ m = st.markdown("""
 #    The major content of this page
 # ***************************************************
 
-col1, col2 = st.columns([0.29, 0.57],gap="large")
+col1, col2= st.columns([0.29, 0.57],gap="large")
 
 with col1:
     st.image("assets/newhuskynetlogo@3x.png")
