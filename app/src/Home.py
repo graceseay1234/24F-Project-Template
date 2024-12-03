@@ -118,8 +118,8 @@ with col2:
         "Position Title": ["Director of Alumni Relations", "System Admin", "Recruiter", "Student"],
         "Name": ["Carson McCullers", "Alice Walker", "Jordan Johnson", "Margaret Mitchell"],
         "Page": ["pages/00_Pol_Strat_Home.py", "pages/10_USAID_Worker_Home.py", 
-                "pages/20_Admin_Home.py", "pages/20_Admin_home.py"],
-        "Role": ["pol_strat_advisor", "usaid_worker", "administrator", "professor"]
+                "pages/20_Admin_Home.py", "pages/31_Student_Home.py"],
+        "Role": ["pol_strat_advisor", "usaid_worker", "administrator", "student"]
     }
 
     # Load data into DataFrame

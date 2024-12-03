@@ -57,6 +57,10 @@ def AdminPageNav():
     )
 
 
+#### ------------------------ Student Role ------------------------
+def StudentPageNav():
+    st.sidebar.page_link("pages/31_Student_Home.py", label="Student", icon="📚")
+
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
     """
@@ -93,6 +97,10 @@ def SideBarLinks(show_home=False):
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
             AdminPageNav()
+
+        # If the user is an student, give them access to the administrator pages
+        if st.session_state["role"] == "student":
+            StudentPageNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
