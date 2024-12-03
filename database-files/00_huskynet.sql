@@ -876,3 +876,47 @@ insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (3
 insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (38, 26, 12, 'Violating community guidelines', '2023-12-14 01:13:46');
 insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (39, 16, 12, 'Fraudulent activity', '2023-12-23 12:45:29');
 insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (40, 16, 8, 'Engaging in illegal activities', '2023-12-30 15:41:13');
+
+
+insert into Administrator (AdminID, Name, Email, Role) values (1, 'Julietta Maskelyne', 'jmaskelyne0@adobe.com', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (2, 'Amelia Jon', 'ajon1@cnet.com', 'Moderator');
+insert into Administrator (AdminID, Name, Email, Role) values (3, 'Rodolph Billin', 'rbillin2@plala.or.jp', 'Moderator');
+insert into Administrator (AdminID, Name, Email, Role) values (4, 'Nanny Swett', 'nswett3@miibeian.gov.cn', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (5, 'Daveta Lowdwell', 'dlowdwell4@yahoo.co.jp', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (6, 'Alexandrina Dart', 'adart5@goo.ne.jp', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (7, 'Harriett Drew-Clifton', 'hdrewclifton6@cbc.ca', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (8, 'Dorotea Colecrough', 'dcolecrough7@alexa.com', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (9, 'Karlotte Mora', 'kmora8@e-recht24.de', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (10, 'Miquela Emmet', 'memmet9@loc.gov', 'Manager');
+insert into Administrator (AdminID, Name, Email, Role) values (11, 'Eziechiele Ellery', 'eellerya@reddit.com', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (12, 'Con Hennington', 'chenningtonb@networksolutions.com', 'Support');
+insert into Administrator (AdminID, Name, Email, Role) values (13, 'Judon Satchell', 'jsatchellc@nature.com', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (14, 'Marc Oseman', 'mosemand@cdc.gov', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (15, 'Lovell MacGown', 'lmacgowne@boston.com', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (16, 'Nico Hoyle', 'nhoylef@youku.com', 'Tester');
+insert into Administrator (AdminID, Name, Email, Role) values (17, 'Silvio Riolfi', 'sriolfig@acquirethisname.com', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (18, 'De Yurchishin', 'dyurchishinh@geocities.com', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (19, 'Davy Toe', 'dtoei@liveinternet.ru', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (20, 'Karlotte Braisby', 'kbraisbyj@uiuc.edu', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (21, 'Trev Edrich', 'tedrichk@howstuffworks.com', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (22, 'Milty Paynton', 'mpayntonl@sakura.ne.jp', 'Developer');
+insert into Administrator (AdminID, Name, Email, Role) values (23, 'Ferdie Elloit', 'felloitm@hatena.ne.jp', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (24, 'Nora Blint', 'nblintn@g.co', 'Developer');
+insert into Administrator (AdminID, Name, Email, Role) values (25, 'Nichole Softley', 'nsoftleyo@people.com.cn', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (26, 'Guthrie Sommerly', 'gsommerlyp@japanpost.jp', 'Super Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (27, 'Anabelle Afonso', 'aafonsoq@bizjournals.com', 'Tester');
+insert into Administrator (AdminID, Name, Email, Role) values (28, 'Elayne Aucutt', 'eaucuttr@lycos.com', 'Support');
+insert into Administrator (AdminID, Name, Email, Role) values (29, 'Donella Crowther', 'dcrowthers@i2i.jp', 'Support');
+insert into Administrator (AdminID, Name, Email, Role) values (30, 'Kingsly Dunphy', 'kdunphyt@bbb.org', 'Developer');
+insert into Administrator (AdminID, Name, Email, Role) values (31, 'Collie Brookes', 'cbrookesu@rediff.com', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (32, 'Maura Tanfield', 'mtanfieldv@timesonline.co.uk', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (33, 'Virgil Maevela', 'vmaevelaw@constantcontact.com', 'Coordinator');
+insert into Administrator (AdminID, Name, Email, Role) values (34, 'Carmine Crunden', 'ccrundenx@plala.or.jp', 'Moderator');
+insert into Administrator (AdminID, Name, Email, Role) values (35, 'Sherwood Liversage', 'sliversagey@weebly.com', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (36, 'Kassandra Alejandro', 'kalejandroz@go.com', 'Admin');
+insert into Administrator (AdminID, Name, Email, Role) values (37, 'Shane Erdes', 'serdes10@last.fm', 'Analyst');
+insert into Administrator (AdminID, Name, Email, Role) values (38, 'Thurstan Spurman', 'tspurman11@taobao.com', 'Consultant');
+insert into Administrator (AdminID, Name, Email, Role) values (39, 'Ranee Covolini', 'rcovolini12@independent.co.uk', 'Tester');
+insert into Administrator (AdminID, Name, Email, Role) values (40, 'Alwyn Belson', 'abelson13@cargocollective.com', 'Tester');
+
+
