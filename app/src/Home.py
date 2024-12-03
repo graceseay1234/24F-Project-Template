@@ -95,13 +95,13 @@ st.markdown('<p class="light-text" style="font-size: 24px;">HI! Please select yo
 
 
 # Create individual selectboxes for each role with names.
-role_pol_strat_advisor = st.selectbox("", ["Alumni", "John"])
+role_pol_strat_advisor = st.selectbox("", ["Director of Alumni Relations", "Carson McCullers"])
 role_usaid_worker = st.selectbox("", ["System Admin", "Alice Walker"])
 role_admin = st.selectbox("", ["Recruiter", "Jordan Johnson"])
 role_professor = st.selectbox("", ["Student", "Margaret Mitchell"])
 
 # Handle the redirection based on the selected role
-if role_pol_strat_advisor != "Alumni":
+if role_pol_strat_advisor != "Director of Alumni Relations":
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'pol_strat_advisor'
     st.session_state['first_name'] = role_pol_strat_advisor

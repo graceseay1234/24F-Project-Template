@@ -24,7 +24,7 @@ def PolStratAdvHomeNav():
 
 def WorldBankVizNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
+        "pages/01_World_Bank_Viz.py", label="Alumni Engagment Overview", icon="🏦"
     )
 
 
