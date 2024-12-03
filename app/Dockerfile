@@ -16,6 +16,8 @@ COPY ./src/requirements.txt .
 
 RUN pip3 install -r requirements.txt
 
+RUN pip3 install --no-cache-dir streamlit streamlit-antd-components
+
 RUN ls
 
 EXPOSE 8501

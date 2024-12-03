@@ -5,46 +5,47 @@
 import streamlit as st
 
 
+
 #### ------------------------ General ------------------------
 def HomeNav():
-    st.sidebar.page_link("Home.py", label="Home", icon="🏠")
+    st.sidebar.page_link("Home.py", label="Home", icon=":material/home:")
 
 
 def AboutPageNav():
-    st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
+    st.sidebar.page_link("pages/30_About.py", label="About HuskyNet", icon=":material/info:")
 
 
 #### ------------------------ Examples for Role of pol_strat_advisor ------------------------
 def PolStratAdvHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
+        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon=":material/person:"
     )
 
 
 def WorldBankVizNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
+        "pages/01_World_Bank_Viz.py", label="Alumni Engagment Overview", icon="🏦"
     )
 
 
 def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
+    st.sidebar.page_link("pages/02_Map_Demo.py", label="Feature Usage Overview", icon=":material/map:")
 
 
 ## ------------------------ Examples for Role of usaid_worker ------------------------
 def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
+    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon=":material/troubleshoot:")
 
 
 def PredictionNav():
     st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
+        "pages/11_Prediction.py", label="Regression Prediction", icon=":material/show_chart:"
     )
 
 
 def ClassificationNav():
     st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🤠"
+        "pages/13_Classification.py", label="Classification Demo", icon=":material/data_table:"
     )
 
 
@@ -63,7 +64,7 @@ def SideBarLinks(show_home=False):
     """
 
     # add a logo to the sidebar always
-    st.sidebar.image("assets/logo.png", width=150)
+    # st.sidebar.image("assets/logodesignhusky1@3x.png", width=200)
 
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:
@@ -102,3 +103,5 @@ def SideBarLinks(show_home=False):
             del st.session_state["role"]
             del st.session_state["authenticated"]
             st.switch_page("Home.py")
+
+
