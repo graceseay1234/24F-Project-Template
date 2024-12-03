@@ -18,13 +18,13 @@ def AboutPageNav():
 #### ------------------------ Examples for Role of pol_strat_advisor ------------------------
 def PolStratAdvHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon=":material/person:"
+        "pages/00_Pol_Strat_Home.py", label="Alumni Engagment Dashboard", icon=":material/person:"
     )
 
 
 def WorldBankVizNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="Alumni Engagment Overview", icon="🏦"
+        "pages/01_World_Bank_Viz.py", label="Feature Usage Overview", icon=":material/troubleshoot:"
     )
 
 
