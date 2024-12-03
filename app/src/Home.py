@@ -75,11 +75,7 @@ m = st.markdown("""
         color: rgb(0,0,0);
     }
                 
-     div[data-baseweb="select"] > div {
-        background-color: #F4F4F5
-}
-            
-
+        
 </style>""", unsafe_allow_html=True)
 
 
@@ -103,10 +99,11 @@ m = st.markdown("""
 #    The major content of this page
 # ***************************************************
 
-col1, col2 = st.columns([0.4, 0.6])
+col1, col2 = st.columns([0.29, 0.57],gap="large")
 
 with col1:
-    st.image("assets/huskynetlogo.png")
+    st.image("assets/newhuskynetlogo@3x.png")
+    
 
 with col2:
     # set the title of the page and provide a simple prompt.
