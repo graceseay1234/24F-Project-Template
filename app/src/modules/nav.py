@@ -55,7 +55,7 @@ def AdminPageNav():
 
 #### ------------------------ Student Role ------------------------
 def StudentPageNav():
-    st.sidebar.page_link("pages/31_Student_Home.py", label="Student", icon="📚")
+    st.sidebar.page_link("pages/31_Student_Home.py", label="Alumni Search", icon="📚")
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):

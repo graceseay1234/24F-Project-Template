@@ -123,12 +123,16 @@ selected_internship = list(selected_internship) if isinstance(selected_internshi
 selected_field_of_work = list(selected_field_of_work) if isinstance(selected_field_of_work, str) else selected_field_of_work
 selected_major = list(selected_major) if isinstance(selected_major, str) else selected_major
 
+# Default display is all profiles
+filtered_data = alumni_data
+
 # Filter alumni data based on the selected values
-filtered_data = alumni_data[
-    alumni_data['internship'].isin(selected_internship) &
-    alumni_data['field_of_work'].isin(selected_field_of_work) &
-    alumni_data['major'].isin(selected_major)
-]
+if selected_internship or selected_field_of_work or selected_major:
+    filtered_data = alumni_data[
+        alumni_data['internship'].isin(selected_internship) &
+        alumni_data['field_of_work'].isin(selected_field_of_work) &
+        alumni_data['major'].isin(selected_major)
+    ]
 
 # Display the filtered alumni data
 if not filtered_data.empty:
