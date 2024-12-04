@@ -164,8 +164,8 @@ if not filtered_data.empty:
         with col1:
             st.image(row['Profile_Picture'], width=90)  # Display profile picture
         with col2:
-            st.write(f"{row['Name']}")
-            st.write(f"**Major:** {row['Major']}")
+            st.markdown(f"<p style='margin-top: 5px; margin-bottom: 5px;font-size: 20px; font-weight: 300;'>{row['Name']}</p>", unsafe_allow_html=True)
+            st.write(f"{row['Major']}")
         with col3:
             st.write(f"**Field of Work:** {row['Field_of_work']}")
             st.write(f"**Internship:** {row['Internship']}")
