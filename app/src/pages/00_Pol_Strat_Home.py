@@ -73,7 +73,11 @@ SideBarLinks()
 
 # Header and personalized greeting
 #st.title(f"Welcome, System Administrator {st.session_state['first_name']}!")
-st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, Director of Alumni Relations.</p>', unsafe_allow_html=True)
+# Personalized welcome message
+st.markdown(
+    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
+    unsafe_allow_html=True
+)
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Engagment Dashboard</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
 
 sac.divider(align='center', color='gray')
@@ -140,7 +144,6 @@ with st.container(border=True):
 col1, col2 = st.columns([1, 1])  # First column for active users and connection requests, second column for demographics
 
 # ----------------- Left Column (Active User Count and Connection Requests) -----------------
-
 
 # Custom colors
 custom_colors = ['#C63D2F', '#E25E3E', '#FF9B50', '#FFBB5C']

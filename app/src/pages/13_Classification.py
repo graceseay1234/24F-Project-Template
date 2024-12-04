@@ -67,7 +67,7 @@ m = st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
-st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, System Administrator.</p>', unsafe_allow_html=True)
+st.markdown('<p class="light-text" style="font-size: 24px;">Hello, System Administrator.</p>', unsafe_allow_html=True)
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Alumni Profiles</h1>', unsafe_allow_html=True)
 sac.divider(align='center', color='gray')
 
@@ -83,7 +83,7 @@ def user_input_features():
 
 df = user_input_features()
 
-st.subheader('Selected Filter Criteria')
+st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Selected Filter Criteria</h1>', unsafe_allow_html=True)
 st.write(df)
 
 # Sample system warning data with alumni profiles
@@ -113,7 +113,7 @@ if selected_service != 'All':
     filtered_data = filtered_data[filtered_data['service'] == selected_service]
 
 # Display the filtered alumni data
-st.subheader('Filtered Alumni Profiles')
+st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Filtered Alumni Profiles</h1>', unsafe_allow_html=True)
 if not filtered_data.empty:
     st.write(f"Found {len(filtered_data)} alumni matching the selected criteria:")
     st.write(filtered_data[['name', 'service', 'status', 'last_checked', 'error_message', 'warning_level']])

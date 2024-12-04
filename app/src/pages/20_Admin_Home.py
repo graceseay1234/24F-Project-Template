@@ -11,6 +11,8 @@ except ModuleNotFoundError:
 
 st.set_page_config(layout='wide')
 
+
+
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
@@ -56,7 +58,12 @@ m = st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
-st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, Recruiter.</p>', unsafe_allow_html=True)
+# Personalized welcome message
+st.markdown(
+    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
+    unsafe_allow_html=True
+)
+
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Hiring Dashboard</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
@@ -80,8 +87,7 @@ col1, col2 = st.columns([0.9, 0.1])
 
 with col1:
   # Display Candidate DataFrame
-  st.subheader("Candidates Overview")
-
+  st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
 st.dataframe(candidates_df)
 
 with col2: 
@@ -118,7 +124,7 @@ col1, col2 = st.columns([0.9, 0.1])
 
 with col1:
     # Display Candidate DataFrame
-    st.subheader("Jobs Overview")
+  st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Jobs Overview</h1>', unsafe_allow_html=True)
 
 
 # Display Job DataFrame

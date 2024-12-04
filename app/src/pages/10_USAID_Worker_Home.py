@@ -21,7 +21,11 @@ SideBarLinks()
 #st.title(f"Welcome, System Administrator {st.session_state['first_name']}!")
 st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Administrator Dashboard</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
 
-st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, System Administrator.</p>', unsafe_allow_html=True)
+# Personalized welcome message
+st.markdown(
+    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
+    unsafe_allow_html=True
+)
 sac.divider(align='center', color='gray')
 
 
