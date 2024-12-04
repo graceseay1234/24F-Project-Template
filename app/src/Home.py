@@ -50,18 +50,10 @@ m = st.markdown("""
         margin-bottom: -30px;  /* Reduce the space below "Welcome to" */
     }
 
-    div.stSelectbox > div > div > div > select {
-        font-size: 18px;  /* Increase the font size */
-        padding: 20px;    /* Increase the padding for larger select boxes */
-        border-radius: 8px;  /* Optional: Make the select box rounded */
-        border: 2px solid #ddd;  /* Optional: Change the border color */
-        background-color: #F4F4F5
-    }
-
     div.stButton > button:first-child {
         font-family: 'Open Sans', sans-serif;
         font-weight: 300; /* light weight */
-        font-size: 16px;  
+        font-size: 15px;  
         background-color: rgb(255,255,255);
         color: rgb(0,0,0);
         border: 1px solid rgb(235,235,235);
@@ -74,6 +66,13 @@ m = st.markdown("""
         background-color: rgb(230,230,230); /* Slightly darker background on hover */
         color: rgb(0,0,0);
     }
+                    
+    /* Style select box text */
+        div[data-baseweb="select"] > div > div {
+            font-weight: 400; /* light weight */
+            color: #333;  /* Text color */
+            background-color: #F4F4F5
+        }
                 
         
 </style>""", unsafe_allow_html=True)
