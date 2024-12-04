@@ -139,7 +139,7 @@ if selected_major:
     filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
 
 # Display the filtered alumni data
-st.subheader("Filtered Alumni Profiles")
+st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Filtered Alumni Profiles</h1>', unsafe_allow_html=True)
 if not filtered_data.empty:
     st.write(f"Found {len(filtered_data)} alumni matching your criteria:")
     st.write(filtered_data[['Name', 'Internship', 'Field_of_work', 'Major']])
