@@ -61,6 +61,7 @@ m = st.markdown("""
 
     .ant-cascader-menu-item:hover {
         background-color: rgba(0, 0, 0, 0.1);
+                
     }
 
 </style>""", unsafe_allow_html=True)
@@ -70,10 +71,7 @@ if 'first_name' not in st.session_state:
     st.session_state['first_name'] = 'Student'
 
 # Personalized welcome message
-st.markdown(
-    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
-    unsafe_allow_html=True
-)
+
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Search Alumni</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
@@ -125,23 +123,48 @@ selected_internship = selected_internship if selected_internship else []
 selected_field_of_work = selected_field_of_work if selected_field_of_work else []
 selected_major = selected_major if selected_major else []
 
-# Default display is all profiles
-filtered_data = alumni_data
+# Sample alumni data with profile picture URLs
+alumni_data = pd.DataFrame({
+    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+    'Internship': ['Google', 'Apple', 'Microsoft', 'Amazon'],
+    'Field_of_work': ['Software Engineering', 'Data Science', 'Product Management', 'Marketing'],
+    'Major': ['Computer Science', 'Data Science', 'Business', 'Marketing'],
+    'Profile_Picture': [
+        'assets/profilepic2ANON.png',
+        'assets/profilepic2ANON.png',
+        'assets/profilepic2ANON.png',
+        'assets/profilepic2ANON.png'
+    ]  # Replace these URLs with actual image links or local paths
+})
 
 # Apply filters only if the user makes selections
+filtered_data = alumni_data.copy()  # Ensure original data is preserved
+
 if selected_internship:
     filtered_data = filtered_data[filtered_data['Internship'].isin(selected_internship)]
-
 if selected_field_of_work:
     filtered_data = filtered_data[filtered_data['Field_of_work'].isin(selected_field_of_work)]
-
 if selected_major:
     filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
 
 # Display the filtered alumni data
 st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Filtered Alumni Profiles</h1>', unsafe_allow_html=True)
+
+# Change font weight for the message
 if not filtered_data.empty:
-    st.write(f"Found {len(filtered_data)} alumni matching your criteria:")
-    st.write(filtered_data[['Name', 'Internship', 'Field_of_work', 'Major']])
+    st.markdown(f'<light-text style="font-size: 15px;">Found {len(filtered_data)} alumni matching your criteria:</p>', unsafe_allow_html=True)
+    st.markdown("---")
+    # Custom layout for displaying images and information
+    for index, row in filtered_data.iterrows():
+        col1, col2, col3 = st.columns([0.5, 1, 3])
+        with col1:
+            st.image(row['Profile_Picture'], width=100)  # Display profile picture
+        with col2:
+            st.write(f"**Name:** {row['Name']}")
+            st.write(f"**Internship:** {row['Internship']}")
+        with col3:
+            st.write(f"**Field of Work:** {row['Field_of_work']}")
+            st.write(f"**Major:** {row['Major']}")
+        st.markdown("---")  # Divider for each profile
 else:
     st.write("No alumni found matching your criteria.")
