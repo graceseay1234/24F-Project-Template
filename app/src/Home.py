@@ -112,7 +112,7 @@ with col2:
     # set the title of the page and provide a simple prompt.
     logger.info("Loading the Home page of the app")
     st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Welcome to</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
-    st.markdown('<h1 style="font-size: 70px; font-weight: 600;">HuskyNet</h1>', unsafe_allow_html=True)  # Larger font for 'HuskyNet'
+    st.image("assets/huskynetlogosvg.svg", width=350)
     st.write('\n\n')
     st.markdown('<p class="light-text" style="font-size: 24px;">Hi! Please select your role to login.</p>', unsafe_allow_html=True)
 
