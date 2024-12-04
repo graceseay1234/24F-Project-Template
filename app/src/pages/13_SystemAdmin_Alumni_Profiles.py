@@ -67,10 +67,7 @@ m = st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
-st.markdown(
-    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
-    unsafe_allow_html=True
-)
+st.markdown('<p class="light-text" style="font-size: 24px;">Hello, System Administrator.</p>', unsafe_allow_html=True)
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Alumni Profiles</h1>', unsafe_allow_html=True)
 sac.divider(align='center', color='gray')
 
@@ -86,8 +83,6 @@ def user_input_features():
 
 df = user_input_features()
 
-st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Selected Filter Criteria</h1>', unsafe_allow_html=True)
-st.write(df)
 
 # Sample system warning data with alumni profiles
 alumni_data = pd.DataFrame({
