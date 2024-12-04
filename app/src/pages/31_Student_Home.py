@@ -14,6 +14,7 @@ st.set_page_config(layout='wide')
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
+
 # Styling for the page
 m = st.markdown("""
 <style>
@@ -122,6 +123,7 @@ with col3:
 selected_internship = selected_internship if selected_internship else []
 selected_field_of_work = selected_field_of_work if selected_field_of_work else []
 selected_major = selected_major if selected_major else []
+
 
 # Sample alumni data with profile picture URLs
 alumni_data = pd.DataFrame({

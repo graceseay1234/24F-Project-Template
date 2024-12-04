@@ -19,7 +19,12 @@ except ModuleNotFoundError:
     import streamlit_antd_components as sac
 import pandas as pd
 
-import streamlit_shadcn_ui as ui
+try:
+    import streamlit_shadcn_ui as ui
+except ModuleNotFoundError:
+    import os
+    os.system('pip install streamlit_shadcn_ui')
+    import streamlit_shadcn_ui as ui
 
 
 st.set_page_config(
