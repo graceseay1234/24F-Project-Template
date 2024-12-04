@@ -66,7 +66,10 @@ m = st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
-st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, System Administrator.</p>', unsafe_allow_html=True)
+st.markdown(
+    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
+    unsafe_allow_html=True
+)
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">System Warnings Dashboard</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
