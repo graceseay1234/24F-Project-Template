@@ -123,8 +123,8 @@ with col2:
         "Position Title": ["Director of Alumni Relations", "System Admin", "Recruiter", "Student"],
         "Name": ["Carson McCullers", "Alice Walker", "Jordan Johnson", "Margaret Mitchell"],
         "Page": ["pages/00_Dir_Alum_Eng_Home.py", "pages/10_System_Admin_Dashboard.py", 
-                "pages/20_Admin_Home.py", "pages/31_Student_Home.py"],
-        "Role": ["pol_strat_advisor", "usaid_worker", "administrator", "student"]
+                "pages/20_Recruiter_Home.py", "pages/31_Student_Home.py"],
+        "Role": ["Director_of_Alumni_Engagment", "System_Admin", "Recruiter", "Student"]
     }
 
     # Load data into DataFrame

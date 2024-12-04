@@ -132,11 +132,12 @@ alumni_data = pd.DataFrame({
     'Field_of_work': ['Software Engineering', 'Data Science', 'Product Management', 'Marketing'],
     'Major': ['Computer Science', 'Data Science', 'Business', 'Marketing'],
     'Profile_Picture': [
-        'assets/profilepic2ANON.png',
-        'assets/profilepic2ANON.png',
-        'assets/profilepic2ANON.png',
-        'assets/profilepic2ANON.png'
-    ]  # Replace these URLs with actual image links or local paths
+        'assets/anonprofilepicred.svg',
+        'assets/anonprofilepicred.svg',
+        'assets/anonprofilepicred.svg',
+        'assets/anonprofilepicred.svg'],
+    'Grad_Year' : ['24', '23', '22', '21']
+      # Replace these URLs with actual image links or local paths
 })
 
 # Apply filters only if the user makes selections
@@ -162,15 +163,29 @@ if not filtered_data.empty:
     
     # Custom layout for displaying images and information
     for index, row in filtered_data.iterrows():
-        col1, col2, col3 = st.columns([0.5, 1, 3])
+        col1, col2, col3, col4 = st.columns([0.9, 2.1, 3, 2])
         with col1:
             st.image(row['Profile_Picture'], width=90)  # Display profile picture
         with col2:
-            st.markdown(f"<p style='margin-top: 5px; margin-bottom: 5px;font-size: 20px; font-weight: 300;'>{row['Name']}</p>", unsafe_allow_html=True)
-            st.write(f"{row['Major']}")
+            st.markdown(f"<p style='margin-top: 11px; margin-bottom: 0px;font-size: 25px; font-weight: 100;'>{row['Name']}</p>", unsafe_allow_html=True)
+            st.write(f"<p style='margin-top: 3px; margin-bottom: 5px;font-size: 15px; font-weight: 300;'>{row['Major']} | '{row['Grad_Year']}", unsafe_allow_html=True)
         with col3:
-            st.write(f"**Field of Work:** {row['Field_of_work']}")
-            st.write(f"**Internship:** {row['Internship']}")
+            st.markdown(f"""
+                <div style='margin-top: 20px;'>  <!-- Adjusted margin here -->
+                    <p style='margin-bottom: 5px; font-size: 16px;'>
+                        <strong>Field of Work:</strong> {row['Field_of_work']}
+                    </p>
+                    <p style='margin-bottom: 5px; font-size: 16px;'>
+                        <strong>Internship:</strong> {row['Internship']}
+                    </p>
+                </div>
+        """, unsafe_allow_html=True)
+            # Add a clickable button for navigation
+        with col4:
+            
+            if st.button(f"View {row['Name']}'s Profile", key=index):
+                st.session_state['selected_profile'] = row.to_dict()  # Save profile data to session state
+                st.switch_page('profile_page')  # Navigate to profile page
+                    
         st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)  # Divider with reduced spacing
-else:
-    st.write("No alumni found matching your criteria.")
+

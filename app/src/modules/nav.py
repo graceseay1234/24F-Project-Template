@@ -14,31 +14,37 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About HuskyNet", icon=":material/info:")
 
 
-#### ------------------------ Examples for Director of Alumni Engagement ------------------------
-def PolStratAdvHomeNav():
+#### ------------------------ Director of Alumni Engagement ------------------------
+def DirAlumEngHomeNav():
     st.sidebar.page_link(
         "pages/00_Dir_Alum_Eng_Home.py", label="Alumni Engagment Dashboard", icon=":material/space_dashboard:"
     )
 
 
-def WorldBankVizNav():
+
+def DAEFeatureUsageNav():
     st.sidebar.page_link(
         "pages/01_DAE_Feature_Usage.py", label="Feature Usage Overview", icon=":material/troubleshoot:"
     )
 
 
-## ------------------------ Examples for Role of usaid_worker ------------------------
+## ------------------------ Role of System Admin ------------------------
 # def ApiTestNav():
 #     st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon=":material/troubleshoot:")
 
+def AdminDashNav():
+    st.sidebar.page_link(
+        "pages/10_System_Admin_Dashboard.py", label="System Admin Dashboard", icon=":material/dashboard:"
+    )
 
-def PredictionNav():
+
+def SystemWarningsDashboardNav():
     st.sidebar.page_link(
         "pages/11_System_Warnings_Dashboard.py", label="System Warnings", icon=":material/report:"
     )
 
 
-def ClassificationNav():
+def SystemAdminAlumniProfilesNavv():
     st.sidebar.page_link(
         "pages/13_SystemAdmin_Alumni_Profiles.py", label="Alumni Profiles", icon=":material/account_box:")
     # st.sidebar.page_link(
@@ -46,11 +52,13 @@ def ClassificationNav():
     # )
 
 
-#### ------------------------ System Admin Role ------------------------
-def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="Hiring Dashboard", icon=":material/space_dashboard:")
+#### ------------------------ System Recruiter ------------------------
+def RecruiterHomeNav():
+    st.sidebar.page_link("pages/20_Recruiter_Home.py", label="Hiring Dashboard", icon=":material/space_dashboard:")
+
+def CandidateOverviewNav():   
     st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="Candidates Overview", icon=":material/groups:"
+        "pages/21_Candidates_Overview.py", label="Candidates Overview", icon=":material/groups:"
     )
 
 
@@ -79,23 +87,25 @@ def SideBarLinks(show_home=False):
     # Show the other page navigators depending on the users' role.
     if st.session_state["authenticated"]:
 
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
+        # Show Director of Alum. Eng. Home and DAE Feature Usage if the user is a director of alumni engagement role.
+        if st.session_state["role"] == "Director_of_Alumni_Engagment":
+            DirAlumEngHomeNav()
+            DAEFeatureUsageNav()
 
-        # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            PredictionNav()
+        # If the user role is system admin worker, show the admin dashboard, warning page, and alumni profile page.
+        if st.session_state["role"] == "System_Admin":
+            AdminDashNav()
+            SystemWarningsDashboardNav()
             # ApiTestNav()
-            ClassificationNav()
+            SystemAdminAlumniProfilesNavv()
 
-        # If the user is an administrator, give them access to the administrator pages
-        if st.session_state["role"] == "administrator":
-            AdminPageNav()
+        # If the user is a recruiter, give them access to the recruiter home page and candidate page
+        if st.session_state["role"] == "Recruiter":
+            RecruiterHomeNav()
+            CandidateOverviewNav()
 
         # If the user is an student, give them access to the administrator pages
-        if st.session_state["role"] == "student":
+        if st.session_state["role"] == "Student":
             StudentPageNav()
 
     # Always show the About page at the bottom of the list of links
