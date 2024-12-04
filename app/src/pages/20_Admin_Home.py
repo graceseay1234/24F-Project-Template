@@ -21,6 +21,8 @@ m = st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
     
+    div.block-container {padding-top:3rem;}
+             
     body {
         font-family: 'Open Sans', sans-serif;
         margin-bottom: -10px;

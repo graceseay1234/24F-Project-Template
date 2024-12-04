@@ -5,7 +5,6 @@
 import streamlit as st
 
 
-
 #### ------------------------ General ------------------------
 def HomeNav():
     st.sidebar.page_link("Home.py", label="Home", icon=":material/home:")
@@ -18,13 +17,13 @@ def AboutPageNav():
 #### ------------------------ Examples for Director of Alumni Engagement ------------------------
 def PolStratAdvHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Alumni Engagment Dashboard", icon=":material/person:"
+        "pages/00_Dir_Alum_Eng_Home.py", label="Alumni Engagment Dashboard", icon=":material/space_dashboard:"
     )
 
 
 def WorldBankVizNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="Feature Usage Overview", icon=":material/troubleshoot:"
+        "pages/01_DAE_Feature_Usage.py", label="Feature Usage Overview", icon=":material/troubleshoot:"
     )
 
 
@@ -35,27 +34,29 @@ def WorldBankVizNav():
 
 def PredictionNav():
     st.sidebar.page_link(
-        "pages/11_Prediction.py", label="System Warnings", icon=":material/show_chart:"
+        "pages/11_System_Warnings_Dashboard.py", label="System Warnings", icon=":material/report:"
     )
 
 
 def ClassificationNav():
     st.sidebar.page_link(
-        "pages/13_Classification.py", label="Alumni Profiles", icon=":material/data_table:"
-    )
+        "pages/13_SystemAdmin_Alumni_Profiles.py", label="Alumni Profiles", icon=":material/account_box:")
+    # st.sidebar.page_link(
+    #     "pages/12_API_Test.py", label="test_api", icon=":material/data_table:"
+    # )
 
 
 #### ------------------------ System Admin Role ------------------------
 def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="Hiring Dashboard", icon="🖥️")
+    st.sidebar.page_link("pages/20_Admin_Home.py", label="Hiring Dashboard", icon=":material/space_dashboard:")
     st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="Candidates Overview", icon="🏢"
+        "pages/21_ML_Model_Mgmt.py", label="Candidates Overview", icon=":material/groups:"
     )
 
 
 #### ------------------------ Student Role ------------------------
 def StudentPageNav():
-    st.sidebar.page_link("pages/31_Student_Home.py", label="Alumni Search", icon="📚")
+    st.sidebar.page_link("pages/31_Student_Home.py", label="Alumni Search", icon=":material/person_search:")
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
@@ -64,7 +65,7 @@ def SideBarLinks(show_home=False):
     """
 
     # add a logo to the sidebar always
-   # st.sidebar.image("assets/HuskyNet.png", width=250)
+    st.sidebar.image("assets/huskynetlogosvg.svg", width=150)
 
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:

@@ -77,8 +77,7 @@ m = st.markdown("""
             font-weight: 400; /* light weight */
             color: #333;  /* Text color */
             background-color: #F4F4F5
-        }
-                
+        }     
         
 </style>""", unsafe_allow_html=True)
 
@@ -123,7 +122,7 @@ with col2:
     data = {
         "Position Title": ["Director of Alumni Relations", "System Admin", "Recruiter", "Student"],
         "Name": ["Carson McCullers", "Alice Walker", "Jordan Johnson", "Margaret Mitchell"],
-        "Page": ["pages/00_Pol_Strat_Home.py", "pages/10_USAID_Worker_Home.py", 
+        "Page": ["pages/00_Dir_Alum_Eng_Home.py", "pages/10_System_Admin_Dashboard.py", 
                 "pages/20_Admin_Home.py", "pages/31_Student_Home.py"],
         "Role": ["pol_strat_advisor", "usaid_worker", "administrator", "student"]
     }
