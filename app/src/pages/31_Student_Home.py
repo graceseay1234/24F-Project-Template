@@ -148,23 +148,27 @@ if selected_major:
     filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
 
 # Display the filtered alumni data
-st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Filtered Alumni Profiles</h1>', unsafe_allow_html=True)
+# st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Filtered Alumni Profiles</h1>', unsafe_allow_html=True)
 
-# Change font weight for the message
 if not filtered_data.empty:
-    st.markdown(f'<light-text style="font-size: 15px;">Found {len(filtered_data)} alumni matching your criteria:</p>', unsafe_allow_html=True)
-    st.markdown("---")
+    st.markdown(f'''
+        <p style="font-weight: 300; font-size: 15px; "margin-top: 40px; margin-bottom: 5px;">
+            Found {len(filtered_data)} alumni matching your criteria:
+        </p>
+        <hr style="margin-top: 20px; margin-bottom: 20px;">
+    ''', unsafe_allow_html=True)
+    
     # Custom layout for displaying images and information
     for index, row in filtered_data.iterrows():
         col1, col2, col3 = st.columns([0.5, 1, 3])
         with col1:
-            st.image(row['Profile_Picture'], width=100)  # Display profile picture
+            st.image(row['Profile_Picture'], width=90)  # Display profile picture
         with col2:
-            st.write(f"**Name:** {row['Name']}")
-            st.write(f"**Internship:** {row['Internship']}")
+            st.write(f"{row['Name']}")
+            st.write(f"**Major:** {row['Major']}")
         with col3:
             st.write(f"**Field of Work:** {row['Field_of_work']}")
-            st.write(f"**Major:** {row['Major']}")
-        st.markdown("---")  # Divider for each profile
+            st.write(f"**Internship:** {row['Internship']}")
+        st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)  # Divider with reduced spacing
 else:
     st.write("No alumni found matching your criteria.")
