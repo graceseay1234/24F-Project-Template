@@ -66,52 +66,54 @@ m = st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
-st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, Student.</p>', unsafe_allow_html=True)
+if 'first_name' not in st.session_state:
+    st.session_state['first_name'] = 'Student'
+
+# Personalized welcome message
+st.markdown(
+    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
+    unsafe_allow_html=True
+)
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Search Alumni</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
 
 # Sample alumni data
 alumni_data = pd.DataFrame({
-    'name': ['Alice', 'Bob', 'Charlie', 'David'],
-    'internship': ['Google', 'Apple', 'Microsoft', 'Amazon'],
-    'field_of_work': ['Software Engineering', 'Data Science', 'Product Management', 'Marketing'],
-    'major': ['Computer Science', 'Data Science', 'Business', 'Marketing'],
+    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+    'Internship': ['Google', 'Apple', 'Microsoft', 'Amazon'],
+    'Field_of_work': ['Software Engineering', 'Data Science', 'Product Management', 'Marketing'],
+    'Major': ['Computer Science', 'Data Science', 'Business', 'Marketing'],
 })
 
-# create a 2 column layout
+# Create a 3-column layout
 col1, col2, col3 = st.columns(3)
 
-# add one number input for internship in column 2
+# Add cascader inputs in each column
 with col1:
     selected_internship = sac.cascader(
-        items=[sac.CasItem(internship) for internship in alumni_data['internship'].unique()],
+        items=[sac.CasItem(internship) for internship in alumni_data['Internship'].unique()],
         label='Internship Experience',
-        index=0,
         multiple=True,
         search=True,
         clear=True,
         color='#E14B44'
     )
 
-# add one number input for field of work in column 3
 with col2:
     selected_field_of_work = sac.cascader(
-        items=[sac.CasItem(field) for field in alumni_data['field_of_work'].unique()],
+        items=[sac.CasItem(field) for field in alumni_data['Field_of_work'].unique()],
         label='Field of Work',
-        index=0,
         multiple=True,
         search=True,
         clear=True,
         color='#E14B44'
     )
 
-# add one number input for major in column 4
 with col3:
     selected_major = sac.cascader(
-        items=[sac.CasItem(major) for major in alumni_data['major'].unique()],
+        items=[sac.CasItem(major) for major in alumni_data['Major'].unique()],
         label='Major',
-        index=0,
         multiple=True,
         search=True,
         clear=True,
@@ -119,24 +121,27 @@ with col3:
     )
 
 # Ensure selected values are lists, even if only one item is selected
-selected_internship = list(selected_internship) if isinstance(selected_internship, str) else selected_internship
-selected_field_of_work = list(selected_field_of_work) if isinstance(selected_field_of_work, str) else selected_field_of_work
-selected_major = list(selected_major) if isinstance(selected_major, str) else selected_major
+selected_internship = selected_internship if selected_internship else []
+selected_field_of_work = selected_field_of_work if selected_field_of_work else []
+selected_major = selected_major if selected_major else []
 
 # Default display is all profiles
 filtered_data = alumni_data
 
-# Filter alumni data based on the selected values
-if selected_internship or selected_field_of_work or selected_major:
-    filtered_data = alumni_data[
-        alumni_data['internship'].isin(selected_internship) &
-        alumni_data['field_of_work'].isin(selected_field_of_work) &
-        alumni_data['major'].isin(selected_major)
-    ]
+# Apply filters only if the user makes selections
+if selected_internship:
+    filtered_data = filtered_data[filtered_data['Internship'].isin(selected_internship)]
+
+if selected_field_of_work:
+    filtered_data = filtered_data[filtered_data['Field_of_work'].isin(selected_field_of_work)]
+
+if selected_major:
+    filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
 
 # Display the filtered alumni data
+st.subheader("Filtered Alumni Profiles")
 if not filtered_data.empty:
     st.write(f"Found {len(filtered_data)} alumni matching your criteria:")
-    st.write(filtered_data[['name', 'internship', 'field_of_work', 'major']])
+    st.write(filtered_data[['Name', 'Internship', 'Field_of_work', 'Major']])
 else:
     st.write("No alumni found matching your criteria.")
