@@ -16,6 +16,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 
+import requests
 
 m = st.markdown("""
 <style>
@@ -76,4 +77,55 @@ SideBarLinks()
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">User Feedback</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
 
 sac.divider(align='center', color='gray')
+
+# Base URL for the API
+BASE_URL = "http://web-api:4000"
+
+# Function to fetch feedback data from API
+def fetch_feedback_data():
+    try:
+        response = requests.get(f"{BASE_URL}/feedback")
+        if response.status_code == 200:
+            data = response.json()
+
+            columns = ["Content", "TimeStamp"]
+            df = pd.DataFrame(data, columns=columns)
+            return df
+        else:
+            st.error("Failed to fetch feedback data.")
+            return pd.DataFrame()
+    except Exception as e:
+        st.error(f"Error fetching feedback data: {e}")
+        return pd.DataFrame()
+
+
+
+# Function to post new feedback
+##def add_feedback(name, description, price, category):
+##TODO
+
+
+
+# Layout: Two columns: one for filters and form, one for displaying data
+col1, col2 = st.columns([1.5, 2])
+
+with col1:
+    st.subheader("Add New Feedback")
+    feedback_description = st.text_area("Feedback Description")
+
+    if st.button("Submit Feedback"):
+        if feedback_description:
+            add_feedback(feedback_description)
+        else:
+            st.error("Please fill in all required fields.")
+
+with col2:
+    st.subheader("Existing Feedback")
+    # Fetch data
+    feedback_df = fetch_feedback_data()
+
+    if not feedback_df.empty:
+        st.dataframe(feedback_df)
+    else:
+        st.info("No feedback available")
 
