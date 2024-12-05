@@ -214,3 +214,21 @@ def get_alumni_without_warnings():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
+
+@alumni.route('/majors', methods=['GET'])
+def get_all_majors():
+    query = '''
+        SELECT DISTINCT Major
+        FROM Alumni
+        WHERE Major IS NOT NULL
+        ORDER BY Major
+    '''
+    
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    majors = cursor.fetchall()
+
+    response = make_response(jsonify(majors))
+    response.status_code = 200
+    return response
