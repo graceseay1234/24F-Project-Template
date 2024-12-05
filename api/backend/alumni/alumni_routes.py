@@ -162,3 +162,57 @@ def update_alumni():
     current_app.logger.info(alumni_info)
 
     return "Success"
+
+
+
+@alumni.route('/delete_alumni/<alumni_id>', methods=['DELETE'])
+def delete_alumni(alumni_id):
+    query = f"DELETE FROM Alumni WHERE AlumniID = {alumni_id}"
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    return jsonify({"message": f"Alumni ID {alumni_id} deleted successfully."}), 200
+
+
+
+@alumni.route('/alumni_with_warnings', methods=['GET'])
+def get_alumni_with_warnings():
+    query = '''
+    SELECT A.AlumniID, A.Name, A.Major, A.GradYear, 
+           W.WarningID, W.Reason AS WarningReason, W.TimeStamp AS WarningTime,
+           WE.Role AS WorkExperience, WE.Company
+    FROM Alumni A
+    LEFT JOIN Warnings W ON A.AlumniID = W.AlumniID
+    LEFT JOIN WorkExperience WE ON A.AlumniID = WE.AlumniID
+    WHERE W.WarningID IS NOT NULL;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+
+
+
+@alumni.route('/alumni_without_warnings', methods=['GET'])
+def get_alumni_without_warnings():
+    query = '''
+    SELECT a.AlumniID, a.Name, a.Major, a.WorkExperience, a.GradYear
+    FROM Alumni a
+    LEFT JOIN Warnings w ON a.AlumniID = w.AlumniID
+    WHERE w.WarningID IS NULL;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+
