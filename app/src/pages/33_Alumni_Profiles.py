@@ -17,7 +17,7 @@ st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Fetch alumni data from the Flask API
-api_url = "http://web-api:4000/alumni"  # Replace with your Flask API URL
+api_url = "http://web-api:4000/jobs"  # Replace with your Flask API URL
 try:
     response = requests.get(api_url)
     if response.status_code == 200:
@@ -33,32 +33,40 @@ try:
 
             if selected_alumni:
                 # Display selected alumni's profile
-                st.image("assets/anonprofilepicred.svg", width=150)  # Replace with dynamic data or URL
+                st.image("assets/anonprofilepicred.svg", width=150)  # Default image if not provided
                 st.subheader(selected_alumni['Name'])  # Display selected name
-                st.write(f"{selected_alumni['Role']} at {selected_alumni['Company']} | {selected_alumni['Major']}")
+                st.write(f"{selected_alumni['Major']} | {selected_alumni['GradYear']}")
+
+                if selected_alumni.get('AboutMe'):
+                    st.write(f"**About Me:** {selected_alumni['AboutMe']}")
 
                 st.divider()
 
-                # Education Section (Assuming it could be fetched similarly)
+                # Education Section (Dynamically populated)
                 st.markdown('<h2 class="sub-header">Education</h2>', unsafe_allow_html=True)
-                st.write("""
-                - **Northeastern University**  
-                  B.Sc. in Computer Science, 2014 - 2018  
-                """)
+                st.write("**Northeastern University**")
+                st.write(f"Major: **{selected_alumni['Major']}**")
+                st.write(f"Graduation Year: **{selected_alumni['GradYear']}**")
 
-                # Career Section (Dynamic Career Experience)
-                st.markdown('<h2 class="sub-header">Career Experience</h2>', unsafe_allow_html=True)
-                career_data = pd.DataFrame({
-                    'Role': ['Data Scientist', 'Research Assistant'],  # Dynamic roles can be added here
-                    'Company': ['ABC Corp', 'Northeastern Research Lab'],  # Add dynamic data
-                    'Years': ['2018 - Present', '2017 - 2018']  # Add dynamic data
-                })
-                st.table(career_data)
+                st.divider()
 
-                # Skills Section (Dynamic Skills)
-                st.markdown('<h2 class="sub-header">Skills & Expertise</h2>', unsafe_allow_html=True)
-                skills = ["Python", "Machine Learning", "Data Visualization", "SQL"]  # You can populate this dynamically
-                st.write(", ".join(skills))
+                # Work Experience Section
+                st.markdown('<h2 class="sub-header">Work Experience</h2>', unsafe_allow_html=True)
+
+                # Extract work experience details
+                work_experience_entries = alumni_data
+                work_experience_for_selected = [entry for entry in work_experience_entries if entry['Name'] == selected_name]
+
+                if work_experience_for_selected:
+                    for work in work_experience_for_selected:
+                        st.write(f"**Role:** {work['Role']}")
+                        st.write(f"**Company:** {work['Company']}")
+                        st.write(f"**Start Date:** {work['Startdate']}")
+                        st.write(f"**End Date:** {work['EndDate']}")
+                        st.write(f"**Status:** {'Current' if work['IsCurrent'] else 'Not Current'}")
+                        st.divider()  # Optional: Add a divider between entries
+                else:
+                    st.write("No work experience information available.")
 
             else:
                 st.error("Selected alumni profile not found.")
