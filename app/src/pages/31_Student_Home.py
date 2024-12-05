@@ -72,6 +72,10 @@ m = st.markdown("""
      color: black;
                                 
     }
+                
+    .st-ek {
+        color: black;
+    } 
 
 </style>""", unsafe_allow_html=True)
 

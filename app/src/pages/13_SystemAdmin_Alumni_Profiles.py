@@ -64,6 +64,11 @@ m = st.markdown("""
     .ant-cascader-menu-item:hover {
         background-color: rgba(0, 0, 0, 0.1);
     }
+                            
+    .st-ek {
+        color: black;
+    }          
+    
 
 </style>""", unsafe_allow_html=True)
 
@@ -170,7 +175,7 @@ if not paginated_data.empty:
     
 # Custom layout with delete functionality
 for index, row in paginated_data.iterrows():
-    col1, col2, col3, col4, col5 = st.columns([0.9, 2.1, 3, 2, 1.5])
+    col1, col2, col3, col4 = st.columns([0.9, 2.1, 3, 2])
     with col1:
         st.image("assets/anonprofilepicred.svg", width=90)
     with col2:
@@ -182,7 +187,7 @@ for index, row in paginated_data.iterrows():
     
     
     # Delete profile button
-    with col5:
+    with col4:
         if st.button(f"Delete", key=f"delete_{current_page}_{index}"):
             response = requests.delete(f"{DELETE_API_URL}/{row['id']}")  # Assuming each profile has a unique 'id'
             if response.status_code == 200:
