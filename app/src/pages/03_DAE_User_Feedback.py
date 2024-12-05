@@ -101,8 +101,18 @@ def fetch_feedback_data():
 
 
 # Function to post new feedback
-##def add_feedback(name, description, price, category):
-##TODO
+def add_feedback(content):
+    payload = {
+        "content": content
+    }
+    try:
+        response = requests.post(f"{BASE_URL}/feedback", json=payload)
+        if response.status_code == 200:
+            st.success("Successfully added feedback!")
+        else:
+            st.error(f"Failed to add feedback. Status: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        st.error(f"Error adding feedback: {e}")
 
 
 

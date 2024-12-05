@@ -101,26 +101,20 @@ def add_new_feedback():
     the_data = request.json
     current_app.logger.info(the_data)
 
-    #extracting the variable
-    name = the_data['feedback_name']
-    description = the_data['feedback_description']
-    price = the_data['feedback_price']
-    category = the_data['feedback_category']
+    # Generating a new FeedbackID
+    cursor = db.get_db().cursor()
+    cursor.execute("SELECT COUNT(FeedbackID) FROM Feedback")
+    row = cursor.fetchone()
+
+    new_feedback_id = row.get('COUNT(FeedbackID)', 0)
+
+    content = the_data.get('content', '')
 
     query = f'''
-        INSERT INTO feedback (feedback_name,
-                              description,
-                              category,
-                              list_price)
-        VALUES ('{name}', '{description}', '{category}', {str(price)})
+        INSERT INTO Feedback (FeedbackID, Content)
+        VALUES ('{new_feedback_id + 1}', '{content}')
     '''
-    # TODO: Make sure the version of the query above works properly
-    # Constructing the query
-    # query = 'insert into feedback (feedback_name, description, category, list_price) values ("'
-    # query += name + '", "'
-    # query += description + '", "'
-    # query += category + '", '
-    # query += str(price) + ')'
+
     current_app.logger.info(query)
 
     # executing and committing the insert statement
