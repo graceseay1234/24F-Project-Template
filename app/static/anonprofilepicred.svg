@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <filter id="Path_9" x="35.226" y="211.273" width="329.348" height="189.729" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_10" x="97" y="22" width="208" height="207" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-Custom_Size_2">
+      <rect width="400" height="400"/>
+    </clipPath>
+  </defs>
+  <g id="Custom_Size_2" data-name="Custom Size – 2" clip-path="url(#clip-Custom_Size_2)">
+    <path id="Path_10" data-name="Path 10" d="M188.5,0C292.606,0,377,84.394,377,188.5S292.606,377,188.5,377,0,292.606,0,188.5,84.394,0,188.5,0Z" transform="translate(12 12)" fill="rgba(225,75,68,0.13)"/>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Path_9)">
+      <path id="Path_9-2" data-name="Path 9" d="M191.226,784.5s55.181,79.157,152.226,81.45S502.574,786.6,502.574,786.6,468.5,689.418,343.453,694.463,191.226,784.5,191.226,784.5Z" transform="translate(-147 -477)" fill="#e14b44"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Ellipse_10)">
+      <ellipse id="Ellipse_10-2" data-name="Ellipse 10" cx="95" cy="94.5" rx="95" ry="94.5" transform="translate(106 28)" fill="#e14b44"/>
+    </g>
+  </g>
+</svg>
