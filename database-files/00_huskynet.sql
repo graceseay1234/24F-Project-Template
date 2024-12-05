@@ -184,7 +184,7 @@ CREATE INDEX skills_id ON Skills(SkillID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Alumni (
-  AlumniID VARCHAR(50) NOT NULL,
+  AlumniID INTEGER AUTO_INCREMENT NOT NULL,
   Name VARCHAR(50) NOT NULL,
   Major VARCHAR(50) NOT NULL,
   AboutMe VARCHAR(2000),
@@ -209,7 +209,8 @@ CREATE TABLE Messages (
   MessageContent VARCHAR(2000),
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (MessageID),
-  CONSTRAINT fk2_alumni FOREIGN KEY (MessageID) REFERENCES Alumni(AlumniID)
+  CONSTRAINT fk2_alumni FOREIGN KEY (SenderAlumniID) REFERENCES Alumni(AlumniID),
+  CONSTRAINT fk6_alumni FOREIGN KEY (ReceiverAlumniID) REFERENCES Alumni(AlumniID)
   ON UPDATE cascade ON DELETE cascade
 
 );
@@ -229,7 +230,7 @@ CREATE TABLE WorkExperience (
   EndDate DATE,
   IsCurrent BOOLEAN,
   PRIMARY KEY (ExperienceID),
-  CONSTRAINT fk3_alumni FOREIGN KEY (ExperienceID) REFERENCES Alumni(AlumniID)
+  CONSTRAINT fk3_alumni FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
   ON UPDATE cascade ON DELETE cascade
 
 );
@@ -248,7 +249,7 @@ CREATE TABLE Actions (
   ActionType VARCHAR(50),
   ActionTS datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (ActionID),
-  CONSTRAINT fk4_alumni FOREIGN KEY (ActionID) REFERENCES Alumni(AlumniID)
+  CONSTRAINT fk4_alumni FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
   ON UPDATE cascade ON DELETE cascade
 
 );
@@ -267,7 +268,7 @@ CREATE TABLE Warnings (
   Reason VARCHAR(500),
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (WarningID),
-  CONSTRAINT fk5_alumni FOREIGN KEY (WarningID) REFERENCES Alumni(AlumniID)
+  CONSTRAINT fk5_alumni FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
   ON UPDATE cascade ON DELETE cascade
 
 );
@@ -295,7 +296,7 @@ CREATE TABLE Candidate_Traits (
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE Alumni_Skills (
-  AlumniID VARCHAR(50) NOT NULL,
+  AlumniID INTEGER,
   SkillsID VARCHAR(50) NOT NULL,
   CONSTRAINT as_pk PRIMARY KEY(AlumniID, SkillsID),
   CONSTRAINT fk_as FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
