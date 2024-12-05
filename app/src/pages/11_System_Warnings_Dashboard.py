@@ -93,7 +93,14 @@ try:
 
         # Filter the DataFrame based on the selected reason
         filtered_df = df[df['Reason'] == selected_reason]
-
+    
+        # Show a summary of filtered results
+        st.markdown(f'''
+            <p style="font-weight: 300; font-size: 15px; margin-top: 40px; margin-bottom: 5px;">
+                Showing {len(filtered_df)} warnings with the selected reason.
+            </p>
+            <hr style="margin-top: 20px; margin-bottom: 20px;">
+        ''', unsafe_allow_html=True)
         # Display the filtered warnings in a box-style layout
         for index, row in filtered_df.iterrows():
             col1, col2, col3 = st.columns([1, 3, 1])
@@ -107,15 +114,8 @@ try:
                 st.markdown(f"<p style='font-size: 16px; font-weight: 300;'>Alumni: {row['AlumniName']}</p>", unsafe_allow_html=True)
             with col3:
                 st.markdown(f"<p style='font-size: 14px; font-weight: 300;'>Time: {row['TimeStamp']}</p>", unsafe_allow_html=True)
+            st.divider()
 
-
-        # Show a summary of filtered results
-        st.markdown(f'''
-            <p style="font-weight: 300; font-size: 15px; margin-top: 40px; margin-bottom: 5px;">
-                Showing {len(filtered_df)} warnings with the selected reason.
-            </p>
-            <hr style="margin-top: 20px; margin-bottom: 20px;">
-        ''', unsafe_allow_html=True)
     else:
         st.write("No warnings found.")
 except requests.exceptions.RequestException as e:
