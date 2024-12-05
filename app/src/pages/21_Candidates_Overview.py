@@ -86,3 +86,32 @@ if response.status_code == 200:
         st.error("No candidates found.")
 else:
     st.error(f"Failed to fetch candidate data from the API. Status Code: {response.status_code}")
+
+# Add new candidate form
+st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Add New Candidate</h1>', unsafe_allow_html=True)
+
+with st.form(key='add_candidate_form'):
+    name = st.text_input("Candidate Name")
+    interview_notes = st.text_area("Interview Notes")
+    status = st.selectbox("Status", ["Pending", "Interviewed", "Hired", "Rejected"])
+    qualities = st.text_area("Qualities")
+
+    submit_button = st.form_submit_button(label="Add Candidate")
+
+    if submit_button:
+        # Prepare candidate data for POST request
+        new_candidate = {
+            "Name": name,
+            "InterviewNotes": interview_notes,
+            "Status": status,
+            "Qualities": qualities
+        }
+
+        # Send POST request to Flask API to add the new candidate
+        response = requests.post("http://web-api:4000/candidate", json=new_candidate)
+
+        if response.status_code == 201:  # Successfully added
+            st.success("New candidate added successfully!")
+            st.experimental_rerun()  # Refresh the page to show updated list
+        else:
+            st.error(f"Failed to add candidate. Status Code: {response.status_code}")
