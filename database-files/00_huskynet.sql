@@ -61,9 +61,9 @@ CREATE TABLE HiringUser (
 
   PRIMARY KEY (UserID),
   CONSTRAINT fk_user FOREIGN KEY (UserID) REFERENCES Job(JobID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade,
   CONSTRAINT fk2_user FOREIGN KEY (UserID) REFERENCES Candidate(CandidateID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 );
 
 CREATE INDEX users_id ON HiringUser (UserID);
@@ -107,7 +107,7 @@ CREATE TABLE PerformanceMetrics (
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (MetricID),
   CONSTRAINT fk_metrics FOREIGN KEY (MetricID) REFERENCES Engagement(EngagementID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 );
 
 CREATE INDEX metric_id ON PerformanceMetrics(MetricID);
@@ -123,9 +123,9 @@ CREATE TABLE Feature (
   UserCount INT,
   PRIMARY KEY (FeatureID),
   CONSTRAINT fk_feature FOREIGN KEY (FeatureID) REFERENCES PerformanceMetrics(MetricID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk2_feature FOREIGN KEY (FeatureID) REFERENCES Feedback(FeedbackID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 );
 
 CREATE INDEX feature_id ON Feature (FeatureID);
@@ -141,11 +141,11 @@ CREATE TABLE AnalyticsUser (
 
   PRIMARY KEY (UserID),
   CONSTRAINT fk_anauser FOREIGN KEY (UserID) REFERENCES Feedback(FeedbackID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk2_anauser FOREIGN KEY (UserID) REFERENCES Feature(FeatureID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk3_anauser FOREIGN KEY (UserID) REFERENCES Engagement(EngagementID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 );
 
 CREATE INDEX anausers_id ON AnalyticsUser (UserID);
@@ -254,9 +254,9 @@ CREATE TABLE Administrator (
   Role VARCHAR(100),
   PRIMARY KEY (AdminID),
   CONSTRAINT fk_admin FOREIGN KEY (AdminID) REFERENCES Warnings(WarningID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk2_admin FOREIGN KEY (AdminID) REFERENCES Actions(ActionID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 
 );
 
@@ -277,13 +277,13 @@ CREATE TABLE Alumni (
   GradYear INT,
   PRIMARY KEY (AlumniID),
   CONSTRAINT fk2_alumni FOREIGN KEY (AlumniID) REFERENCES Messages(MessageID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk3_alumni FOREIGN KEY (AlumniID) REFERENCES WorkExperience(ExperienceID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk4_alumni FOREIGN KEY (AlumniID) REFERENCES Actions(ActionID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk5_alumni FOREIGN KEY (AlumniID) REFERENCES Warnings(WarningID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 
 );
 
@@ -300,9 +300,9 @@ CREATE TABLE Candidate_Traits (
   TraitID VARCHAR(50) NOT NULL,
   CONSTRAINT ct_pk PRIMARY KEY(CandidateID, TraitID),
   CONSTRAINT fk_ct FOREIGN KEY (CandidateID) REFERENCES Candidate(CandidateID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk_ct2 FOREIGN KEY (TraitID) REFERENCES Trait(TraitID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 );
 
 # ---------------------------------------------------------------------- #
@@ -314,9 +314,9 @@ CREATE TABLE Alumni_Skills (
   SkillsID VARCHAR(50) NOT NULL,
   CONSTRAINT as_pk PRIMARY KEY(AlumniID, SkillsID),
   CONSTRAINT fk_as FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
-  ON UPDATE cascade ON DELETE restrict,
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk_as2 FOREIGN KEY (SkillsID) REFERENCES Skills(SkillID)
-  ON UPDATE cascade ON DELETE restrict
+  ON UPDATE cascade ON DELETE cascade
 );
 
 ###Begin inserting mock data
@@ -920,46 +920,46 @@ insert into Administrator (AdminID, Name, Email, Role) values (39, 'Ranee Covoli
 insert into Administrator (AdminID, Name, Email, Role) values (40, 'Alwyn Belson', 'abelson13@cargocollective.com', 'Tester');
 
 
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (1, 'Maurie Cousins', 'Biology', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/SdlypcY.png', 'Assistant at QRS Corporation', 2002);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (2, 'Abbot Peirce', 'Psychology', 'Foodie always on the hunt for the best restaurants', 'https://i.imgur.com/SdlypcY.png', 'Freelancer for ABC Project', 2012);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (3, 'Erhart Ecclestone', 'Nursing', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/p37Is1i.png', 'Freelancer for ABC Project', 1987);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (4, 'Henriette Benini', 'Political Science', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/p37Is1i.png', 'Volunteer at LMN Organization', 1997);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (5, 'Richmond Denyagin', 'Communications', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/u49LBXk.png', 'Freelancer for ABC Project', 2003);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (6, 'Boigie Pydcock', 'Business Administration', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/u49LBXk.png', 'Intern at XYZ Company', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (7, 'Gleda Laviste', 'Sociology', 'Bookworm with a love for fantasy novels', 'https://i.imgur.com/SdlypcY.png', 'Assistant at QRS Corporation', 1948);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (8, 'Camile Kohnemann', 'Business Administration', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/u49LBXk.png', 'Assistant at QRS Corporation', 1988);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (9, 'Kelwin Aleksashin', 'Computer Science', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/p37Is1i.png', 'Freelancer for ABC Project', 2005);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (10, 'Willamina Vidgeon', 'Biology', 'Bookworm with a love for fantasy novels', 'https://i.imgur.com/u49LBXk.png', 'Temp worker at UVW Company', 2005);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (11, 'Dagny Tee', 'Psychology', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/p37Is1i.png', 'Assistant at QRS Corporation', 2004);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (12, 'Karlotte Englefield', 'Communications', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/p37Is1i.png', 'Intern at XYZ Company', 2004);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (13, 'Delmar Meineken', 'Engineering', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/SdlypcY.png', 'Temp worker at UVW Company', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (14, 'Rana Gaffer', 'Biology', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/p37Is1i.png', 'Freelancer for ABC Project', 2012);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (15, 'Dot Bourne', 'Sociology', 'Bookworm with a love for fantasy novels', 'https://i.imgur.com/u49LBXk.png', 'Volunteer at LMN Organization', 2007);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (16, 'Bartlet Kynton', 'Engineering', 'Foodie always on the hunt for the best restaurants', 'https://i.imgur.com/u49LBXk.png', 'Freelancer for ABC Project', 2010);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (17, 'Ashien Schiementz', 'Business Administration', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/p37Is1i.png', 'Temp worker at UVW Company', 2001);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (18, 'Cele Bengtsson', 'Nursing', 'Foodie always on the hunt for the best restaurants', 'https://i.imgur.com/SdlypcY.png', 'Volunteer at LMN Organization', 1996);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (19, 'Corbet Bellocht', 'Business Administration', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/SdlypcY.png', 'Assistant at QRS Corporation', 2005);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (20, 'Paxon Oleksiak', 'Sociology', 'Bookworm with a love for fantasy novels', 'https://i.imgur.com/p37Is1i.png', 'Volunteer at LMN Organization', 2003);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (21, 'Allin Jamblin', 'Political Science', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/SdlypcY.png', 'Assistant at QRS Corporation', 1990);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (22, 'Harlen Sheryn', 'Computer Science', 'Foodie always on the hunt for the best restaurants', 'https://i.imgur.com/SdlypcY.png', 'Assistant at QRS Corporation', 2001);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (23, 'Barby Freen', 'Engineering', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/SdlypcY.png', 'Volunteer at LMN Organization', 2006);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (24, 'Nobie Goodband', 'Art History', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/p37Is1i.png', 'Intern at XYZ Company', 1998);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (25, 'Briana Ferrarone', 'Computer Science', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/u49LBXk.png', 'Temp worker at UVW Company', 2007);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (26, 'Caren Manntschke', 'Political Science', 'Bookworm with a love for fantasy novels', 'https://i.imgur.com/p37Is1i.png', 'Temp worker at UVW Company', 2012);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (27, 'Grace Glackin', 'Engineering', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/u49LBXk.png', 'Intern at XYZ Company', 2010);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (28, 'Lindy Lyfield', 'Nursing', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/SdlypcY.png', 'Assistant at QRS Corporation', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (29, 'Roscoe Tapley', 'Sociology', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/SdlypcY.png', 'Intern at XYZ Company', 1993);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (30, 'Koenraad Raspison', 'Communications', 'Fitness fanatic dedicated to living a healthy lifestyle', 'https://i.imgur.com/p37Is1i.png', 'Assistant at QRS Corporation', 1999);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (31, 'Rosabel Orth', 'Engineering', 'Bookworm with a love for fantasy novels', 'https://i.imgur.com/u49LBXk.png', 'Intern at XYZ Company', 2002);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (32, 'Moira Blades', 'Nursing', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/SdlypcY.png', 'Assistant at QRS Corporation', 1987);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (33, 'Merralee Turfs', 'Computer Science', 'Foodie always on the hunt for the best restaurants', 'https://i.imgur.com/SdlypcY.png', 'Freelancer for ABC Project', 2002);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (34, 'Neala Hebron', 'Business Administration', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/u49LBXk.png', 'Temp worker at UVW Company', 1994);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (35, 'Marsha Moreno', 'Business Administration', 'Bookworm with a love for fantasy novels', 'https://i.imgur.com/p37Is1i.png', 'Volunteer at LMN Organization', 2000);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (36, 'Ellery Tanti', 'Communications', 'Foodie always on the hunt for the best restaurants', 'https://i.imgur.com/u49LBXk.png', 'Assistant at QRS Corporation', 1995);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (37, 'Eldon MacCracken', 'Computer Science', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/p37Is1i.png', 'Volunteer at LMN Organization', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (38, 'Con Ubank', 'Political Science', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/SdlypcY.png', 'Temp worker at UVW Company', 2007);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (39, 'Byran Prantoni', 'Engineering', 'Outdoor lover who enjoys hiking and camping', 'https://i.imgur.com/u49LBXk.png', 'Volunteer at LMN Organization', 2007);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (40, 'Lesley Edmenson', 'Art History', 'Tech enthusiast with a passion for coding', 'https://i.imgur.com/p37Is1i.png', 'Assistant at QRS Corporation', 1990);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (1, 'Mariquilla Faull', 'Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 1999);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (2, 'Rosamond Wilcinskis', 'Sales Associate', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2004);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (3, 'Andy Haggett', 'Customer Service Representative', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 1998);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (4, 'Lexi Oiseau', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 1993);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (5, 'Ferrell Skottle', 'Marketing Coordinator', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (6, 'Erma Chamberlain', 'Accountant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 1997);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (7, 'Carlita Cranke', 'Human Resources Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (8, 'Bella Blissett', 'Operations Supervisor', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/u49LBXk.png', 'Part-time job as a tutor for high school students', 1994);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (9, 'Alisander Hoys', 'Administrative Assistant', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 2002);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (10, 'Andres Lambertz', 'Warehouse Worker', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Interned at a tech startup for 6 months', 2012);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (11, 'Garland Benneyworth', 'Manager', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Completed a summer internship at a marketing agency', 1996);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (12, 'Kellsie Meadmore', 'Sales Associate', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2001);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (13, 'Jarad Wilmut', 'Customer Service Representative', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Interned at a tech startup for 6 months', 2012);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (14, 'Ellwood Lightning', 'IT Specialist', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Completed a summer internship at a marketing agency', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (15, 'Rafaellle Martijn', 'Marketing Coordinator', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2003);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (16, 'Rodina Gladwish', 'Accountant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2004);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (17, 'Gwendolen Perfili', 'Human Resources Manager', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/u49LBXk.png', 'Interned at a tech startup for 6 months', 2007);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (18, 'Roz Blakden', 'Operations Supervisor', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 2003);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (19, 'Dotty Chessil', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 2002);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (20, 'Thoma Gainsborough', 'Warehouse Worker', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (21, 'Jessee Glenfield', 'Manager', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (22, 'Tresa Voelker', 'Sales Associate', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (23, 'Bibi Hundey', 'Customer Service Representative', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 1999);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (24, 'Kris Picot', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 2006);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (25, 'Lay Chaudhry', 'Marketing Coordinator', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (26, 'Griffy Becken', 'Accountant', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 1995);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (27, 'Osgood Calvie', 'Human Resources Manager', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Interned at a tech startup for 6 months', 2005);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (28, 'Inessa Gennrich', 'Operations Supervisor', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (29, 'Biddy Knock', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/u49LBXk.png', 'Volunteered at a local animal shelter for 3 months', 1994);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (30, 'Francois Pinkett', 'Warehouse Worker', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Worked as a barista for 1 year', 2006);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (31, 'Hettie Wort', 'Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 1998);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (32, 'Sashenka Hovell', 'Sales Associate', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 2003);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (33, 'Sada Imms', 'Customer Service Representative', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (34, 'Clarence Goning', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Interned at a tech startup for 6 months', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (35, 'Hadlee Fatscher', 'Marketing Coordinator', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 1997);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (36, 'Sonnie Shipston', 'Accountant', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 1992);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (37, 'Binnie Burfitt', 'Human Resources Manager', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Part-time job as a tutor for high school students', 1992);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (38, 'Wat Slader', 'Operations Supervisor', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Interned at a tech startup for 6 months', 2008);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (39, 'Rudd Phorsby', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 1995);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (40, 'Latisha Dewi', 'Warehouse Worker', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2002);
 
 
 insert into Candidate_Traits (CandidateID, TraitID) values (7, 5);
@@ -1128,6 +1128,7 @@ insert into Alumni_Skills (AlumniID, SkillsID) values (24, 15);
 insert into Alumni_Skills (AlumniID, SkillsID) values (35, 4);
 insert into Alumni_Skills (AlumniID, SkillsID) values (8, 6);
 insert into Alumni_Skills (AlumniID, SkillsID) values (34, 37);
+
 
 
 
