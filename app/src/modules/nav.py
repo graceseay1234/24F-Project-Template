@@ -24,17 +24,17 @@ def DirAlumEngHomeNav():
 
 def DAEFeatureUsageNav():
     st.sidebar.page_link(
-        "pages/01_DAE_Feature_Usage.py", label="Feature Usage Overview", icon=":material/troubleshoot:"
+        "pages/01_DAE_Feature_Usage.py", label="Feature Usage Overview", icon=":material/feature_search:"
     )
 
 def Demographics():
     st.sidebar.page_link(
-        "pages/02_Demographics.py", label="Demographics", icon=":material/troubleshoot:"
+        "pages/02_Demographics.py", label="Demographics", icon=":material/pie_chart:"
     )
 
 def DAEUserFeedback():
     st.sidebar.page_link(
-        "pages/03_DAE_User_Feedback.py", label="User Feedback", icon=":material/troubleshoot:"
+        "pages/03_DAE_User_Feedback.py", label="User Feedback", icon=":material/feedback:"
     )
 
 ## ------------------------ Role of System Admin ------------------------
