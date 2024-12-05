@@ -9,6 +9,8 @@ except ModuleNotFoundError:
     os.system('pip install streamlit-antd-components')
     import streamlit_antd_components as sac
 
+import requests
+
 st.set_page_config(layout='wide')
 
 # Show appropriate sidebar links for the role of the currently logged-in user
@@ -66,82 +68,55 @@ m = st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
-
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">System Warnings Dashboard</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
 
-# Sample system warning data with categories
-system_data = pd.DataFrame({
-    'service': ['Database', 'Web Server', 'Application Server', 'Cache'],
-    'status': ['Critical', 'Warning', 'Normal', 'Critical'],
-    'last_checked': ['2024-12-01 12:45:00', '2024-12-01 12:50:00', '2024-12-01 13:00:00', '2024-12-01 13:05:00'],
-    'response_time': ['500ms', '120ms', '40ms', '600ms'],
-    'error_message': ['Disk space low', 'High memory usage', '', 'Cache overload'],
-    'warning_level': ['High', 'Medium', 'Low', 'High']
-})
+# Replace this URL with the actual URL of your Flask app
+API_URL = "http://web-api:4000/administrators/warnings"
 
-# Create a layout for the filtering options
-col1, col2, col3 = st.columns(3)
+# Make a GET request to fetch all warnings
+try:
+    response = requests.get(API_URL)
+    response.raise_for_status()  # Raise an exception for HTTP errors
 
-# Filter by warning level
-with col1:
-    selected_warning_level = sac.cascader(
-        items=[sac.CasItem(level) for level in system_data['warning_level'].unique()],
-        label='Warning Level',
-        index=0,
-        multiple=True,
-        search=True,
-        clear=True,
-        color='#E14B44'
-    )
+    # Get the data from the response
+    warnings_data = response.json()
 
-# Filter by service status
-with col2:
-    selected_status = sac.cascader(
-        items=[sac.CasItem(status) for status in system_data['status'].unique()],
-        label='Status',
-        index=0,
-        multiple=True,
-        search=True,
-        clear=True,
-        color='#E14B44'
-    )
+    if warnings_data:
+        # Convert the warnings data into a DataFrame for better formatting
+        df = pd.DataFrame(warnings_data)
 
-# Filter by service type
-with col3:
-    selected_service = sac.cascader(
-        items=[sac.CasItem(service) for service in system_data['service'].unique()],
-        label='Service',
-        index=0,
-        multiple=True,
-        search=True,
-        clear=True,
-        color='#E14B44'
-    )
+        # Show all unique reasons in a dropdown menu for filtering
+        reasons = df['Reason'].unique().tolist()
+        selected_reason = st.selectbox('Select Warning Reason', reasons)
+
+        # Filter the DataFrame based on the selected reason
+        filtered_df = df[df['Reason'] == selected_reason]
+
+        # Display the filtered warnings in a box-style layout
+        for index, row in filtered_df.iterrows():
+            col1, col2, col3 = st.columns([1, 3, 1])
+
+            with col1:
+                # Placeholder for the administrator name and warning details
+                st.markdown(f"<p style='font-size: 16px; font-weight: 300;'>Warning ID: {row['WarningID']}</p>", unsafe_allow_html=True)
+
+            with col2:
+                st.markdown(f"<p style='font-size: 18px; font-weight: bold;'>Reason: {row['Reason']}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='font-size: 16px; font-weight: 300;'>Alumni: {row['AlumniName']}</p>", unsafe_allow_html=True)
+            with col3:
+                st.markdown(f"<p style='font-size: 14px; font-weight: 300;'>Time: {row['TimeStamp']}</p>", unsafe_allow_html=True)
 
 
-# Ensure selected values are lists, even if only one item is selected
-selected_warning_level = selected_warning_level if isinstance(selected_warning_level, list) else [selected_warning_level] if selected_warning_level else []
-selected_status = selected_status if isinstance(selected_status, list) else [selected_status] if selected_status else []
-selected_service = selected_service if isinstance(selected_service, list) else [selected_service] if selected_service else []
-
-# Default display is all system services
-filtered_data = system_data
-
-# Filter system data based on the selected filters
-if selected_warning_level:
-    filtered_data = filtered_data[filtered_data['warning_level'].isin(selected_warning_level)]
-
-if selected_status:
-    filtered_data = filtered_data[filtered_data['status'].isin(selected_status)]
-
-if selected_service:
-    filtered_data = filtered_data[filtered_data['service'].isin(selected_service)]
-
-# Display the filtered system data
-if not filtered_data.empty:
-    st.write(f"Found {len(filtered_data)} system services matching the selected criteria:")
-    st.write(filtered_data[['service', 'status', 'last_checked', 'response_time', 'error_message', 'warning_level']])
-else:
-    st.write("No system services found with the selected criteria.")
+        # Show a summary of filtered results
+        st.markdown(f'''
+            <p style="font-weight: 300; font-size: 15px; margin-top: 40px; margin-bottom: 5px;">
+                Showing {len(filtered_df)} warnings with the selected reason.
+            </p>
+            <hr style="margin-top: 20px; margin-bottom: 20px;">
+        ''', unsafe_allow_html=True)
+    else:
+        st.write("No warnings found.")
+except requests.exceptions.RequestException as e:
+    st.error(f"An error occurred: {e}")
