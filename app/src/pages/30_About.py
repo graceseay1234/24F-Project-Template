@@ -52,7 +52,7 @@ tab = sac.tabs([
     sac.TabsItem(label='Students'),
     sac.TabsItem(label='Recruiters'),
     sac.TabsItem(label='Universities'),
-], align='center', size='lg', color='#E14B44')
+], align='center', size='lg', color='#E14B44', use_container_width=True)
 
 
 # Conditional content based on the selected tab
