@@ -27,6 +27,15 @@ def DAEFeatureUsageNav():
         "pages/01_DAE_Feature_Usage.py", label="Feature Usage Overview", icon=":material/troubleshoot:"
     )
 
+def Demographics():
+    st.sidebar.page_link(
+        "pages/02_Demographics.py", label="Demographics", icon=":material/troubleshoot:"
+    )
+
+def DAEUserFeedback():
+    st.sidebar.page_link(
+        "pages/03_DAE_User_Feedback.py", label="User Feedback", icon=":material/troubleshoot:"
+    )
 
 ## ------------------------ Role of System Admin ------------------------
 # def ApiTestNav():
@@ -61,10 +70,26 @@ def CandidateOverviewNav():
         "pages/21_Candidates_Overview.py", label="Candidates Overview", icon=":material/groups:"
     )
 
+def JobsOverviewNav():
+    st.sidebar.page_link(
+        "pages/22_Jobs_Overview.py", label="Jobs Overview", icon=":material/work:"
+    )
+
+def RecruiterMessages():
+    st.sidebar.page_link(
+        "pages/23_Recruiter_Messages.py", label="Recruiter Messages", icon=":material/mail:"
+    )
 
 #### ------------------------ Student Role ------------------------
 def StudentPageNav():
     st.sidebar.page_link("pages/31_Student_Home.py", label="Alumni Search", icon=":material/person_search:")
+
+
+def StudentMessages():
+    st.sidebar.page_link("pages/32_Student_Messages.py", label="Student Messages",  icon=":material/mail:")
+
+def AlumniProfilesStudentView():
+    st.sidebar.page_link("pages/33_Alumni_Profiles.py", label="Alumni Profile", icon=":material/person:")
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
@@ -91,6 +116,8 @@ def SideBarLinks(show_home=False):
         if st.session_state["role"] == "Director_of_Alumni_Engagment":
             DirAlumEngHomeNav()
             DAEFeatureUsageNav()
+            Demographics()
+            DAEUserFeedback()
 
         # If the user role is system admin worker, show the admin dashboard, warning page, and alumni profile page.
         if st.session_state["role"] == "System_Admin":
@@ -103,10 +130,14 @@ def SideBarLinks(show_home=False):
         if st.session_state["role"] == "Recruiter":
             RecruiterHomeNav()
             CandidateOverviewNav()
+            JobsOverviewNav()
+            RecruiterMessages()
 
         # If the user is an student, give them access to the administrator pages
         if st.session_state["role"] == "Student":
             StudentPageNav()
+            StudentMessages()
+            AlumniProfilesStudentView()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()

@@ -69,7 +69,6 @@ st.markdown(
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Hiring Dashboard</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
-
 # Example Candidate Data
 candidates_data = {
     'Name': ['Alice Smith', 'John Doe', 'Sarah Lee', 'Michael Brown', 'Emily White'],
@@ -80,32 +79,9 @@ candidates_data = {
     'Traits': ['Empathy, Assertiveness', 'Perseverance, Focus', 'Collaboration, Motivation', 'Critical Thinking, Innovation', 'Confidence, Resilience']
 }
 
-# Convert to DataFrame
 candidates_df = pd.DataFrame(candidates_data)
 
-
-
-col1, col2 = st.columns([0.9, 0.1])
-
-with col1:
-  # Display Candidate DataFrame
-  st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
-st.dataframe(candidates_df)
-
-with col2: 
-  pages = {
-      "Candidates Overview": "./pages/21_ML_Model_Mgmt.py",
-  }
-
-
-  # Button to switch page
-  switch_page = st.button("See More")
-  if switch_page:
-      # Switch to the selected page
-      page_file = pages["Candidates Overview": "./pages/21_ML_Model_Mgmt.py",]
-      st.switch_page(page_file)
-
-# Example Job Data with only Title, Status, and Description
+# Sample Job DataFrame
 jobs_data = {
     'Job Title': ['Software Engineer', 'Data Analyst', 'HR Manager', 'Marketing Specialist', 'Operations Lead'],
     'Status': ['Open', 'Closed', 'Open', 'In Progress', 'Open'],
@@ -118,29 +94,42 @@ jobs_data = {
     ]
 }
 
-# Convert to DataFrame
 jobs_df = pd.DataFrame(jobs_data)
 
+# Layout with columns
+col1, col2 = st.columns([0.9, 0.1])
 
+# Candidates Overview Section
+with col1:
+    st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
+    st.dataframe(candidates_df)
+
+with col2: 
+    pages = {
+        "Candidates Overview": "pages/21_Candidates_Overview.py",  # Match with page name in the .streamlit/pages folder
+    }
+
+    switch_page = st.button("See More")
+    if switch_page:
+        # Switch to the selected page
+        page_file = pages["Candidates Overview"]
+        st.switch_page(page_file)
+
+
+# Jobs Overview Section
 col1, col2 = st.columns([0.9, 0.1])
 
 with col1:
-    # Display Candidate DataFrame
-  st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Jobs Overview</h1>', unsafe_allow_html=True)
-
-
-# Display Job DataFrame
-st.dataframe(jobs_df)
-
+    st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Jobs Overview</h1>', unsafe_allow_html=True)
+    st.dataframe(jobs_df)
 
 with col2: 
-  pages = {
-      "Jobs Overview": "./pages/40_Warehouse_home.py",
-  }
+    pages = {
+        "Jobs Overview": "pages/22_Jobs_Overview.py",  # Match with page name in the .streamlit/pages folder
+    }
 
-  # Button to switch page
-  switch_page = st.button("Expand")
-  if switch_page:
-      # Switch to the selected page
-      page_file = pages["Jobs Overview": "./pages/40_Warehouse_home.py",]
-      st.switch_page(page_file)
+    switch_page = st.button("Expand")
+    if switch_page:
+        # Switch to the selected page
+        page_file = pages["Jobs Overview"]
+        st.switch_page(page_file)

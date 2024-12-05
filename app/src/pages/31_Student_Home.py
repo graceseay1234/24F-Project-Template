@@ -185,7 +185,7 @@ if not filtered_data.empty:
             
             if st.button(f"View {row['Name']}'s Profile", key=index):
                 st.session_state['selected_profile'] = row.to_dict()  # Save profile data to session state
-                st.switch_page('profile_page')  # Navigate to profile page
+                st.switch_page('pages/33_Alumni_Profiles.py')  # Navigate to profile page
                     
         st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)  # Divider with reduced spacing
 
