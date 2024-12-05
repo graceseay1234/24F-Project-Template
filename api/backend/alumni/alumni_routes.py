@@ -103,25 +103,23 @@ def add_new_alumni():
     current_app.logger.info(the_data)
 
     #extracting the variable
-    name = the_data['alumni_name']
-    description = the_data['alumni_description']
-    price = the_data['alumni_price']
-    category = the_data['alumni_category']
+    name = the_data['Name']
+    major = the_data['Major']
+    grad_year = the_data['GradYear']
+    work_experience = the_data['WorkExperience']
+    alumniid = f'''{name}{grad_year}'''
+    #company = the_data['Company']
+    #warning_reason = the_data["WarningReason"]
+
 
     query = f'''
-        INSERT INTO alumni (alumni_name,
-                              description,
-                              category,
-                              list_price)
-        VALUES ('{name}', '{description}', '{category}', {str(price)})
+        INSERT INTO Alumni (Name,
+                              Major,
+                              GradYear,
+                              WorkExperience,
+                              AlumniID)
+        VALUES ('{name}', '{major}', '{grad_year}', '{work_experience}', '{alumniid}' )
     '''
-    # TODO: Make sure the version of the query above works properly
-    # Constructing the query
-    # query = 'insert into alumni (alumni_name, description, category, list_price) values ("'
-    # query += name + '", "'
-    # query += description + '", "'
-    # query += category + '", '
-    # query += str(price) + ')'
     current_app.logger.info(query)
 
     # executing and committing the insert statement

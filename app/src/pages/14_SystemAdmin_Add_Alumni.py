@@ -101,12 +101,11 @@ if st.button('Submit Alumni Profile'):
         }
         
         # Send POST request to the Flask API
-        response = requests.put(ADD_ALUMNI_API_URL, json=alumni_data)
+        response = requests.post(ADD_ALUMNI_API_URL, json=alumni_data)
 
         
-        if response.status_code == 200:
-            st.success("Alumni profile added successfully!")
-            st.experimental_rerun()  # Optionally trigger a rerun to refresh the data
-        else:
-            st.error(f"Failed to add alumni profile. Error: {response.text}")
+    if response.status_code == 200:
+        st.success("Alumni profile added successfully!")
+    else:
+        st.error(f"Failed to add alumni profile. Error: {response.text}")
 
