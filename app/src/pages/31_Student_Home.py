@@ -208,7 +208,7 @@ if not paginated_data.empty:
                 </div>
             """, unsafe_allow_html=True)
         with col4:
-            if st.button(f"View {row['Name']}'s Profile", key=f"{current_page}_{index}"):
+            if st.button(f"View Profile", key=f"{current_page}_{index}"):
                 st.session_state['selected_profile'] = row.to_dict()
                 st.switch_page('pages/33_Alumni_Profiles.py')
                 
