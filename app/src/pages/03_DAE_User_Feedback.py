@@ -70,11 +70,7 @@ m = st.markdown("""
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
-# Header and personalized greeting
-#st.title(f"Welcome, System Administrator {st.session_state['first_name']}!")
-# Personalized welcome message
-
-st.markdown('<h1 style="font-size: 50px;font-weight: 200;">User Feedback</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
+st.markdown('<h1 style="font-size: 50px;font-weight: 200;">User Feedback</h1>', unsafe_allow_html=True) 
 
 sac.divider(align='center', color='gray')
 
@@ -88,7 +84,7 @@ def fetch_feedback_data():
         if response.status_code == 200:
             data = response.json()
 
-            columns = ["Content", "TimeStamp"]
+            columns = ["FeedbackID", "Content", "TimeStamp"]
             df = pd.DataFrame(data, columns=columns)
             return df
         else:
@@ -116,6 +112,20 @@ def add_feedback(content):
 
 
 
+# Function to delete feedback by ID
+def delete_feedback(feedback_id):
+    try:
+        response = requests.delete(f"{BASE_URL}/delete_feedback/{feedback_id}")
+        if response.status_code == 200:
+            st.success("Successfully deleted feedback!")
+            st.rerun()
+        else:
+            st.error(f"Failed to delete feedback. Status: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        st.error(f"Error deleting feedback: {e}")
+
+
+
 # Layout: Two columns: one for filters and form, one for displaying data
 col1, col2 = st.columns([1.5, 2])
 
@@ -133,9 +143,24 @@ with col2:
     st.subheader("Existing Feedback")
     # Fetch data
     feedback_df = fetch_feedback_data()
-
+    feedback_df["FeedbackID"] = feedback_df["FeedbackID"].astype(int)
+    feedback_df = feedback_df.sort_values(by="FeedbackID")
     if not feedback_df.empty:
-        st.dataframe(feedback_df)
+        h_col1, h_col2, h_col3 = st.columns([1,5,1])
+        h_col1.write("FeedbackID")
+        h_col2.write("Content")
+        h_col3.write("Action")
+
+        for idx, row in feedback_df.iterrows():
+            col1, col2, col3 = st.columns([1,5,1])
+            feedback_id = row.get('FeedbackID')
+            col1.write(feedback_id)
+            col2.write(row.get('Content'))
+
+            delete_button_key = f"delete_{feedback_id}"
+            if col3.button("Delete", key=delete_button_key):
+                delete_feedback(feedback_id)
+                # Refresh the data after deletion
     else:
         st.info("No feedback available")
 
