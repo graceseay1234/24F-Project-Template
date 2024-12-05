@@ -134,7 +134,7 @@ if not paginated_data.empty:
 
         with col2:
             st.markdown(f"<p style='margin-top: 11px; margin-bottom: 0px;font-size: 25px; font-weight: 100;'>{row['Name']}</p>", unsafe_allow_html=True)
-            st.write(f"<p style='margin-top: 3px; margin-bottom: 5px;font-size: 15px; font-weight: 300;'>{row['Major']} | '{row['GradYear']}", unsafe_allow_html=True)
+            st.write(f"<p style='margin-top: 3px; margin-bottom: 5px;font-size: 15px; font-weight: 300;'>{row['Major']} | {row['GradYear']}", unsafe_allow_html=True)
         
         with col3:
             st.markdown(f"""
@@ -165,6 +165,6 @@ if not paginated_data.empty:
                         st.error(f"Failed to delete {row['Name']}'s profile.")
                 else:
                     logger.error(f"No 'AlumniID' found for {row['Name']}")
-                    st.warning(f"{row['Name']}'s profile does not have an Alumni ID.")
+                    st.warning(f"{row['Name']}'s profile does not have an Alumni ID.")    
 else:
     st.warning("No alumni profiles match the filter criteria.")
