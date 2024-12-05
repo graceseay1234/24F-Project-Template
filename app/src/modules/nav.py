@@ -60,6 +60,11 @@ def SystemAdminAlumniProfilesNavv():
     #     "pages/12_API_Test.py", label="test_api", icon=":material/data_table:"
     # )
 
+def AddAlumniPageNav():
+    st.sidebar.page_link(
+        "pages/14_SystemAdmin_Add_Alumni.py", label="Add Alumni Profile", icon=":material/person_add:"
+    )
+
 
 #### ------------------------ System Recruiter ------------------------
 def RecruiterHomeNav():
@@ -125,6 +130,7 @@ def SideBarLinks(show_home=False):
             SystemWarningsDashboardNav()
             # ApiTestNav()
             SystemAdminAlumniProfilesNavv()
+            AddAlumniPageNav()
 
         # If the user is a recruiter, give them access to the recruiter home page and candidate page
         if st.session_state["role"] == "Recruiter":
