@@ -92,24 +92,21 @@ with st.container(border=True):
             ## Place here:
             ##    active user count
             # Generate random data for the chart (6 values between 0 and 200)
-            random_data = np.random.randint(0, 200, size=6).tolist()
+            random_data = np.random.randint(0, 200, size=6)
+            months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
 
             # Create DataFrame with the generated data
             data_df = pd.DataFrame({
-            "Active User Count": [random_data] ##CHANGE DATA
+                "Month": months,
+                "Active User Count": random_data ##CHANGE DATA
             })
 
+            st.markdown('<p class="light-text" style="font-size: 20px;">Active User Count Over Last 6 Months</p>', unsafe_allow_html=True)
+
             # Display the editable data with an area chart
-            st.data_editor(
-            data_df,
-            column_config={
-            "Active User Count": st.column_config.AreaChartColumn(
-                "Active User Count",
-                width="large",
-                help="The active users over the last 6 months",
-            ),
-            },
-            hide_index=True,
+            st.line_chart(
+                data_df.set_index("Month"),
+                height=400  # Adjust the height as needed
             )
 
             ##    connection request
