@@ -11,6 +11,8 @@ except ModuleNotFoundError:
 
 st.set_page_config(layout='wide')
 
+import requests
+
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
@@ -42,6 +44,7 @@ m = st.markdown("""
         padding: 20px;
         border-radius: 8px;
         border: 2px solid #ddd;
+
     }
 
     div.stButton > button:first-child {
@@ -63,6 +66,11 @@ m = st.markdown("""
     .ant-cascader-menu-item:hover {
         background-color: rgba(0, 0, 0, 0.1);
                 
+    }  
+
+    .st-d8 {
+     color: black;
+                                
     }
 
 </style>""", unsafe_allow_html=True)
@@ -77,46 +85,50 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Search Alumni</h1>', 
 
 sac.divider(align='center', color='gray')
 
-# Sample alumni data
-alumni_data = pd.DataFrame({
-    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
-    'Internship': ['Google', 'Apple', 'Microsoft', 'Amazon'],
-    'Field_of_work': ['Software Engineering', 'Data Science', 'Product Management', 'Marketing'],
-    'Major': ['Computer Science', 'Data Science', 'Business', 'Marketing'],
-})
+# Fetch the data from the API
+response = requests.get("http://web-api:4000/alumni")
+data = response.json()
 
-# Create a 3-column layout
+# Convert the response data to a DataFrame
+data_table1 = pd.DataFrame(data, columns=["Name", "Major", "Role", "Company"])
+
+# Ensure there's a 'Profile_Picture' column in the imported data
+# You can either set default placeholders or leave them empty for now
+# Assuming data_table1 has 40 rows and you want to assign Grad_Year
+
+grad_years = ['24', '23', '22', '21']  # Example values
+# Repeat the grad_year list to match the length of the DataFrame
+data_table1['Grad_Year'] = (grad_years * (len(data_table1) // len(grad_years))) + grad_years[:len(data_table1) % len(grad_years)]
+# Sample alumni data based on imported API data
+alumni_data = data_table1.copy()
+
+
+# Create a 3-column layout for filtering options
 col1, col2, col3 = st.columns(3)
 
-# Add cascader inputs in each column
+# Add cascader inputs in each column for filtering
 with col1:
-    selected_internship = sac.cascader(
-        items=[sac.CasItem(internship) for internship in alumni_data['Internship'].unique()],
-        label='Internship Experience',
-        multiple=True,
-        search=True,
-        clear=True,
-        color='#E14B44'
+    selected_internship = st.multiselect(
+        'Field of Work',
+        options=alumni_data['Role'].unique(),
+        default=[],  # No default selection\
+        help="Select one or more company"
     )
 
 with col2:
-    selected_field_of_work = sac.cascader(
-        items=[sac.CasItem(field) for field in alumni_data['Field_of_work'].unique()],
-        label='Field of Work',
-        multiple=True,
-        search=True,
-        clear=True,
-        color='#E14B44'
+    selected_field_of_work = st.multiselect(
+        'Company',
+        options=alumni_data['Company'].unique(),
+        default=[],  # No default selection
+        help="Select one or more fields of work"
     )
 
 with col3:
-    selected_major = sac.cascader(
-        items=[sac.CasItem(major) for major in alumni_data['Major'].unique()],
-        label='Major',
-        multiple=True,
-        search=True,
-        clear=True,
-        color='#E14B44'
+    selected_major = st.multiselect(
+        'Major',
+        options=alumni_data['Major'].unique(),
+        default=[],  # No default selection
+        help="Select one or more majors"
     )
 
 # Ensure selected values are lists, even if only one item is selected
@@ -124,68 +136,100 @@ selected_internship = selected_internship if selected_internship else []
 selected_field_of_work = selected_field_of_work if selected_field_of_work else []
 selected_major = selected_major if selected_major else []
 
-
-# Sample alumni data with profile picture URLs
-alumni_data = pd.DataFrame({
-    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
-    'Internship': ['Google', 'Apple', 'Microsoft', 'Amazon'],
-    'Field_of_work': ['Software Engineering', 'Data Science', 'Product Management', 'Marketing'],
-    'Major': ['Computer Science', 'Data Science', 'Business', 'Marketing'],
-    'Profile_Picture': [
-        'assets/anonprofilepicred.svg',
-        'assets/anonprofilepicred.svg',
-        'assets/anonprofilepicred.svg',
-        'assets/anonprofilepicred.svg'],
-    'Grad_Year' : ['24', '23', '22', '21']
-      # Replace these URLs with actual image links or local paths
-})
-
-# Apply filters only if the user makes selections
+# Apply filters based on selections
 filtered_data = alumni_data.copy()  # Ensure original data is preserved
 
-if selected_internship:
-    filtered_data = filtered_data[filtered_data['Internship'].isin(selected_internship)]
-if selected_field_of_work:
-    filtered_data = filtered_data[filtered_data['Field_of_work'].isin(selected_field_of_work)]
-if selected_major:
+if selected_internship:  # 'Field of Work' filters 'Role'
+    filtered_data = filtered_data[filtered_data['Role'].isin(selected_internship)]
+if selected_field_of_work:  # 'Company' filters 'Company'
+    filtered_data = filtered_data[filtered_data['Company'].isin(selected_field_of_work)]
+if selected_major:  # 'Major' filters 'Major'
     filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
 
-# Display the filtered alumni data
-# st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Filtered Alumni Profiles</h1>', unsafe_allow_html=True)
 
-if not filtered_data.empty:
+
+
+# Number of items per page
+items_per_page = 10
+
+# Calculate the total number of pages
+total_pages = -(-len(filtered_data) // items_per_page)  # Round up division
+
+# Add pagination control
+current_page = sac.pagination(
+    total=total_pages,  # Total number of pages
+    align='center',
+    jump=True,
+    show_total=True
+) or 1  # Default to page 1 if no selection
+
+# Calculate the range of data to display
+start_idx = (current_page - 1) * items_per_page
+end_idx = start_idx + items_per_page
+paginated_data = filtered_data.iloc[start_idx:end_idx]
+
+# Display the filtered alumni data (only for the current page)
+if not paginated_data.empty:
     st.markdown(f'''
         <p style="font-weight: 300; font-size: 15px; "margin-top: 40px; margin-bottom: 5px;">
-            Found {len(filtered_data)} alumni matching your criteria:
+            Showing page {current_page} of {total_pages} ({len(filtered_data)} alumni found)
         </p>
         <hr style="margin-top: 20px; margin-bottom: 20px;">
     ''', unsafe_allow_html=True)
     
     # Custom layout for displaying images and information
-    for index, row in filtered_data.iterrows():
+    for index, row in paginated_data.iterrows():
         col1, col2, col3, col4 = st.columns([0.9, 2.1, 3, 2])
         with col1:
-            st.image(row['Profile_Picture'], width=90)  # Display profile picture
+            
+            st.image("assets/anonprofilepicred.svg", width=90)  # Display default profile picture
         with col2:
             st.markdown(f"<p style='margin-top: 11px; margin-bottom: 0px;font-size: 25px; font-weight: 100;'>{row['Name']}</p>", unsafe_allow_html=True)
             st.write(f"<p style='margin-top: 3px; margin-bottom: 5px;font-size: 15px; font-weight: 300;'>{row['Major']} | '{row['Grad_Year']}", unsafe_allow_html=True)
         with col3:
             st.markdown(f"""
-                <div style='margin-top: 20px;'>  <!-- Adjusted margin here -->
+                <div style='margin-top: 20px;'>  
                     <p style='margin-bottom: 5px; font-size: 16px;'>
-                        <strong>Field of Work:</strong> {row['Field_of_work']}
+                        <strong>Field of Work:</strong> {row['Role']}
                     </p>
                     <p style='margin-bottom: 5px; font-size: 16px;'>
-                        <strong>Internship:</strong> {row['Internship']}
+                        <strong>Company:</strong> {row['Company']}
                     </p>
                 </div>
-        """, unsafe_allow_html=True)
-            # Add a clickable button for navigation
+            """, unsafe_allow_html=True)
         with col4:
-            
-            if st.button(f"View {row['Name']}'s Profile", key=index):
-                st.session_state['selected_profile'] = row.to_dict()  # Save profile data to session state
-                st.switch_page('pages/33_Alumni_Profiles.py')  # Navigate to profile page
-                    
-        st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)  # Divider with reduced spacing
+            if st.button(f"View {row['Name']}'s Profile", key=f"{current_page}_{index}"):
+                st.session_state['selected_profile'] = row.to_dict()
+                st.switch_page('pages/33_Alumni_Profiles.py')
+                
+        st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)
 
+
+
+
+
+
+# # Base URL of the Flask API
+# API_URL = "http://<your-ip-address>:4000"  # Replace with your deployed URL if applicable
+
+
+# # Fetch data from the API
+# @st.cache_data  # Cache the data to improve performance
+# def fetch_alumni_data():
+#     response = requests.get(API_URL)
+#     if response.status_code == 200:
+#         # Convert JSON data to DataFrame
+#         data = response.json()
+#         return pd.DataFrame(data, columns=["Name", "Major", "Role", "Company"])
+#     else:
+#         st.error("Failed to fetch alumni data")
+#         return pd.DataFrame()  # Return empty DataFrame on failure
+
+# # Display data in a table
+# alumni_df = fetch_alumni_data()
+# if not alumni_df.empty:
+#     st.dataframe(alumni_df)  # Display data in a Streamlit table
+# else:
+#     st.warning("No alumni data available.")
+
+# http://127.0.01:5000/ is from the flask api
