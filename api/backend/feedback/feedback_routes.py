@@ -12,9 +12,8 @@ feedback = Blueprint('feedback', __name__)
 @feedback.route('/feedback', methods=['GET'])
 def get_feedback():
     query = '''
-Select feedback.Name, feedback.Major, WorkExperience.Role, WorkExperience.Company
-From feedback
-JOIN WorkExperience ON feedback.feedbackID = WorkExperience.feedbackID
+Select Feedback.Content, Feedback.TimeStamp
+From Feedback
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
