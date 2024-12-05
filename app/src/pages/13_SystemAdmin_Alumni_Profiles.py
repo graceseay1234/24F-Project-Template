@@ -2,6 +2,7 @@ import logging
 import pandas as pd
 import streamlit as st
 from modules.nav import SideBarLinks
+import requests
 
 try:
     import streamlit_antd_components as sac
@@ -71,48 +72,126 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Alumni Profiles</h1>'
 sac.divider(align='center', color='gray')
 
 
-# Function to get user input for filtering options
-def user_input_features():
-    warning_level = st.sidebar.selectbox('Warning Level', ['All', 'High', 'Medium', 'Low'], index=0)
-    status = st.sidebar.selectbox('Status', ['All', 'Critical', 'Warning', 'Normal'], index=0)
-    service = st.sidebar.selectbox('Service', ['All', 'Database', 'Web Server', 'Application Server', 'Cache'], index=0)
-    data = {'warning_level': warning_level, 'status': status, 'service': service}
-    features = pd.DataFrame(data, index=[0])
-    return features
-
-df = user_input_features()
+# Replace this URL with your API's delete endpoint
+DELETE_API_URL = "http://web-api:4000/alumni/delete" 
 
 
-# Sample system warning data with alumni profiles
-alumni_data = pd.DataFrame({
-    'name': ['Alice', 'Bob', 'Charlie', 'David'],
-    'service': ['Database', 'Web Server', 'Application Server', 'Cache'],
-    'status': ['Critical', 'Warning', 'Normal', 'Critical'],
-    'last_checked': ['2024-12-01 12:45:00', '2024-12-01 12:50:00', '2024-12-01 13:00:00', '2024-12-01 13:05:00'],
-    'error_message': ['Disk space low', 'High memory usage', '', 'Cache overload'],
-    'warning_level': ['High', 'Medium', 'Low', 'High']
-})
+# Fetch the data from the API
+response = requests.get("http://web-api:4000/alumni")
+data = response.json()
 
-# Apply filtering based on user input
-selected_warning_level = df['warning_level'][0]
-selected_status = df['status'][0]
-selected_service = df['service'][0]
+# Convert the response data to a DataFrame
+data_table1 = pd.DataFrame(data, columns=["Name", "Major", "Role", "Company"])
 
-filtered_data = alumni_data
+# Ensure there's a 'Profile_Picture' column in the imported data
+# You can either set default placeholders or leave them empty for now
+# Assuming data_table1 has 40 rows and you want to assign Grad_Year
 
-if selected_warning_level != 'All':
-    filtered_data = filtered_data[filtered_data['warning_level'] == selected_warning_level]
+grad_years = ['24', '23', '22', '21']  # Example values
+# Repeat the grad_year list to match the length of the DataFrame
+data_table1['Grad_Year'] = (grad_years * (len(data_table1) // len(grad_years))) + grad_years[:len(data_table1) % len(grad_years)]
+# Sample alumni data based on imported API data
+alumni_data = data_table1.copy()
 
-if selected_status != 'All':
-    filtered_data = filtered_data[filtered_data['status'] == selected_status]
 
-if selected_service != 'All':
-    filtered_data = filtered_data[filtered_data['service'] == selected_service]
+# Create a 3-column layout for filtering options
+col1, col2, col3 = st.columns(3)
 
-# Display the filtered alumni data
-st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Filtered Alumni Profiles</h1>', unsafe_allow_html=True)
-if not filtered_data.empty:
-    st.write(f"Found {len(filtered_data)} alumni matching the selected criteria:")
-    st.write(filtered_data[['name', 'service', 'status', 'last_checked', 'error_message', 'warning_level']])
-else:
-    st.write("No alumni found with the selected criteria.")
+# Add cascader inputs in each column for filtering
+with col1:
+    selected_internship = st.multiselect(
+        'Field of Work',
+        options=alumni_data['Role'].unique(),
+        default=[],  # No default selection\
+        help="Select one or more company"
+    )
+
+with col2:
+    selected_field_of_work = st.multiselect(
+        'Company',
+        options=alumni_data['Company'].unique(),
+        default=[],  # No default selection
+        help="Select one or more fields of work"
+    )
+
+with col3:
+    selected_major = st.multiselect(
+        'Major',
+        options=alumni_data['Major'].unique(),
+        default=[],  # No default selection
+        help="Select one or more majors"
+    )
+
+# Ensure selected values are lists, even if only one item is selected
+selected_internship = selected_internship if selected_internship else []
+selected_field_of_work = selected_field_of_work if selected_field_of_work else []
+selected_major = selected_major if selected_major else []
+
+# Apply filters based on selections
+filtered_data = alumni_data.copy()  # Ensure original data is preserved
+
+if selected_internship:  # 'Field of Work' filters 'Role'
+    filtered_data = filtered_data[filtered_data['Role'].isin(selected_internship)]
+if selected_field_of_work:  # 'Company' filters 'Company'
+    filtered_data = filtered_data[filtered_data['Company'].isin(selected_field_of_work)]
+if selected_major:  # 'Major' filters 'Major'
+    filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
+
+
+
+
+# Number of items per page
+items_per_page = 10
+
+# Calculate the total number of pages
+total_pages = -(-len(filtered_data) // items_per_page)  # Round up division
+
+# Add pagination control
+current_page = sac.pagination(
+    total=total_pages,  # Total number of pages
+    align='center',
+    jump=True,
+    show_total=True
+) or 1  # Default to page 1 if no selection
+
+# Calculate the range of data to display
+start_idx = (current_page - 1) * items_per_page
+end_idx = start_idx + items_per_page
+paginated_data = filtered_data.iloc[start_idx:end_idx]
+
+# Display the filtered alumni data (only for the current page)
+if not paginated_data.empty:
+    st.markdown(f'''
+        <p style="font-weight: 300; font-size: 15px; "margin-top: 40px; margin-bottom: 5px;">
+            Showing page {current_page} of {total_pages} ({len(filtered_data)} alumni found)
+        </p>
+        <hr style="margin-top: 20px; margin-bottom: 20px;">
+    ''', unsafe_allow_html=True)
+    
+# Custom layout with delete functionality
+for index, row in paginated_data.iterrows():
+    col1, col2, col3, col4, col5 = st.columns([0.9, 2.1, 3, 2, 1.5])
+    with col1:
+        st.image("assets/anonprofilepicred.svg", width=90)
+    with col2:
+        st.markdown(f"<p style='margin-top: 11px; font-size: 25px;'>{row['Name']}</p>", unsafe_allow_html=True)
+        st.write(f"<p style='font-size: 15px;'>{row['Major']} | '{row['Grad_Year']}</p>", unsafe_allow_html=True)
+    with col3:
+        st.markdown(f"<p style='margin-top: 20px; font-size: 16px;'><strong>Field of Work:</strong> {row['Role']}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='font-size: 16px;'><strong>Company:</strong> {row['Company']}</p>", unsafe_allow_html=True)
+    
+    
+    # Delete profile button
+    with col5:
+        if st.button(f"Delete", key=f"delete_{current_page}_{index}"):
+            response = requests.delete(f"{DELETE_API_URL}/{row['id']}")  # Assuming each profile has a unique 'id'
+            if response.status_code == 200:
+                st.success(f"{row['Name']}'s profile deleted successfully!")
+                # Refresh the data after deletion
+                st.experimental_rerun()
+            else:
+                st.error("Failed to delete profile. Please try again.")
+
+    st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)
+
+st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)
