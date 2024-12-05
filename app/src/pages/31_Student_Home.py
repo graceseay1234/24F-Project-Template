@@ -180,9 +180,15 @@ if not paginated_data.empty:
     # Custom layout for displaying images and information
     for index, row in paginated_data.iterrows():
         col1, col2, col3, col4 = st.columns([0.9, 2.1, 3, 2])
-        with col1:
-            
-            st.image("assets/anonprofilepicred.svg", width=90)  # Display default profile picture
+        with col1:  
+             # Default image if no URL is provided
+            image_url = row.get('ProfilePic') 
+            # Load image with error handling
+            try:
+                st.image(image_url, width=90)
+            except:
+                st.image("assets/anonprofilepicred.svg", width=90)  # Fallback image
+
         with col2:
             st.markdown(f"<p style='margin-top: 11px; margin-bottom: 0px;font-size: 25px; font-weight: 100;'>{row['Name']}</p>", unsafe_allow_html=True)
             st.write(f"<p style='margin-top: 3px; margin-bottom: 5px;font-size: 15px; font-weight: 300;'>{row['Major']} | '{row['Grad_Year']}", unsafe_allow_html=True)
