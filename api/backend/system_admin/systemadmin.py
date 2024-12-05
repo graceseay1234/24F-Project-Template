@@ -96,3 +96,21 @@ def get_performance_metrics(metric_id):
     response = make_response(jsonify(performance_metrics))
     response.status_code = 200
     return response
+
+
+@administrator.route('/roles', methods=['GET'])
+def get_roles():
+    query = '''
+    SELECT Role, COUNT(*) as Count
+    FROM Administrator
+    GROUP BY Role
+    ORDER BY Count DESC
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    roles = cursor.fetchall()
+
+    response = make_response(jsonify(roles))
+    response.status_code = 200
+    return response

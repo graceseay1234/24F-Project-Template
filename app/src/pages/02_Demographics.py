@@ -94,7 +94,7 @@ with st.container(border=True):
     custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
     # ----------------- Left Column: Major Distribution -----------------
     with col1:
-        with st.container(border=True):
+       
                         # Fetch alumni majors from the Flask API
             response = requests.get("http://web-api:4000/majors")
             majors = response.json()
@@ -120,108 +120,50 @@ with st.container(border=True):
                 st.plotly_chart(fig_major, use_container_width=True)
 
     # ----------------- Right Column: Location Distribution -----------------
-    with col2:
-        with st.container(border=True):
-            st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Location Distribution</h5>", unsafe_allow_html=True)
-            locations = ['New York', 'California', 'Texas', 'Florida', 'Washington']
-            location_counts = np.random.randint(50, 200, size=5)  # Simulated counts
 
-            location_data = pd.DataFrame({
-                'Location': locations,
-                'Count': location_counts
-            })
-
-            # Create and display the pie chart for locations
-            fig_location = px.pie(location_data, values='Count', names='Location', color_discrete_sequence=custom_colors)
-            st.plotly_chart(fig_location, use_container_width=True)
-
-
-
-# Create a container for the entire "User Demographics" section
 with st.container(border=True):
-    st.markdown('<p class="light-text" style="font-size: 20px;">Student Demographics</p>', unsafe_allow_html=True)
+    # Fetch administrator roles from the Flask API
+    response = requests.get("http://web-api:4000/administrators/roles")
 
+    # Check if the response is successful
+    if response.status_code == 200:
+        try:
+            roles = response.json()
+        except ValueError as e:
+            st.error(f"Failed to parse JSON: {e}")
+            roles = []
+    else:
+        st.error(f"Failed to fetch data: {response.status_code}")
+        st.write(response.text)  # Print raw response for debugging
+        roles = []
 
-    # Create two columns inside the User Demographics container
-    col1, col2 = st.columns([1, 1])  # Equal width columns for majors and locations
+    # Proceed with displaying the pie chart if roles data is available
+    if roles:
+        # Create a container for the entire "Administrator Roles" section
+        with st.container():
+            st.markdown('<p class="light-text" style="font-size: 20px;">System Administrator Demographics</p>', unsafe_allow_html=True)
 
-    # Custom colors for the pie charts
-    custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
-    # ----------------- Left Column: Major Distribution -----------------
-    with col1:
-        with st.container(border=True):
-            st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Major Distribution</h5>", unsafe_allow_html=True)
-            majors = ['Computer Science', 'Business', 'Psychology', 'Biology', 'Engineering']
-            major_counts = np.random.randint(50, 150, size=5)  # Simulated counts
+            # Create two columns inside the Administrator Roles container
+            col1, col2 = st.columns([1, 1])  # Equal width columns for different charts
 
-            major_data = pd.DataFrame({
-                'Major': majors,
-                'Count': major_counts
-            })
+            # Custom colors for the pie charts
+            custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
 
-            # Create and display the pie chart for majors
-            fig_major = px.pie(major_data, values='Count', names='Major', color_discrete_sequence=custom_colors)
-            st.plotly_chart(fig_major, use_container_width=True)
+            # ----------------- Left Column: Role Distribution -----------------
+            with col1:
+                with st.container():
+                    st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Administrator Role Distribution</h5>", unsafe_allow_html=True)
 
-    # ----------------- Right Column: Location Distribution -----------------
-    with col2:
-        with st.container(border=True):
-            st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Location Distribution</h5>", unsafe_allow_html=True)
-            locations = ['New York', 'California', 'Texas', 'Florida', 'Washington']
-            location_counts = np.random.randint(50, 200, size=5)  # Simulated counts
+                    # Count the occurrences of each role
+                    role_counts = pd.Series([role['Role'] for role in roles]).value_counts()
 
-            location_data = pd.DataFrame({
-                'Location': locations,
-                'Count': location_counts
-            })
+                    # Create a DataFrame for the pie chart
+                    role_data = pd.DataFrame({
+                        'Role': role_counts.index,
+                        'Count': role_counts.values
+                    })
 
-            # Create and display the pie chart for locations
-            fig_location = px.pie(location_data, values='Count', names='Location', color_discrete_sequence=custom_colors)
-            st.plotly_chart(fig_location, use_container_width=True)
-
-
-
-# Create a container for the entire "User Demographics" section
-with st.container(border=True):
-    st.markdown('<p class="light-text" style="font-size: 20px;">Recruiter Demographics</p>', unsafe_allow_html=True)
-
-
-    # Create two columns inside the User Demographics container
-    col1, col2 = st.columns([1, 1])  # Equal width columns for majors and locations
-
-    # Custom colors for the pie charts
-    custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
-    # ----------------- Left Column: Major Distribution -----------------
-    with col1:
-        
-        with st.container(border=True):
-            st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Major Distribution</h5>", unsafe_allow_html=True)
-            majors = ['Computer Science', 'Business', 'Psychology', 'Biology', 'Engineering']
-            major_counts = np.random.randint(50, 150, size=5)  # Simulated counts
-
-            major_data = pd.DataFrame({
-                'Major': majors,
-                'Count': major_counts
-            })
-
-            # Create and display the pie chart for majors
-            fig_major = px.pie(major_data, values='Count', names='Major', color_discrete_sequence=custom_colors)
-            st.plotly_chart(fig_major, use_container_width=True)
-
-    # ----------------- Right Column: Location Distribution -----------------
-    with col2:
-        with st.container(border=True):
-            st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Location Distribution</h5>", unsafe_allow_html=True)
-            locations = ['New York', 'California', 'Texas', 'Florida', 'Washington']
-            location_counts = np.random.randint(50, 200, size=5)  # Simulated counts
-
-            location_data = pd.DataFrame({
-                'Location': locations,
-                'Count': location_counts
-            })
-
-            # Create and display the pie chart for locations
-            fig_location = px.pie(location_data, values='Count', names='Location', color_discrete_sequence=custom_colors)
-            st.plotly_chart(fig_location, use_container_width=True)
-
+                    # Create and display the pie chart for roles
+                    fig_roles = px.pie(role_data, values='Count', names='Role', color_discrete_sequence=custom_colors)
+                    st.plotly_chart(fig_roles, use_container_width=True)
 
