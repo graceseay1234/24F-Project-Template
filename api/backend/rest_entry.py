@@ -1,5 +1,6 @@
 from flask import Flask
 
+from flask_sqlalchemy import SQLAlchemy
 from backend.db_connection import db
 from backend.customers.customer_routes import customers
 from backend.products.products_routes import products
@@ -7,8 +8,13 @@ from backend.simple.simple_routes import simple_routes
 import os
 from dotenv import load_dotenv
 
+from flask_restful import Resource, Api, reqparse, fields, marshal_with, abort
+
+
+
 def create_app():
     app = Flask(__name__)
+
 
     # Load environment variables
     # This function reads all the values from inside
