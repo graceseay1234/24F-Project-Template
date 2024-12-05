@@ -25,7 +25,7 @@ JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID
 
 # get a single alumni by its id 
 @alumni.route('/alumni/<id>', methods=['GET'])
-def get_alumni_details (id):
+def get_alumniid (id):
 
     query = f'''SELECT *
                 FROM Alumni
@@ -44,25 +44,22 @@ def get_alumni_details (id):
     return response
 
 # ------------------------------------------------------------
-# Get the top 5 most expensive alumni from the database
-@alumni.route('/mostExpensive')
-def get_most_pop_alumni():
+# view profiles of alumni that include their education, work history, and career journey
+
+@alumni.route('/jobs')
+def get_alumni_details():
 
     query = '''
-        SELECT alumni_code,
-               alumni_name,
-               list_price,
-               reorder_level
-        FROM alumni
-        ORDER BY list_price DESC
-        LIMIT 5
+Select Alumni.Name, Alumni.Major, Alumni.GradYear, WorkExperience.Company,
+       WorkExperience.Role, WorkExperience.Startdate, WorkExperience.EndDate,
+       WorkExperience.IsCurrent
+From Alumni 
+JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID;
     '''
-
     # Same process as handler above
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
