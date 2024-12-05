@@ -118,3 +118,12 @@ def get_candidate_without_warnings():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
+@candidate.route('/delete_candidate_by_name/<candidate_name>', methods=['DELETE'])
+def delete_candidate_by_name(candidate_name):
+    query = f"DELETE FROM Candidate WHERE Name = '{candidate_name}'"
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    return jsonify({"message": f"Candidate {candidate_name} deleted successfully."}), 200
+
