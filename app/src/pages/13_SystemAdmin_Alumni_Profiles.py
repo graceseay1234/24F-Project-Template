@@ -103,7 +103,8 @@ if filter_warnings == 'With Warnings':
 elif filter_warnings == 'Without Warnings':
     alumni_data = df_without_warnings
 else:
-    alumni_data = pd.concat([df_with_warnings, df_without_warnings], ignore_index=True)
+    # Concatenate the two DataFrames and drop duplicates based on 'AlumniID'
+    alumni_data = pd.concat([df_with_warnings, df_without_warnings], ignore_index=True).drop_duplicates(subset='AlumniID')
 
 # Add pagination for the alumni data
 items_per_page = 10

@@ -12,7 +12,7 @@ feedback = Blueprint('feedback', __name__)
 @feedback.route('/feedback', methods=['GET'])
 def get_feedback():
     query = '''
-Select Feedback.Content, Feedback.TimeStamp
+Select Feedback.FeedbackID, Feedback.Content, Feedback.TimeStamp
 From Feedback
     '''
     cursor = db.get_db().cursor()
