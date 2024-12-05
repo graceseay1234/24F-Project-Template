@@ -12,17 +12,15 @@ administrator = Blueprint('administrator', __name__)
 @administrator.route('/warnings/<alumni_id>', methods=['GET'])
 def get_warnings(alumni_id):
     query = '''
-    SELECT Warnings.WarningID, Warnings.Reason, Warnings.TimeStamp, Administrator.Name AS AdminName
-    FROM Warnings
-    JOIN Administrator ON Warnings.AdminID = Administrator.AdminID
-    WHERE Warnings.AlumniID = %s
-    ORDER BY Warnings.TimeStamp DESC
+    SELECT w.warning_id, w.reason, w.timestamp, a.name AS admin_name
+    FROM warnings w
+    INNER JOIN administrator a ON w.admin_id = a.admin_id
+    WHERE w.alumni_id = %s
+    ORDER BY w.timestamp DESC
     '''
-
     cursor = db.get_db().cursor()
     cursor.execute(query, (alumni_id,))
     warnings = cursor.fetchall()
-
     response = make_response(jsonify(warnings))
     response.status_code = 200
     return response
@@ -32,18 +30,16 @@ def get_warnings(alumni_id):
 @administrator.route('/warnings', methods=['GET'])
 def get_all_warnings():
     query = '''
-    SELECT Warnings.WarningID, Warnings.Reason, Warnings.TimeStamp, 
-           Administrator.Name AS AdminName, Alumni.Name AS AlumniName
-    FROM Warnings
-    JOIN Administrator ON Warnings.AdminID = Administrator.AdminID
-    JOIN Alumni ON Warnings.AlumniID = Alumni.AlumniID
-    ORDER BY Warnings.TimeStamp DESC
+    SELECT w.warning_id, w.reason, w.timestamp, 
+           a.name AS admin_name, al.name AS alumni_name
+    FROM warnings w
+    INNER JOIN administrator a ON w.admin_id = a.admin_id
+    INNER JOIN alumni al ON w.alumni_id = al.alumni_id
+    ORDER BY w.timestamp DESC
     '''
-
     cursor = db.get_db().cursor()
     cursor.execute(query)
     warnings = cursor.fetchall()
-
     response = make_response(jsonify(warnings))
     response.status_code = 200
     return response
@@ -101,16 +97,14 @@ def get_performance_metrics(metric_id):
 @administrator.route('/roles', methods=['GET'])
 def get_roles():
     query = '''
-    SELECT Role, COUNT(*) as Count
-    FROM Administrator
-    GROUP BY Role
-    ORDER BY Count DESC
+    SELECT role, COUNT(*) AS count
+    FROM administrator
+    GROUP BY role
+    ORDER BY count DESC
     '''
-
     cursor = db.get_db().cursor()
     cursor.execute(query)
     roles = cursor.fetchall()
-
     response = make_response(jsonify(roles))
     response.status_code = 200
     return response
@@ -120,7 +114,7 @@ def get_roles():
 def get_system_metrics():
     query = '''
     SELECT MetricID, Uptime, ErrorCount, DatabaseLoad, Timestamp
-    FROM SystemMetrics
+    FROM PerformanceMetrics
     ORDER BY Timestamp DESC
     '''
     cursor = db.get_db().cursor()
@@ -135,7 +129,7 @@ def get_system_metrics():
 def get_admin_actions():
     query = '''
     SELECT ActionID, ActionType, Timestamp, AdminID
-    FROM AdminActions
+    FROM Actions
     ORDER BY Timestamp DESC
     '''
     cursor = db.get_db().cursor()
@@ -152,7 +146,7 @@ def log_admin_action():
     action_type = data.get('action_type')
     admin_id = data.get('admin_id')
     query = '''
-    INSERT INTO AdminActions (ActionType, AdminID)
+    INSERT INTO Actions (ActionType, AdminID)
     VALUES (%s, %s)
     '''
     cursor = db.get_db().cursor()
@@ -168,7 +162,7 @@ def update_action(action_id):
     data = request.get_json()
     action_type = data.get('action_type')
     query = '''
-    UPDATE AdminActions
+    UPDATE Actions
     SET ActionType = %s
     WHERE ActionID = %s
     '''
@@ -183,7 +177,7 @@ def update_action(action_id):
 @administrator.route('/actions/<action_id>', methods=['DELETE'])
 def delete_action(action_id):
     query = '''
-    DELETE FROM AdminActions
+    DELETE FROM Actions
     WHERE ActionID = %s
     '''
     cursor = db.get_db().cursor()

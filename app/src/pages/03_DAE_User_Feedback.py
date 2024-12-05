@@ -110,6 +110,23 @@ def add_feedback(content):
     except Exception as e:
         st.error(f"Error adding feedback: {e}")
 
+# Function to edit feedback
+def edit_feedback(feedback_id, new_content):
+    payload = {
+        "FeedbackID": feedback_id,
+        "Content": new_content
+    }
+    try:
+        response = requests.put(f"{BASE_URL}/feedback", json=payload)
+        if response.status_code == 200:
+            st.success("Successfully updated feedback!")
+            
+        elif response.status_code == 404:
+            st.error("Feedback ID not found.")
+        else:
+            st.error(f"Failed to update feedback. Status: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        st.error(f"Error updating feedback: {e}")
 
 
 # Function to delete feedback by ID
@@ -154,13 +171,28 @@ with col2:
         for idx, row in feedback_df.iterrows():
             col1, col2, col3 = st.columns([1,5,1])
             feedback_id = row.get('FeedbackID')
+            content = row.get('Content')
             col1.write(feedback_id)
-            col2.write(row.get('Content'))
+            col2.write(content)
+
+            # Add an Edit button for this entry
+            edit_button_key = f"edit_{feedback_id}"
+            if col3.button("Edit", key=edit_button_key):
+                # Open a modal or expand a section to edit
+                with st.expander(f"Edit Feedback ID {feedback_id}", expanded=True):
+                    new_content = st.text_area("Updated Content", value=content, key=f"edit_content_{feedback_id}")
+                    if st.button("Save Changes", key=f"save_{feedback_id}"):
+                        if new_content.strip():
+                            edit_feedback(feedback_id, new_content.strip())
+                        else:
+                            st.error("Content cannot be empty.")
 
             delete_button_key = f"delete_{feedback_id}"
             if col3.button("Delete", key=delete_button_key):
                 delete_feedback(feedback_id)
                 # Refresh the data after deletion
+
+            
     else:
         st.info("No feedback available")
 
