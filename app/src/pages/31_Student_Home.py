@@ -203,33 +203,3 @@ if not paginated_data.empty:
                 st.switch_page('pages/33_Alumni_Profiles.py')
                 
         st.markdown('<hr style="margin-top: 5px; margin-bottom: 20px;">', unsafe_allow_html=True)
-
-
-
-
-
-
-# # Base URL of the Flask API
-# API_URL = "http://<your-ip-address>:4000"  # Replace with your deployed URL if applicable
-
-
-# # Fetch data from the API
-# @st.cache_data  # Cache the data to improve performance
-# def fetch_alumni_data():
-#     response = requests.get(API_URL)
-#     if response.status_code == 200:
-#         # Convert JSON data to DataFrame
-#         data = response.json()
-#         return pd.DataFrame(data, columns=["Name", "Major", "Role", "Company"])
-#     else:
-#         st.error("Failed to fetch alumni data")
-#         return pd.DataFrame()  # Return empty DataFrame on failure
-
-# # Display data in a table
-# alumni_df = fetch_alumni_data()
-# if not alumni_df.empty:
-#     st.dataframe(alumni_df)  # Display data in a Streamlit table
-# else:
-#     st.warning("No alumni data available.")
-
-# http://127.0.01:5000/ is from the flask api
