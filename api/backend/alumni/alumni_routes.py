@@ -25,7 +25,7 @@ JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID
 
 # get a single alumni by its id 
 @alumni.route('/alumni/<id>', methods=['GET'])
-def get_alumni_details (id):
+def get_alumniid (id):
 
     query = f'''SELECT *
                 FROM Alumni
@@ -44,25 +44,22 @@ def get_alumni_details (id):
     return response
 
 # ------------------------------------------------------------
-# Get the top 5 most expensive alumni from the database
-@alumni.route('/mostExpensive')
-def get_most_pop_alumni():
+# view profiles of alumni that include their education, work history, and career journey
+
+@alumni.route('/jobs')
+def get_alumni_details():
 
     query = '''
-        SELECT alumni_code,
-               alumni_name,
-               list_price,
-               reorder_level
-        FROM alumni
-        ORDER BY list_price DESC
-        LIMIT 5
+Select Alumni.Name, Alumni.Major, Alumni.GradYear, WorkExperience.Company,
+       WorkExperience.Role, WorkExperience.Startdate, WorkExperience.EndDate,
+       WorkExperience.IsCurrent
+From Alumni 
+JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID;
     '''
-
     # Same process as handler above
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
@@ -165,3 +162,57 @@ def update_alumni():
     current_app.logger.info(alumni_info)
 
     return "Success"
+
+
+
+@alumni.route('/delete_alumni/<alumni_id>', methods=['DELETE'])
+def delete_alumni(alumni_id):
+    query = f"DELETE FROM Alumni WHERE AlumniID = {alumni_id}"
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    return jsonify({"message": f"Alumni ID {alumni_id} deleted successfully."}), 200
+
+
+
+@alumni.route('/alumni_with_warnings', methods=['GET'])
+def get_alumni_with_warnings():
+    query = '''
+    SELECT A.AlumniID, A.Name, A.Major, A.GradYear, 
+           W.WarningID, W.Reason AS WarningReason, W.TimeStamp AS WarningTime,
+           WE.Role AS WorkExperience, WE.Company
+    FROM Alumni A
+    LEFT JOIN Warnings W ON A.AlumniID = W.AlumniID
+    LEFT JOIN WorkExperience WE ON A.AlumniID = WE.AlumniID
+    WHERE W.WarningID IS NOT NULL;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+
+
+
+@alumni.route('/alumni_without_warnings', methods=['GET'])
+def get_alumni_without_warnings():
+    query = '''
+    SELECT a.AlumniID, a.Name, a.Major, a.WorkExperience, a.GradYear
+    FROM Alumni a
+    LEFT JOIN Warnings w ON a.AlumniID = w.AlumniID
+    WHERE w.WarningID IS NULL;
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+
