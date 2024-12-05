@@ -177,6 +177,27 @@ CREATE TABLE Skills (
 
 CREATE INDEX skills_id ON Skills(SkillID);
 
+
+
+# ---------------------------------------------------------------------- #
+# Add table "Alumni"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE Alumni (
+  AlumniID VARCHAR(50) NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  Major VARCHAR(50) NOT NULL,
+  AboutMe VARCHAR(2000),
+  ProfilePic VARCHAR(2000),
+  WorkExperience VARCHAR(2000),
+  GradYear INT,
+  PRIMARY KEY (AlumniID)
+
+);
+
+CREATE INDEX alumni_id ON Alumni(AlumniID);
+
+
 # ---------------------------------------------------------------------- #
 # Add table "Messages"                                                      #
 # ---------------------------------------------------------------------- #
@@ -187,7 +208,9 @@ CREATE TABLE Messages (
   ReceiverAlumniID INT,
   MessageContent VARCHAR(2000),
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  PRIMARY KEY (MessageID)
+  PRIMARY KEY (MessageID),
+  CONSTRAINT fk2_alumni FOREIGN KEY (MessageID) REFERENCES Alumni(AlumniID)
+  ON UPDATE cascade ON DELETE cascade
 
 );
 
@@ -205,11 +228,14 @@ CREATE TABLE WorkExperience (
   StartDate DATE,
   EndDate DATE,
   IsCurrent BOOLEAN,
-  PRIMARY KEY (ExperienceID)
+  PRIMARY KEY (ExperienceID),
+  CONSTRAINT fk3_alumni FOREIGN KEY (ExperienceID) REFERENCES Alumni(AlumniID)
+  ON UPDATE cascade ON DELETE cascade
 
 );
 
 CREATE INDEX work_id ON WorkExperience(ExperienceID);
+
 
 # ---------------------------------------------------------------------- #
 # Add table "Actions"                                                      #
@@ -221,11 +247,14 @@ CREATE TABLE Actions (
   AdminID INT,
   ActionType VARCHAR(50),
   ActionTS datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  PRIMARY KEY (ActionID)
+  PRIMARY KEY (ActionID),
+  CONSTRAINT fk4_alumni FOREIGN KEY (ActionID) REFERENCES Alumni(AlumniID)
+  ON UPDATE cascade ON DELETE cascade
 
 );
 
 CREATE INDEX action_id ON Actions(ActionID);
+
 
 # ---------------------------------------------------------------------- #
 # Add table "Warnings"                                                      #
@@ -237,57 +266,13 @@ CREATE TABLE Warnings (
   AdminID INT,
   Reason VARCHAR(500),
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  PRIMARY KEY (WarningID)
+  PRIMARY KEY (WarningID),
+  CONSTRAINT fk5_alumni FOREIGN KEY (WarningID) REFERENCES Alumni(AlumniID)
+  ON UPDATE cascade ON DELETE cascade
 
 );
 
 CREATE INDEX warn_id ON Warnings(WarningID);
-
-# ---------------------------------------------------------------------- #
-# Add table "Administrator"                                                      #
-# ---------------------------------------------------------------------- #
-
-CREATE TABLE Administrator (
-  AdminID VARCHAR(50) NOT NULL,
-  Name VARCHAR(50),
-  Email VARCHAR(100),
-  Role VARCHAR(100),
-  PRIMARY KEY (AdminID),
-  CONSTRAINT fk_admin FOREIGN KEY (AdminID) REFERENCES Warnings(WarningID)
-  ON UPDATE cascade ON DELETE cascade,
-  CONSTRAINT fk2_admin FOREIGN KEY (AdminID) REFERENCES Actions(ActionID)
-  ON UPDATE cascade ON DELETE cascade
-
-);
-
-CREATE INDEX admin_id ON Administrator(AdminID);
-
-
-# ---------------------------------------------------------------------- #
-# Add table "Alumni"                                                      #
-# ---------------------------------------------------------------------- #
-
-CREATE TABLE Alumni (
-  AlumniID VARCHAR(50) NOT NULL,
-  Name VARCHAR(50) NOT NULL,
-  Major VARCHAR(50) NOT NULL,
-  AboutMe VARCHAR(2000),
-  ProfilePic VARCHAR(2000),
-  WorkExperience VARCHAR(2000),
-  GradYear INT,
-  PRIMARY KEY (AlumniID),
-  CONSTRAINT fk2_alumni FOREIGN KEY (AlumniID) REFERENCES Messages(MessageID)
-  ON UPDATE cascade ON DELETE cascade,
-  CONSTRAINT fk3_alumni FOREIGN KEY (AlumniID) REFERENCES WorkExperience(ExperienceID)
-  ON UPDATE cascade ON DELETE cascade,
-  CONSTRAINT fk4_alumni FOREIGN KEY (AlumniID) REFERENCES Actions(ActionID)
-  ON UPDATE cascade ON DELETE cascade,
-  CONSTRAINT fk5_alumni FOREIGN KEY (AlumniID) REFERENCES Warnings(WarningID)
-  ON UPDATE cascade ON DELETE cascade
-
-);
-
-CREATE INDEX alumni_id ON Alumni(AlumniID);
 
 
 #Bridge tables
@@ -318,6 +303,26 @@ CREATE TABLE Alumni_Skills (
   CONSTRAINT fk_as2 FOREIGN KEY (SkillsID) REFERENCES Skills(SkillID)
   ON UPDATE cascade ON DELETE cascade
 );
+
+# ---------------------------------------------------------------------- #
+# Add table "Administrator"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE Administrator (
+  AdminID VARCHAR(50) NOT NULL,
+  Name VARCHAR(50),
+  Email VARCHAR(100),
+  Role VARCHAR(100),
+  PRIMARY KEY (AdminID),
+  CONSTRAINT fk_admin FOREIGN KEY (AdminID) REFERENCES Warnings(WarningID)
+  ON UPDATE cascade ON DELETE cascade,
+  CONSTRAINT fk2_admin FOREIGN KEY (AdminID) REFERENCES Actions(ActionID)
+  ON UPDATE cascade ON DELETE cascade
+
+);
+
+CREATE INDEX admin_id ON Administrator(AdminID);
+
 
 ###Begin inserting mock data
 
@@ -711,46 +716,47 @@ insert into Skills (SkillID, SkillName, AlumniID) values (39, 'Self-Motivation',
 insert into Skills (SkillID, SkillName, AlumniID) values (40, 'Empathy', 10);
 
 
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (1, 14, 29, 'Hey', '2024-04-21 05:51:08');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (2, 26, 29, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-07-01 23:07:42');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (3, 29, 22, 'Congratulations on landing your new job! I''m so happy for you!', '2024-05-13 11:37:24');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (4, 10, 7, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-11 05:20:50');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (5, 7, 13, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-19 01:17:16');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (6, 14, 5, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-05-29 08:33:10');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (7, 2, 33, 'Hey', '2023-12-16 23:44:43');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (8, 2, 6, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-10-13 14:32:48');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (9, 15, 2, 'Congratulations on landing your new job! I''m so happy for you!', '2024-03-08 05:23:59');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (10, 7, 23, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-26 13:54:38');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (11, 37, 19, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-07-17 18:32:24');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (12, 38, 1, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-20 18:49:51');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (13, 40, 5, 'Hey', '2024-06-02 14:17:58');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (14, 24, 37, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-04-16 02:41:21');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (15, 16, 25, 'Congratulations on landing your new job! I''m so happy for you!', '2024-11-16 21:35:19');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (16, 34, 30, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-11-12 04:04:23');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (17, 7, 3, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-05-04 11:21:03');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (18, 22, 20, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-07-07 00:16:52');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (19, 1, 21, 'Hey', '2024-11-13 19:32:57');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (20, 21, 29, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-30 09:58:21');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (21, 30, 13, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-29 07:36:54');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (22, 26, 38, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-05-16 20:57:53');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (23, 4, 36, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-22 16:50:20');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (24, 13, 34, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-24 14:39:10');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (25, 14, 32, 'Hey', '2024-09-26 08:28:20');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (26, 2, 38, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-13 08:37:55');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (27, 14, 5, 'Congratulations on landing your new job! I''m so happy for you!', '2024-08-27 09:47:29');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (28, 33, 2, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-03-10 00:01:19');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (29, 15, 39, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-04-01 22:28:03');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (30, 11, 22, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2023-12-08 09:05:03');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (31, 33, 3, 'Hey', '2024-08-03 19:44:37');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (32, 34, 25, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-09-10 09:51:31');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (33, 6, 20, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-30 17:51:48');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (34, 12, 3, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-15 23:26:08');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (35, 31, 27, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-03-18 07:59:45');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (36, 24, 17, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-06-07 13:23:08');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (37, 35, 33, 'Hey', '2024-11-13 09:01:09');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (38, 34, 27, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-11 11:04:19');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (39, 37, 34, 'Congratulations on landing your new job! I''m so happy for you!', '2024-09-14 17:30:12');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (40, 31, 1, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-02 15:52:47');
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (1, 'Mariquilla Faull', 'Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 1999);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (2, 'Rosamond Wilcinskis', 'Sales Associate', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2004);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (3, 'Andy Haggett', 'Customer Service Representative', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 1998);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (4, 'Lexi Oiseau', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 1993);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (5, 'Ferrell Skottle', 'Marketing Coordinator', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (6, 'Erma Chamberlain', 'Accountant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 1997);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (7, 'Carlita Cranke', 'Human Resources Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (8, 'Bella Blissett', 'Operations Supervisor', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/u49LBXk.png', 'Part-time job as a tutor for high school students', 1994);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (9, 'Alisander Hoys', 'Administrative Assistant', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 2002);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (10, 'Andres Lambertz', 'Warehouse Worker', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Interned at a tech startup for 6 months', 2012);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (11, 'Garland Benneyworth', 'Manager', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Completed a summer internship at a marketing agency', 1996);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (12, 'Kellsie Meadmore', 'Sales Associate', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2001);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (13, 'Jarad Wilmut', 'Customer Service Representative', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Interned at a tech startup for 6 months', 2012);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (14, 'Ellwood Lightning', 'IT Specialist', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Completed a summer internship at a marketing agency', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (15, 'Rafaellle Martijn', 'Marketing Coordinator', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2003);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (16, 'Rodina Gladwish', 'Accountant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2004);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (17, 'Gwendolen Perfili', 'Human Resources Manager', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/u49LBXk.png', 'Interned at a tech startup for 6 months', 2007);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (18, 'Roz Blakden', 'Operations Supervisor', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 2003);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (19, 'Dotty Chessil', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 2002);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (20, 'Thoma Gainsborough', 'Warehouse Worker', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (21, 'Jessee Glenfield', 'Manager', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (22, 'Tresa Voelker', 'Sales Associate', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (23, 'Bibi Hundey', 'Customer Service Representative', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 1999);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (24, 'Kris Picot', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 2006);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (25, 'Lay Chaudhry', 'Marketing Coordinator', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (26, 'Griffy Becken', 'Accountant', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 1995);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (27, 'Osgood Calvie', 'Human Resources Manager', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Interned at a tech startup for 6 months', 2005);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (28, 'Inessa Gennrich', 'Operations Supervisor', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (29, 'Biddy Knock', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/u49LBXk.png', 'Volunteered at a local animal shelter for 3 months', 1994);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (30, 'Francois Pinkett', 'Warehouse Worker', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Worked as a barista for 1 year', 2006);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (31, 'Hettie Wort', 'Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 1998);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (32, 'Sashenka Hovell', 'Sales Associate', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 2003);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (33, 'Sada Imms', 'Customer Service Representative', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 2009);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (34, 'Clarence Goning', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Interned at a tech startup for 6 months', 2011);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (35, 'Hadlee Fatscher', 'Marketing Coordinator', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 1997);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (36, 'Sonnie Shipston', 'Accountant', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 1992);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (37, 'Binnie Burfitt', 'Human Resources Manager', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Part-time job as a tutor for high school students', 1992);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (38, 'Wat Slader', 'Operations Supervisor', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Interned at a tech startup for 6 months', 2008);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (39, 'Rudd Phorsby', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 1995);
+insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (40, 'Latisha Dewi', 'Warehouse Worker', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2002);
+
 
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (1, 8, 'Manager', 'Roombo', '2021-08-26', '2024-07-23', true);
 insert into WorkExperience (ExperienceID, AlumniID, Role, Company, StartDate, EndDate, IsCurrent) values (2, 27, 'Sales Associate', 'Wordtune', '2022-02-07', '2024-02-13', false);
@@ -878,6 +884,48 @@ insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (3
 insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (40, 16, 8, 'Engaging in illegal activities', '2023-12-30 15:41:13');
 
 
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (1, 14, 29, 'Hey', '2024-04-21 05:51:08');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (2, 26, 29, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-07-01 23:07:42');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (3, 29, 22, 'Congratulations on landing your new job! I''m so happy for you!', '2024-05-13 11:37:24');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (4, 10, 7, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-11 05:20:50');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (5, 7, 13, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-19 01:17:16');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (6, 14, 5, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-05-29 08:33:10');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (7, 2, 33, 'Hey', '2023-12-16 23:44:43');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (8, 2, 6, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-10-13 14:32:48');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (9, 15, 2, 'Congratulations on landing your new job! I''m so happy for you!', '2024-03-08 05:23:59');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (10, 7, 23, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-26 13:54:38');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (11, 37, 19, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-07-17 18:32:24');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (12, 38, 1, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-20 18:49:51');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (13, 40, 5, 'Hey', '2024-06-02 14:17:58');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (14, 24, 37, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-04-16 02:41:21');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (15, 16, 25, 'Congratulations on landing your new job! I''m so happy for you!', '2024-11-16 21:35:19');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (16, 34, 30, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-11-12 04:04:23');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (17, 7, 3, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-05-04 11:21:03');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (18, 22, 20, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-07-07 00:16:52');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (19, 1, 21, 'Hey', '2024-11-13 19:32:57');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (20, 21, 29, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-30 09:58:21');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (21, 30, 13, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-29 07:36:54');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (22, 26, 38, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-05-16 20:57:53');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (23, 4, 36, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-22 16:50:20');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (24, 13, 34, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-24 14:39:10');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (25, 14, 32, 'Hey', '2024-09-26 08:28:20');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (26, 2, 38, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-13 08:37:55');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (27, 14, 5, 'Congratulations on landing your new job! I''m so happy for you!', '2024-08-27 09:47:29');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (28, 33, 2, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-03-10 00:01:19');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (29, 15, 39, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-04-01 22:28:03');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (30, 11, 22, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2023-12-08 09:05:03');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (31, 33, 3, 'Hey', '2024-08-03 19:44:37');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (32, 34, 25, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-09-10 09:51:31');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (33, 6, 20, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-30 17:51:48');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (34, 12, 3, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-15 23:26:08');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (35, 31, 27, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-03-18 07:59:45');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (36, 24, 17, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-06-07 13:23:08');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (37, 35, 33, 'Hey', '2024-11-13 09:01:09');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (38, 34, 27, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-11 11:04:19');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (39, 37, 34, 'Congratulations on landing your new job! I''m so happy for you!', '2024-09-14 17:30:12');
+insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (40, 31, 1, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-02 15:52:47');
+
+
 insert into Administrator (AdminID, Name, Email, Role) values (1, 'Julietta Maskelyne', 'jmaskelyne0@adobe.com', 'Super Admin');
 insert into Administrator (AdminID, Name, Email, Role) values (2, 'Amelia Jon', 'ajon1@cnet.com', 'Moderator');
 insert into Administrator (AdminID, Name, Email, Role) values (3, 'Rodolph Billin', 'rbillin2@plala.or.jp', 'Moderator');
@@ -918,48 +966,6 @@ insert into Administrator (AdminID, Name, Email, Role) values (37, 'Shane Erdes'
 insert into Administrator (AdminID, Name, Email, Role) values (38, 'Thurstan Spurman', 'tspurman11@taobao.com', 'Consultant');
 insert into Administrator (AdminID, Name, Email, Role) values (39, 'Ranee Covolini', 'rcovolini12@independent.co.uk', 'Tester');
 insert into Administrator (AdminID, Name, Email, Role) values (40, 'Alwyn Belson', 'abelson13@cargocollective.com', 'Tester');
-
-
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (1, 'Mariquilla Faull', 'Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 1999);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (2, 'Rosamond Wilcinskis', 'Sales Associate', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2004);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (3, 'Andy Haggett', 'Customer Service Representative', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 1998);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (4, 'Lexi Oiseau', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 1993);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (5, 'Ferrell Skottle', 'Marketing Coordinator', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (6, 'Erma Chamberlain', 'Accountant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 1997);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (7, 'Carlita Cranke', 'Human Resources Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (8, 'Bella Blissett', 'Operations Supervisor', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/u49LBXk.png', 'Part-time job as a tutor for high school students', 1994);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (9, 'Alisander Hoys', 'Administrative Assistant', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 2002);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (10, 'Andres Lambertz', 'Warehouse Worker', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Interned at a tech startup for 6 months', 2012);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (11, 'Garland Benneyworth', 'Manager', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Completed a summer internship at a marketing agency', 1996);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (12, 'Kellsie Meadmore', 'Sales Associate', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2001);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (13, 'Jarad Wilmut', 'Customer Service Representative', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Interned at a tech startup for 6 months', 2012);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (14, 'Ellwood Lightning', 'IT Specialist', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Completed a summer internship at a marketing agency', 2011);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (15, 'Rafaellle Martijn', 'Marketing Coordinator', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2003);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (16, 'Rodina Gladwish', 'Accountant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2004);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (17, 'Gwendolen Perfili', 'Human Resources Manager', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/u49LBXk.png', 'Interned at a tech startup for 6 months', 2007);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (18, 'Roz Blakden', 'Operations Supervisor', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 2003);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (19, 'Dotty Chessil', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 2002);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (20, 'Thoma Gainsborough', 'Warehouse Worker', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (21, 'Jessee Glenfield', 'Manager', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2011);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (22, 'Tresa Voelker', 'Sales Associate', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Part-time job as a tutor for high school students', 2011);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (23, 'Bibi Hundey', 'Customer Service Representative', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 1999);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (24, 'Kris Picot', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 2006);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (25, 'Lay Chaudhry', 'Marketing Coordinator', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 2011);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (26, 'Griffy Becken', 'Accountant', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 1995);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (27, 'Osgood Calvie', 'Human Resources Manager', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Interned at a tech startup for 6 months', 2005);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (28, 'Inessa Gennrich', 'Operations Supervisor', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Worked as a barista for 1 year', 2011);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (29, 'Biddy Knock', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/u49LBXk.png', 'Volunteered at a local animal shelter for 3 months', 1994);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (30, 'Francois Pinkett', 'Warehouse Worker', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Worked as a barista for 1 year', 2006);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (31, 'Hettie Wort', 'Manager', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 1998);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (32, 'Sashenka Hovell', 'Sales Associate', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 2003);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (33, 'Sada Imms', 'Customer Service Representative', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Volunteered at a local animal shelter for 3 months', 2009);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (34, 'Clarence Goning', 'IT Specialist', 'Recent graduate eager to start a career in finance', 'https://i.imgur.com/SdlypcY.png', 'Interned at a tech startup for 6 months', 2011);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (35, 'Hadlee Fatscher', 'Marketing Coordinator', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/SdlypcY.png', 'Completed a summer internship at a marketing agency', 1997);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (36, 'Sonnie Shipston', 'Accountant', 'Creative problem-solver with a knack for project management', 'https://i.imgur.com/p37Is1i.png', 'Volunteered at a local animal shelter for 3 months', 1992);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (37, 'Binnie Burfitt', 'Human Resources Manager', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/u49LBXk.png', 'Part-time job as a tutor for high school students', 1992);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (38, 'Wat Slader', 'Operations Supervisor', 'Passionate individual with a strong background in marketing', 'https://i.imgur.com/p37Is1i.png', 'Interned at a tech startup for 6 months', 2008);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (39, 'Rudd Phorsby', 'Administrative Assistant', 'Experienced professional seeking new opportunities in the tech industry', 'https://i.imgur.com/p37Is1i.png', 'Worked as a barista for 1 year', 1995);
-insert into Alumni (AlumniID, Name, Major, AboutMe, ProfilePic, WorkExperience, GradYear) values (40, 'Latisha Dewi', 'Warehouse Worker', 'Detail-oriented team player with a background in customer service', 'https://i.imgur.com/p37Is1i.png', 'Part-time job as a tutor for high school students', 2002);
 
 
 insert into Candidate_Traits (CandidateID, TraitID) values (7, 5);
@@ -1128,7 +1134,3 @@ insert into Alumni_Skills (AlumniID, SkillsID) values (24, 15);
 insert into Alumni_Skills (AlumniID, SkillsID) values (35, 4);
 insert into Alumni_Skills (AlumniID, SkillsID) values (8, 6);
 insert into Alumni_Skills (AlumniID, SkillsID) values (34, 37);
-
-
-
-
