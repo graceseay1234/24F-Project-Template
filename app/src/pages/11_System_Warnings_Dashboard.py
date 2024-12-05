@@ -68,7 +68,6 @@ m = st.markdown("""
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
-
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">System Warnings Dashboard</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
@@ -95,8 +94,28 @@ try:
         # Filter the DataFrame based on the selected reason
         filtered_df = df[df['Reason'] == selected_reason]
 
-        # Display the filtered warnings in a table
-        st.table(filtered_df)
+        # Display the filtered warnings in a box-style layout
+        for index, row in filtered_df.iterrows():
+            col1, col2, col3 = st.columns([1, 3, 1])
+
+            with col1:
+                # Placeholder for the administrator name and warning details
+                st.markdown(f"<p style='font-size: 16px; font-weight: 300;'>Warning ID: {row['WarningID']}</p>", unsafe_allow_html=True)
+
+            with col2:
+                st.markdown(f"<p style='font-size: 18px; font-weight: bold;'>Reason: {row['Reason']}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='font-size: 16px; font-weight: 300;'>Alumni: {row['AlumniName']}</p>", unsafe_allow_html=True)
+            with col3:
+                st.markdown(f"<p style='font-size: 14px; font-weight: 300;'>Time: {row['TimeStamp']}</p>", unsafe_allow_html=True)
+
+
+        # Show a summary of filtered results
+        st.markdown(f'''
+            <p style="font-weight: 300; font-size: 15px; margin-top: 40px; margin-bottom: 5px;">
+                Showing {len(filtered_df)} warnings with the selected reason.
+            </p>
+            <hr style="margin-top: 20px; margin-bottom: 20px;">
+        ''', unsafe_allow_html=True)
     else:
         st.write("No warnings found.")
 except requests.exceptions.RequestException as e:

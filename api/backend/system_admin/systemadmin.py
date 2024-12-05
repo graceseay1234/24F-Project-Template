@@ -30,9 +30,11 @@ def get_warnings(alumni_id):
 @administrator.route('/warnings', methods=['GET'])
 def get_all_warnings():
     query = '''
-    SELECT Warnings.WarningID, Warnings.Reason, Warnings.TimeStamp, Administrator.Name AS AdminName
+    SELECT Warnings.WarningID, Warnings.Reason, Warnings.TimeStamp, 
+           Administrator.Name AS AdminName, Alumni.Name AS AlumniName
     FROM Warnings
     JOIN Administrator ON Warnings.AdminID = Administrator.AdminID
+    JOIN Alumni ON Warnings.AlumniID = Alumni.AlumniID
     ORDER BY Warnings.TimeStamp DESC
     '''
 
