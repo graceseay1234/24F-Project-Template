@@ -1,10 +1,11 @@
-#SYSTEM ADMIN DASHBOARD
 import logging
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import requests
 from modules.nav import SideBarLinks
+
 try:
     import streamlit_antd_components as sac
 except ModuleNotFoundError:
@@ -16,50 +17,21 @@ logger = logging.getLogger(__name__)
 
 m = st.markdown("""
 <style>
-                
-    /* Link to Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
-    
-    # div.block-container {padding-top:3rem;}
-
-    /* Set font for the whole page */
     body {
         font-family: 'Open Sans', sans-serif;
-        margin-bottom: -10px;  /* Reduce the space below "Welcome to" */
+        margin-bottom: -10px;
     }   
-
     .light-text {
         font-family: 'Open Sans', sans-serif;
-        font-weight: 300;  /* light */
+        font-weight: 300;
         margin-top: 10px;
         margin-bottom: 0px;
     }
-
-    /* Optional: Adjust the font size for titles */
     h1 {
         font-family: 'Open Sans', sans-serif;
-        margin-bottom: 0px;  /* Reduce the space below "Welcome to" */
+        margin-bottom: 0px;
     }
-
-    div.stSelectbox > div > div > div > select {
-        font-size: 18px;  /* Increase the font size */
-        padding: 20px;    /* Increase the padding for larger select boxes */
-        border-radius: 8px;  /* Optional: Make the select box rounded */
-        border: 2px solid #ddd;  /* Optional: Change the border color */
-    }
-
-    div.stButton > button:first-child {
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 300;
-        font-size: 16px;  
-        background-color: rgba(151, 166, 195, 0.15);
-        border: 1px solid rgb(235,235,235);
-        border-radius: 8px 8px 8px 8px;
-        text-align: left;
-    }
-                
-    
-
 </style>""", unsafe_allow_html=True)
 
 # Show appropriate sidebar links for the role of the currently logged in user
@@ -70,37 +42,34 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Header and personalized greeting
-#st.title(f"Welcome, System Administrator {st.session_state['first_name']}!")
-st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Administrator Dashboard</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
-
+st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Administrator Dashboard</h1>', unsafe_allow_html=True)
 sac.divider(align='center', color='gray')
 
+def fetch_all_performance_metrics():
+    metric_ids = ["1", "2", "3", "4"]  # List of metric_ids (you can modify this based on your needs)
+    all_data = []
 
-#st.write("### What would you like to do today?")
-#st.write("Please select an action from the options below:")
-# Create two columns for layout
+    for metric_id in metric_ids:
+        url = f'http://web-api:4000/administrators/performance-metrics/{metric_id}'
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            data = response.json()
+            logger.info(f"Fetched data for MetricID {metric_id}: {data}")  # Log data to verify it's being fetched
+            all_data.extend(data)  # Add the data to the list of all_data
+        else:
+            logger.error(f"Error fetching data for MetricID {metric_id}: {response.status_code}, Response: {response.text}")
+            st.error(f"Error fetching data for MetricID {metric_id}: {response.status_code}, Response: {response.text}")
+    
+    if all_data:
+        return pd.DataFrame(all_data)
+    else:
+        return None
+
+    
+# Column 1: Display uptime graph with red line
 col1, col2 = st.columns([2, 2])
 
-# Simulate uptime data (Hourly data for a 24-hour period)
-time_range = pd.date_range(start="2024-12-01 00:00", end="2024-12-01 23:59", freq="H")
-uptime_percentage = np.random.uniform(95, 100, size=len(time_range))  # Random uptime data between 95-100%
-
-# Simulate response time data (Random values between 100ms and 500ms)
-response_time = np.random.uniform(100, 500, size=len(time_range))  # Random response times in ms
-
-# Create DataFrames for both Uptime and Response Time data
-uptime_data = pd.DataFrame({
-    "Time": time_range,
-    "Uptime (%)": uptime_percentage
-})
-
-response_time_data = pd.DataFrame({
-    "Time": time_range,
-    "Response Time (ms)": response_time
-})
-
-# Function to plot a graph with a red line
 def plot_red_line_chart(data, x, y, title):
     plt.figure(figsize=(10, 4))
     plt.plot(data[x], data[y], color='red')
@@ -111,14 +80,62 @@ def plot_red_line_chart(data, x, y, title):
     plt.tight_layout()
     st.pyplot(plt)
 
-# Column 1: Display uptime graph with red line
-with col1:
-    # Custom header with smaller and lighter text
-    st.markdown("<h5 style='color: #888888;font-size: 16px; font-weight: 200;'>Uptime</h5>", unsafe_allow_html=True)
-    plot_red_line_chart(uptime_data, "Time", "Uptime (%)", "Uptime")
+# Fetch and display performance metrics
+performance_metrics_df = fetch_all_performance_metrics()
 
-# Column 2: Display response time graph with red line
-with col2:
-    # Custom header for Response Time graph
-    st.markdown("<h5 style='color: #888888;font-size: 16px; font-weight: 200;'>Response Time</h5>", unsafe_allow_html=True)
-    plot_red_line_chart(response_time_data, "Time", "Response Time (ms)", "Response Time")
+if performance_metrics_df is not None:
+    with col1:
+        st.markdown("<h5 style='color: #888888;font-size: 16px; font-weight: 200;'>Uptime (seconds)</h5>", unsafe_allow_html=True)
+        plot_red_line_chart(performance_metrics_df, "TimeStamp", "UpTime", "Uptime")
+
+    with col2:
+        st.markdown("<h5 style='color: #888888;font-size: 16px; font-weight: 200;'>Response Time (seconds)</h5>", unsafe_allow_html=True)
+        plot_red_line_chart(performance_metrics_df, "TimeStamp", "ResponseTime", "Response Time")
+    
+    # Log DataFrame details
+    logger.info(f"Fetched DataFrame with {performance_metrics_df.shape[0]} rows and {performance_metrics_df.shape[1]} columns.")
+    logger.info(performance_metrics_df.head())
+
+    # Display data preview
+    st.write("### Data Preview", performance_metrics_df.head())
+
+    # Verify required columns
+    required_columns = ['TimeStamp', 'ResponseTime', 'UpTime']
+    missing_columns = [col for col in required_columns if col not in performance_metrics_df.columns]
+    if missing_columns:
+        st.error(f"Missing columns: {missing_columns}")
+    else:
+        # Convert 'TimeStamp' to datetime
+        performance_metrics_df['TimeStamp'] = pd.to_datetime(performance_metrics_df['TimeStamp'], errors='coerce')
+        if performance_metrics_df['TimeStamp'].isnull().any():
+            st.warning("Some 'TimeStamp' values could not be converted to datetime and will be set as NaT.")
+        
+        # Convert 'ResponseTime' and 'UpTime' to seconds
+        try:
+            performance_metrics_df['ResponseTime'] = pd.to_timedelta(performance_metrics_df['ResponseTime']).dt.total_seconds()
+            performance_metrics_df['UpTime'] = pd.to_timedelta(performance_metrics_df['UpTime']).dt.total_seconds()
+        except Exception as e:
+            st.error(f"Error converting 'ResponseTime' or 'UpTime': {e}")
+        
+        # Final DataFrame check
+        if performance_metrics_df.empty:
+            st.error("DataFrame is empty after processing.")
+        else:
+            st.success("Data processing completed successfully.")
+            st.write(performance_metrics_df)
+else:
+    st.error("Failed to fetch data from the API. Please check the API endpoint and try again.")
+
+# Plot Response Time with dynamic Y-axis
+fig, ax = plt.subplots()
+ax.plot(performance_metrics_df['TimeStamp'], performance_metrics_df['ResponseTime'], label='Response Time')
+
+# Adjust Y-axis to fit data range dynamically
+ax.set_ylim(performance_metrics_df['ResponseTime'].min() - 1, performance_metrics_df['ResponseTime'].max() + 1)
+
+# Add labels and legend
+ax.set_xlabel('Timestamp')
+ax.set_ylabel('Response Time (seconds)')
+ax.set_title('Performance Metrics Over Time')
+ax.legend()
+
