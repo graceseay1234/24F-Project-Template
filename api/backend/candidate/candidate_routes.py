@@ -5,16 +5,16 @@ from flask import make_response
 from flask import current_app
 from backend.db_connection import db
 
-candidate = Blueprint('candidate', __name__)
+candidate = Blueprint('Candidate', __name__)
 
 
 # Get all the candidate from the database
 @candidate.route('/candidate', methods=['GET'])
 def get_candidate():
     query = '''
-Select candidate.Name, candidate.Major, WorkExperience.Role, WorkExperience.Company
-From candidate
-JOIN WorkExperience ON candidate.candidateID = WorkExperience.candidateID
+Select Candidate.Name, Candidate.Major, WorkExperience.Role, WorkExperience.Company
+From Candidate
+JOIN WorkExperience ON Candidate.candidateID = WorkExperience.candidateID
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -28,7 +28,7 @@ JOIN WorkExperience ON candidate.candidateID = WorkExperience.candidateID
 def get_candidateid (id):
 
     query = f'''SELECT *
-                FROM candidate
+                FROM Candidate
                 WHERE candidateID = {str(id)}
     '''
     current_app.logger.info(f'GET /candidate/<id> query={query}')
@@ -50,11 +50,11 @@ def get_candidateid (id):
 def get_candidate_details():
 
     query = '''
-Select candidate.Name, candidate.Major, candidate.GradYear, WorkExperience.Company,
+Select Candidate.Name, Candidate.Major, Candidate.GradYear, WorkExperience.Company,
        WorkExperience.Role, WorkExperience.Startdate, WorkExperience.EndDate,
        WorkExperience.IsCurrent
-From candidate 
-JOIN WorkExperience ON candidate.candidateID = WorkExperience.candidateID;
+From Candidate 
+JOIN WorkExperience ON Candidate.candidateID = WorkExperience.candidateID;
     '''
     # Same process as handler above
     cursor = db.get_db().cursor()
@@ -75,7 +75,7 @@ def get_10_most_expensive_candidate():
                candidate_name,
                list_price,
                reorder_level
-        FROM candidate
+        FROM Candidate
         ORDER BY list_price DESC
         LIMIT 10
     '''
@@ -140,7 +140,7 @@ def add_new_candidate():
 def get_all_categories():
     query = '''
         SELECT DISTINCT category AS label, category as value
-        FROM candidate
+        FROM Candidate
         WHERE category IS NOT NULL
         ORDER BY category
     '''
@@ -167,7 +167,7 @@ def update_candidate():
 
 @candidate.route('/delete_candidate/<candidate_id>', methods=['DELETE'])
 def delete_candidate(candidate_id):
-    query = f"DELETE FROM candidate WHERE candidateID = {candidate_id}"
+    query = f"DELETE FROM Candidate WHERE candidateID = {candidate_id}"
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
@@ -181,7 +181,7 @@ def get_candidate_with_warnings():
     SELECT A.candidateID, A.Name, A.Major, A.GradYear, 
            W.WarningID, W.Reason AS WarningReason, W.TimeStamp AS WarningTime,
            WE.Role AS WorkExperience, WE.Company
-    FROM candidate A
+    FROM Candidate A
     LEFT JOIN Warnings W ON A.candidateID = W.candidateID
     LEFT JOIN WorkExperience WE ON A.candidateID = WE.candidateID
     WHERE W.WarningID IS NOT NULL;
@@ -202,7 +202,7 @@ def get_candidate_with_warnings():
 def get_candidate_without_warnings():
     query = '''
     SELECT a.candidateID, a.Name, a.Major, a.WorkExperience, a.GradYear
-    FROM candidate a
+    FROM Candidate a
     LEFT JOIN Warnings w ON a.candidateID = w.candidateID
     WHERE w.WarningID IS NULL;
     '''
