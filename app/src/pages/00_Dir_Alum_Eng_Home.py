@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
+import requests
 
 
 m = st.markdown("""
@@ -142,41 +143,38 @@ with col2:
 # Create a container for the entire "User Demographics" section
 with st.container(border=True):
     st.markdown('<p class="light-text" style="font-size: 20px;">User Demographics</p>', unsafe_allow_html=True)
-
-
     # Create two columns inside the User Demographics container
-    col1, col2 = st.columns([1, 1])  # Equal width columns for majors and locations
+    col1, col2 = st.columns([4, 1])  # Equal width columns for majors and locations
 
     # Custom colors for the pie charts
     custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
     # ----------------- Left Column: Major Distribution -----------------
     with col1:
-        with st.container(border=True):
-            st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Major Distribution</h5>", unsafe_allow_html=True)
-            majors = ['Computer Science', 'Business', 'Psychology', 'Biology', 'Engineering']
-            major_counts = np.random.randint(50, 150, size=5)  # Simulated counts
+       
+                        # Fetch alumni majors from the Flask API
+            response = requests.get("http://web-api:4000/majors")
+            majors = response.json()
 
+            # Count the occurrences of each major
+            major_counts = pd.Series([major['Major'] for major in majors]).value_counts()
+
+            # Create a DataFrame for the pie chart
             major_data = pd.DataFrame({
-                'Major': majors,
-                'Count': major_counts
+                'Major': major_counts.index,
+                'Count': major_counts.values
             })
 
-            # Create and display the pie chart for majors
-            fig_major = px.pie(major_data, values='Count', names='Major', color_discrete_sequence=custom_colors)
-            st.plotly_chart(fig_major, use_container_width=True)
+            # Custom colors for the pie chart
+            custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
 
-    # ----------------- Right Column: Location Distribution -----------------
+            # ----------------- Left Column: Major Distribution -----------------
+            with st.container():
+                st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Major Distribution</h5>", unsafe_allow_html=True)
+
+                # Create and display the pie chart for majors
+                fig_major = px.pie(major_data, values='Count', names='Major', color_discrete_sequence=custom_colors)
+                st.plotly_chart(fig_major, use_container_width=True)
+
     with col2:
-        with st.container(border=True):
-            st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Location Distribution</h5>", unsafe_allow_html=True)
-            locations = ['New York', 'California', 'Texas', 'Florida', 'Washington']
-            location_counts = np.random.randint(50, 200, size=5)  # Simulated counts
-
-            location_data = pd.DataFrame({
-                'Location': locations,
-                'Count': location_counts
-            })
-
-            # Create and display the pie chart for locations
-            fig_location = px.pie(location_data, values='Count', names='Location', color_discrete_sequence=custom_colors)
-            st.plotly_chart(fig_location, use_container_width=True)
+        if st.button("See More"):
+            st.switch_page("pages/02_Demographics.py")
