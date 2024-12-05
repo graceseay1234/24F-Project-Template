@@ -88,36 +88,35 @@ with st.container(border=True):
 
 
     # Create two columns inside the User Demographics container
-    col1, col2 = st.columns([1, 1])  # Equal width columns for majors and locations
+
 
     # Custom colors for the pie charts
     custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
     # ----------------- Left Column: Major Distribution -----------------
-    with col1:
        
-                        # Fetch alumni majors from the Flask API
-            response = requests.get("http://web-api:4000/majors")
-            majors = response.json()
+            # Fetch alumni majors from the Flask API
+    response = requests.get("http://web-api:4000/majors")
+    majors = response.json()
 
-            # Count the occurrences of each major
-            major_counts = pd.Series([major['Major'] for major in majors]).value_counts()
+    # Count the occurrences of each major
+    major_counts = pd.Series([major['Major'] for major in majors]).value_counts()
 
-            # Create a DataFrame for the pie chart
-            major_data = pd.DataFrame({
-                'Major': major_counts.index,
-                'Count': major_counts.values
-            })
+    # Create a DataFrame for the pie chart
+    major_data = pd.DataFrame({
+        'Major': major_counts.index,
+        'Count': major_counts.values
+    })
 
-            # Custom colors for the pie chart
-            custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
+    # Custom colors for the pie chart
+    custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
 
-            # ----------------- Left Column: Major Distribution -----------------
-            with st.container():
-                st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Major Distribution</h5>", unsafe_allow_html=True)
+    # ----------------- Left Column: Major Distribution -----------------
+    with st.container():
+        st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Major Distribution</h5>", unsafe_allow_html=True)
 
-                # Create and display the pie chart for majors
-                fig_major = px.pie(major_data, values='Count', names='Major', color_discrete_sequence=custom_colors)
-                st.plotly_chart(fig_major, use_container_width=True)
+        # Create and display the pie chart for majors
+        fig_major = px.pie(major_data, values='Count', names='Major', color_discrete_sequence=custom_colors)
+        st.plotly_chart(fig_major, use_container_width=True)
 
     # ----------------- Right Column: Location Distribution -----------------
 
@@ -144,26 +143,25 @@ with st.container(border=True):
             st.markdown('<p class="light-text" style="font-size: 20px;">System Administrator Demographics</p>', unsafe_allow_html=True)
 
             # Create two columns inside the Administrator Roles container
-            col1, col2 = st.columns([1, 1])  # Equal width columns for different charts
 
             # Custom colors for the pie charts
             custom_colors = ['#FF4B4B', '#FD7D7D', '#FFA0A0', '#FDC5C5']
 
             # ----------------- Left Column: Role Distribution -----------------
-            with col1:
-                with st.container():
-                    st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Administrator Role Distribution</h5>", unsafe_allow_html=True)
+    
+            with st.container():
+                st.markdown("<h5 style='font-size: 15px; font-weight: 300;'>Administrator Role Distribution</h5>", unsafe_allow_html=True)
 
-                    # Count the occurrences of each role
-                    role_counts = pd.Series([role['Role'] for role in roles]).value_counts()
+                # Count the occurrences of each role
+                role_counts = pd.Series([role['Role'] for role in roles]).value_counts()
 
-                    # Create a DataFrame for the pie chart
-                    role_data = pd.DataFrame({
-                        'Role': role_counts.index,
-                        'Count': role_counts.values
-                    })
+                # Create a DataFrame for the pie chart
+                role_data = pd.DataFrame({
+                    'Role': role_counts.index,
+                    'Count': role_counts.values
+                })
 
-                    # Create and display the pie chart for roles
-                    fig_roles = px.pie(role_data, values='Count', names='Role', color_discrete_sequence=custom_colors)
-                    st.plotly_chart(fig_roles, use_container_width=True)
+                # Create and display the pie chart for roles
+                fig_roles = px.pie(role_data, values='Count', names='Role', color_discrete_sequence=custom_colors)
+                st.plotly_chart(fig_roles, use_container_width=True)
 
