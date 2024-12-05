@@ -114,3 +114,82 @@ def get_roles():
     response = make_response(jsonify(roles))
     response.status_code = 200
     return response
+
+#Retrieve system health metrics
+@administrator.route('/metrics/system', methods=['GET'])
+def get_system_metrics():
+    query = '''
+    SELECT MetricID, Uptime, ErrorCount, DatabaseLoad, Timestamp
+    FROM SystemMetrics
+    ORDER BY Timestamp DESC
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    metrics = cursor.fetchall()
+    response = make_response(jsonify(metrics))
+    response.status_code = 200
+    return response
+
+#Retrieve logs of Admin actions
+@administrator.route('/actions', methods=['GET'])
+def get_admin_actions():
+    query = '''
+    SELECT ActionID, ActionType, Timestamp, AdminID
+    FROM AdminActions
+    ORDER BY Timestamp DESC
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    actions = cursor.fetchall()
+    response = make_response(jsonify(actions))
+    response.status_code = 200
+    return response
+
+#Log a new admin action
+@administrator.route('/actions', methods=['POST'])
+def log_admin_action():
+    data = request.get_json()
+    action_type = data.get('action_type')
+    admin_id = data.get('admin_id')
+    query = '''
+    INSERT INTO AdminActions (ActionType, AdminID)
+    VALUES (%s, %s)
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (action_type, admin_id))
+    db.get_db().commit()
+    response = make_response(jsonify({"message": "Action logged successfully"}))
+    response.status_code = 201
+    return response
+
+#Update admin action records
+@administrator.route('/actions/<action_id>', methods=['PUT'])
+def update_action(action_id):
+    data = request.get_json()
+    action_type = data.get('action_type')
+    query = '''
+    UPDATE AdminActions
+    SET ActionType = %s
+    WHERE ActionID = %s
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (action_type, action_id))
+    db.get_db().commit()
+    response = make_response(jsonify({"message": "Action updated successfully"}))
+    response.status_code = 200
+    return response
+
+#Delete old logs
+@administrator.route('/actions/<action_id>', methods=['DELETE'])
+def delete_action(action_id):
+    query = '''
+    DELETE FROM AdminActions
+    WHERE ActionID = %s
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (action_id,))
+    db.get_db().commit()
+    response = make_response(jsonify({"message": "Action deleted successfully"}))
+    response.status_code = 200
+    return response
+
