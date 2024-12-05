@@ -214,5 +214,3 @@ def get_alumni_without_warnings():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
-
-
