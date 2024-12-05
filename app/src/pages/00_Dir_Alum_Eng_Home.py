@@ -19,6 +19,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 
 
 m = st.markdown("""
@@ -85,57 +87,56 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Engagment Dashboard</
 
 sac.divider(align='center', color='gray')
 
-with st.container(border=True):
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        
-            ## Place here:
-            ##    active user count
-            # Generate random data for the chart (6 values between 0 and 200)
-            random_data = np.random.randint(0, 200, size=6)
-            months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+# Create two columns for layout
+col1, col2 = st.columns([2, 2])
 
-            # Create DataFrame with the generated data
-            data_df = pd.DataFrame({
-                "Month": months,
-                "Active User Count": random_data ##CHANGE DATA
-            })
+# Simulate uptime data (Hourly data for a 24-hour period)
+time_range = pd.date_range(start="2024-01", end="2024-06", freq="M")
+uptime_percentage = np.random.uniform(95, 100, size=len(time_range))  # Random uptime data between 95-100%
 
-            st.markdown('<p class="light-text" style="font-size: 20px;">Active User Count Over Last 6 Months</p>', unsafe_allow_html=True)
+# Simulate response time data (Random values between 100ms and 500ms)
+response_time = np.random.uniform(100, 500, size=len(time_range))  # Random response times in ms
 
-            # Display the editable data with an area chart
-            st.line_chart(
-                data_df.set_index("Month"),
-                height=400  # Adjust the height as needed
-            )
+# Create DataFrames for both Uptime and Response Time data
+uptime_data = pd.DataFrame({
+    "Month": time_range,
+    "Active User Count": uptime_percentage
+})
 
-            ##    connection request
+response_time_data = pd.DataFrame({
+    "Month": time_range,
+    "Connection Requests": response_time
+})
 
-            # Generate random data for the chart (6 values between 0 and 200)
-            random_data = np.random.randint(0, 200, size=6)
+# Function to plot a graph with a red line
+def plot_red_line_chart(data, x, y, title):
+    plt.figure(figsize=(10, 4))
+    plt.plot(data[x], data[y], color='red')
+    plt.title(title, fontsize=14, color="#888888")
+    plt.xlabel('Time')
+    plt.ylabel(y)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    st.pyplot(plt)
 
-    with col2:
-            # Create DataFrame with the generated data
-            data_df = pd.DataFrame({
-                "Month": months,
-                "Connection Requests Over Time": random_data
-            })
+# Column 1: Display uptime graph with red line
+with col1:
+    # Custom header with smaller and lighter text
+    st.markdown("<h5 style='color: #888888;font-size: 16px; font-weight: 200;'>Active User Count</h5>", unsafe_allow_html=True)
+    plot_red_line_chart(uptime_data, "Month", "Active User Count", "Active User Count")
 
-            # Add title
-            st.markdown(
-                '<p class="light-text" style="font-size: 20px;">Connection Requests Over Last 6 Months</p>',
-                unsafe_allow_html=True
-            )
+# Column 2: Display response time graph with red line
+with col2:
+    # Custom header for Response Time graph
+    st.markdown("<h5 style='color: #888888;font-size: 16px; font-weight: 200;'>Connection Requests over Last 6 Months</h5>", unsafe_allow_html=True)
+    plot_red_line_chart(response_time_data, "Month", "Connection Requests", "Connection Requests over Last 6 Months")
 
-            # Display line chart
-            st.line_chart(
-                data_df.set_index("Month"),
-                height=400
-            )
 
-##    user demographics:
-        ##  major
-        ##  location
+
+
+
+
+
 
 
 # Create a container for the entire "User Demographics" section
