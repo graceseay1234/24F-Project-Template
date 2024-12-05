@@ -66,29 +66,23 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Candidates Overview</
 
 sac.divider(align='center', color='gray')
 
-# Example Candidate Data
-candidates_data = {
-    'Name': ['Alice Smith', 'John Doe', 'Sarah Lee', 'Michael Brown', 'Emily White'],
-    'Interview Notes': ['Strong communicator', 'Needs improvement in technical skills', 'Great teamwork skills', 'Excellent technical knowledge', 'Good fit for leadership roles'],
-    'Status': ['Under Review', 'Interviewed', 'Offer Extended', 'Under Review', 'Offer Accepted'],
-    'Qualities': ['Leadership, Communication', 'Technical Skills, Problem Solving', 'Teamwork, Adaptability', 'Technical Knowledge, Problem Solving', 'Leadership, Initiative'],
-    'Jobs Considered For': ['Software Engineer, Data Analyst', 'HR Manager, Project Manager', 'Marketing Specialist, Content Creator', 'Software Engineer, IT Support', 'HR Manager, Operations Lead'],
-    'Traits': ['Empathy, Assertiveness', 'Perseverance, Focus', 'Collaboration, Motivation', 'Critical Thinking, Innovation', 'Confidence, Resilience']
-}
+# Fetch candidate data from the API
+response = requests.get("http://web-api:4000/candidate")
+if response.status_code == 200:
+    candidates_data = response.json()
 
-# Convert to DataFrame
-candidates_df = pd.DataFrame(candidates_data)
+    # Check if the response contains data
+    if candidates_data:
+        # Convert the API response to DataFrame
+        candidates_df = pd.DataFrame(candidates_data)
 
+        # Display Candidate DataFrame
+        col1, col2 = st.columns([0.9, 0.1])
 
-
-col1, col2 = st.columns([0.9, 0.1])
-
-with col1:
-  # Display Candidate DataFrame
-  st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
-st.dataframe(candidates_df)
-
-with col2: 
-  pages = {
-      "Candidates Overview": "./pages/21_ML_Model_Mgmt.py",
-  }
+        with col1:
+            st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
+            st.dataframe(candidates_df)
+    else:
+        st.error("No candidates found.")
+else:
+    st.error(f"Failed to fetch candidate data from the API. Status Code: {response.status_code}")
