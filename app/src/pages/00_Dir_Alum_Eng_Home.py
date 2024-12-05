@@ -75,7 +75,12 @@ SideBarLinks()
 
 # Header and personalized greeting
 #st.title(f"Welcome, System Administrator {st.session_state['first_name']}!")
-st.markdown('<p class="light-text" style="font-size: 24px;">Welcome, Director of Alumni Relations.</p>', unsafe_allow_html=True)
+# Personalized welcome message
+st.markdown(
+    f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>',
+    unsafe_allow_html=True
+)
+
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Engagment Dashboard</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
 
 sac.divider(align='center', color='gray')
@@ -101,7 +106,7 @@ with st.container(border=True):
             "Active User Count": st.column_config.AreaChartColumn(
                 "Active User Count",
                 width="large",
-                help="The connection requests over the last 6 months",
+                help="The active users over the last 6 months",
             ),
             },
             hide_index=True,
