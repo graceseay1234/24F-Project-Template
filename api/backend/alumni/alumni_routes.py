@@ -12,7 +12,7 @@ alumni = Blueprint('alumni', __name__)
 @alumni.route('/alumni', methods=['GET'])
 def get_alumni():
     query = '''
-Select Alumni.Name, Alumni.Major, WorkExperience.Role, WorkExperience.Company
+Select Alumni.Name, Alumni.Major, Alumni.GradYear, WorkExperience.Role, WorkExperience.Company
 From Alumni
 LEFT OUTER JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID
     '''
