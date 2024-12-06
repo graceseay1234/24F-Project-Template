@@ -169,7 +169,9 @@ if not paginated_data.empty:
                         st.error(f"Failed to delete {row['Name']}'s profile.")
                 else:
                     logger.error(f"No 'AlumniID' found for {row['Name']}")
-                    st.warning(f"{row['Name']}'s profile does not have an Alumni ID.")    
+                    st.warning(f"{row['Name']}'s profile does not have an Alumni ID.")  
+        st.write("---")
+  
 else:
     st.warning("No alumni profiles match the filter criteria.")
 
