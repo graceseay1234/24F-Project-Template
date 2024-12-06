@@ -4,11 +4,11 @@ from backend.db_connection import db
 message = Blueprint('Message', __name__)
 
 # Get all messages from the database
-@message.route('/messages', methods=['GET'])
+@message.route('/message', methods=['GET'])
 def get_messages():
     query = '''
-    SELECT messageID, Name, InterviewNotes, Status, Qualities
-    FROM message
+    SELECT MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID
+    FROM Messages
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
