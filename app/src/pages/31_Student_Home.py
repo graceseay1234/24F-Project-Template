@@ -72,6 +72,9 @@ m = st.markdown("""
     .st-ek {
         color: black;
     } 
+                
+    .st-f7 {
+       color: black         }            
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
@@ -88,15 +91,14 @@ response = requests.get("http://web-api:4000/alumni")
 data = response.json()
 
 # Convert the response data to a DataFrame
-data_table1 = pd.DataFrame(data, columns=["Name", "Major", "Role", "Company"])
+data_table1 = pd.DataFrame(data, columns=["Name", "Major", "Role", "Company", "GradYear"])
 
 # Ensure there's a 'Profile_Picture' column in the imported data
 # You can either set default placeholders or leave them empty for now
 # Assuming data_table1 has 40 rows and you want to assign Grad_Year
 
-grad_years = ['24', '23', '22', '21']  # Example values
+
 # Repeat the grad_year list to match the length of the DataFrame
-data_table1['Grad_Year'] = (grad_years * (len(data_table1) // len(grad_years))) + grad_years[:len(data_table1) % len(grad_years)]
 # Sample alumni data based on imported API data
 alumni_data = data_table1.copy()
 
@@ -173,7 +175,7 @@ if not paginated_data.empty:
     
     # Custom layout for displaying images and information
     for index, row in paginated_data.iterrows():
-        col1, col2, col3, col4 = st.columns([0.9, 2.1, 3, 2])
+        col1, col2, col3, col4 = st.columns([0.9, 2.1, 3, 1])
         with col1:  
              # Default image if no URL is provided
             image_url = row.get('ProfilePic') 
@@ -185,7 +187,7 @@ if not paginated_data.empty:
 
         with col2:
             st.markdown(f"<p style='margin-top: 11px; margin-bottom: 0px;font-size: 25px; font-weight: 100;'>{row['Name']}</p>", unsafe_allow_html=True)
-            st.write(f"<p style='margin-top: 3px; margin-bottom: 5px;font-size: 15px; font-weight: 300;'>{row['Major']} | '{row['Grad_Year']}", unsafe_allow_html=True)
+            st.write(f"<p style='margin-top: 3px; margin-bottom: 5px;font-size: 15px; font-weight: 300;'>{row['Major']} | {row['GradYear']}", unsafe_allow_html=True)
         with col3:
             st.markdown(f"""
                 <div style='margin-top: 20px;'>  
@@ -197,6 +199,7 @@ if not paginated_data.empty:
                     </p>
                 </div>
             """, unsafe_allow_html=True)
+            #View button **doesnt** update redirected page based on session state
         with col4:
             if st.button(f"View Profile", key=f"{current_page}_{index}"):
                 st.session_state['selected_profile'] = row.to_dict()
