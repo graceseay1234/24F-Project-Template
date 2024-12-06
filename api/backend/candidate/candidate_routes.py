@@ -89,7 +89,7 @@ def get_candidate_with_warnings():
     SELECT A.CandidateID, A.Name, A.Status, A.Qualities, 
            W.WarningID, W.Reason AS WarningReason, W.TimeStamp AS WarningTime
     FROM Candidate A
-    LEFT JOIN Warnings W ON A.CandidateID = W.CandidateID
+    LEFT JOIN Warnings W ON A.CandidateID = W.WarningID
     WHERE W.WarningID IS NOT NULL;
     '''
 
@@ -107,7 +107,7 @@ def get_candidate_without_warnings():
     query = '''
     SELECT A.CandidateID, A.Name, A.Status, A.Qualities
     FROM Candidate A
-    LEFT JOIN Warnings W ON A.CandidateID = W.CandidateID
+    LEFT JOIN Warnings W ON A.CandidateID = W.WarningID
     WHERE W.WarningID IS NULL;
     '''
 
