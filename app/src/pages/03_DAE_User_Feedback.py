@@ -143,49 +143,47 @@ def delete_feedback(feedback_id):
 
 
 
-# Layout: Two columns: one for filters and form, one for displaying data
-col1, col2 = st.columns([1.5, 2])
+st.markdown('<ight-text style="font-size: 25px;font-weight: 400;">Add New Feedback</h1>', unsafe_allow_html=True)
+feedback_description = st.text_area("Feedback Description")
 
-with col1:
-    st.subheader("Add New Feedback")
-    feedback_description = st.text_area("Feedback Description")
-
-    if st.button("Submit Feedback"):
-        if feedback_description:
-            add_feedback(feedback_description)
-        else:
-            st.error("Please fill in all required fields.")
-
-with col2:
-    st.subheader("Existing Feedback")
-    # Fetch data
-    feedback_df = fetch_feedback_data()
-    feedback_df["FeedbackID"] = feedback_df["FeedbackID"].astype(int)
-    feedback_df = feedback_df.sort_values(by="FeedbackID")
-    if not feedback_df.empty:
-        h_col1, h_col2, h_col3, h_col4 = st.columns([1,5,1,1])
-        h_col1.write("FeedbackID")
-        h_col2.write("Content")
-        h_col3.write("Action")
-
-        for idx, row in feedback_df.iterrows():
-            col1, col2, col3, col4 = st.columns([1,5,1,1])
-            feedback_id = row.get('FeedbackID')
-            content = row.get('Content')
-            col1.write(feedback_id)
-            col2.write(content)
-
-            # Add a Clear Feedback button for this entry
-            clear_button_key = f"clear_{feedback_id}"
-            if col4.button("Clear", key=clear_button_key):
-                put_feedback(feedback_id, "")
-
-            delete_button_key = f"delete_{feedback_id}"
-            if col3.button("Delete", key=delete_button_key):
-                delete_feedback(feedback_id)
-                # Refresh the data after deletion
-
-            
+if st.button("Submit Feedback"):
+    if feedback_description:
+        add_feedback(feedback_description)
     else:
-        st.info("No feedback available")
+        st.error("Please fill in all required fields.")
+
+st.write("---")
+
+
+st.markdown('<ight-text style="font-size: 25px;font-weight: 400;">Existing Feedback</h1>', unsafe_allow_html=True)
+# Fetch data
+feedback_df = fetch_feedback_data()
+feedback_df["FeedbackID"] = feedback_df["FeedbackID"].astype(int)
+feedback_df = feedback_df.sort_values(by="FeedbackID")
+if not feedback_df.empty:
+    h_col1, h_col2, h_col3, h_col4 = st.columns([1,5,1,1])
+    h_col1.write("FeedbackID")
+    h_col2.write("Content")
+    h_col3.write("Action")
+
+    for idx, row in feedback_df.iterrows():
+        col1, col2, col3, col4 = st.columns([1,5,1,1])
+        feedback_id = row.get('FeedbackID')
+        content = row.get('Content')
+        col1.write(feedback_id)
+        col2.write(content)
+
+        # Add a Clear Feedback button for this entry
+        clear_button_key = f"clear_{feedback_id}"
+        if col4.button("Clear", key=clear_button_key):
+            put_feedback(feedback_id, "")
+
+        delete_button_key = f"delete_{feedback_id}"
+        if col3.button("Delete", key=delete_button_key):
+            delete_feedback(feedback_id)
+            # Refresh the data after deletion
+
+        
+else:
+    st.info("No feedback available")
 
