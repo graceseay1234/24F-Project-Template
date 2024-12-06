@@ -7,7 +7,7 @@ message = Blueprint('Message', __name__)
 @message.route('/message', methods=['GET'])
 def get_messages():
     query = '''
-    SELECT MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID
+    SELECT MessageID, MessageContent, SenderID, ReceiverID
     FROM Messages
     '''
     cursor = db.get_db().cursor()
@@ -21,7 +21,7 @@ def get_messages():
 @message.route('/message/<id>', methods=['GET'])
 def get_message_by_id(id):
     query = f'''
-    SELECT MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID
+    SELECT MessageID, MessageContent, SenderID, ReceiverID
     FROM Messages
     WHERE messageID = {str(id)}
     '''
@@ -51,11 +51,11 @@ def add_new_message():
     message_id = row.get('IFNULL(MAX(CAST(MessageID AS UNSIGNED)), -1)', 0)
 
     content = the_data.get('Content', '')
-    sender_alumni_id = the_data.get('SenderAlumniID', '')
-    receiver_alumni_id = the_data.get('ReceiverAlumniID', '')
+    sender_alumni_id = the_data.get('SenderID', '')
+    receiver_alumni_id = the_data.get('ReceiverID', '')
 
     query = f'''
-    INSERT INTO Messages (MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID)
+    INSERT INTO Messages (MessageID, MessageContent, SenderID, ReceiverID)
     VALUES ('{message_id + 1}', '{content}', '{sender_alumni_id}', '{receiver_alumni_id}')
     '''
     current_app.logger.info(query)

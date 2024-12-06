@@ -80,11 +80,6 @@ def JobsOverviewNav():
         "pages/22_Jobs_Overview.py", label="Jobs Overview", icon=":material/work:"
     )
 
-def RecruiterMessages():
-    st.sidebar.page_link(
-        "pages/23_Recruiter_Messages.py", label="Recruiter Messages", icon=":material/mail:"
-    )
-
 #### ------------------------ Student Role ------------------------
 def StudentPageNav():
     st.sidebar.page_link("pages/31_Student_Home.py", label="Alumni Search", icon=":material/person_search:")

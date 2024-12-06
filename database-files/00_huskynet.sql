@@ -213,7 +213,7 @@ CREATE TABLE Student (
 
 );
 
-
+CREATE INDEX student_id ON Student(StudentID);
 
 
 # ---------------------------------------------------------------------- #
@@ -222,14 +222,14 @@ CREATE TABLE Student (
 
 CREATE TABLE Messages (
   MessageID VARCHAR(50) NOT NULL,
-  SenderAlumniID INT,
-  ReceiverAlumniID INT,
+  SenderID INT,
+  ReceiverID INT,
   MessageContent VARCHAR(2000),
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (MessageID),
-  CONSTRAINT fk2_alumni FOREIGN KEY (SenderAlumniID) REFERENCES Alumni(AlumniID)
+  CONSTRAINT fk2_student FOREIGN KEY (SenderID) REFERENCES Student(StudentID)
   ON UPDATE cascade ON DELETE cascade,
-  CONSTRAINT fk6_alumni FOREIGN KEY (ReceiverAlumniID) REFERENCES Alumni(AlumniID)
+  CONSTRAINT fk6_student FOREIGN KEY (ReceiverID) REFERENCES Student(StudentID)
   ON UPDATE cascade ON DELETE cascade
 
 );
@@ -946,46 +946,46 @@ insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (3
 insert into Warnings (WarningID, AlumniID, AdminID, Reason, TimeStamp) values (40, 16, 8, 'Engaging in illegal activities', '2023-12-30 15:41:13');
 
 
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (1, 14, 29, 'Hey', '2024-04-21 05:51:08');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (2, 26, 29, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-07-01 23:07:42');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (3, 29, 22, 'Congratulations on landing your new job! I''m so happy for you!', '2024-05-13 11:37:24');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (4, 10, 14, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-11 05:20:50');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (5, 7, 13, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-19 01:17:16');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (6, 14, 5, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-05-29 08:33:10');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (7, 2, 33, 'Hey', '2023-12-16 23:44:43');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (8, 2, 6, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-10-13 14:32:48');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (9, 15, 2, 'Congratulations on landing your new job! I''m so happy for you!', '2024-03-08 05:23:59');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (10, 7, 23, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-26 13:54:38');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (11, 37, 14, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-07-17 18:32:24');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (12, 38, 1, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-20 18:49:51');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (13, 40, 5, 'Hey', '2024-06-02 14:17:58');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (14, 24, 37, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-04-16 02:41:21');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (15, 16, 25, 'Congratulations on landing your new job! I''m so happy for you!', '2024-11-16 21:35:19');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (16, 34, 30, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-11-12 04:04:23');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (17, 7, 3, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-05-04 11:21:03');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (18, 22, 20, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-07-07 00:16:52');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (19, 1, 21, 'Hey', '2024-11-13 19:32:57');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (20, 21, 14, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-30 09:58:21');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (21, 30, 13, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-29 07:36:54');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (22, 26, 38, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-05-16 20:57:53');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (23, 4, 36, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-22 16:50:20');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (24, 13, 14, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-24 14:39:10');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (25, 14, 32, 'Hey', '2024-09-26 08:28:20');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (26, 2, 38, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-13 08:37:55');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (27, 14, 5, 'Congratulations on landing your new job! I''m so happy for you!', '2024-08-27 09:47:29');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (28, 33, 2, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-03-10 00:01:19');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (29, 15, 39, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-04-01 22:28:03');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (30, 11, 22, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2023-12-08 09:05:03');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (31, 33, 3, 'Hey', '2024-08-03 19:44:37');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (32, 34, 25, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-09-10 09:51:31');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (33, 6, 20, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-30 17:51:48');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (34, 12, 3, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-15 23:26:08');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (35, 31, 27, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-03-18 07:59:45');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (36, 24, 17, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-06-07 13:23:08');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (37, 35, 33, 'Hey', '2024-11-13 09:01:09');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (38, 34, 27, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-11 11:04:19');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (39, 37, 34, 'Congratulations on landing your new job! I''m so happy for you!', '2024-09-14 17:30:12');
-insert into Messages (MessageID, SenderAlumniID, ReceiverAlumniID, MessageContent, TimeStamp) values (40, 31, 1, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-02 15:52:47');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (1, 14, 29, 'Hey', '2024-04-21 05:51:08');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (2, 26, 29, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-07-01 23:07:42');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (3, 29, 22, 'Congratulations on landing your new job! I''m so happy for you!', '2024-05-13 11:37:24');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (4, 10, 14, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-11 05:20:50');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (5, 7, 13, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-19 01:17:16');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (6, 14, 5, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-05-29 08:33:10');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (7, 2, 33, 'Hey', '2023-12-16 23:44:43');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (8, 2, 6, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-10-13 14:32:48');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (9, 15, 2, 'Congratulations on landing your new job! I''m so happy for you!', '2024-03-08 05:23:59');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (10, 7, 23, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2023-12-26 13:54:38');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (11, 37, 14, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-07-17 18:32:24');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (12, 38, 1, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-20 18:49:51');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (13, 40, 5, 'Hey', '2024-06-02 14:17:58');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (14, 24, 37, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-04-16 02:41:21');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (15, 16, 25, 'Congratulations on landing your new job! I''m so happy for you!', '2024-11-16 21:35:19');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (16, 34, 30, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-11-12 04:04:23');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (17, 7, 3, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-05-04 11:21:03');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (18, 22, 20, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-07-07 00:16:52');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (19, 1, 21, 'Hey', '2024-11-13 19:32:57');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (20, 21, 14, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-30 09:58:21');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (21, 30, 13, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-29 07:36:54');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (22, 26, 38, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-05-16 20:57:53');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (23, 4, 36, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2023-12-22 16:50:20');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (24, 13, 14, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-02-24 14:39:10');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (25, 14, 32, 'Hey', '2024-09-26 08:28:20');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (26, 2, 38, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-13 08:37:55');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (27, 14, 5, 'Congratulations on landing your new job! I''m so happy for you!', '2024-08-27 09:47:29');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (28, 33, 2, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-03-10 00:01:19');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (29, 15, 39, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-04-01 22:28:03');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (30, 11, 22, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2023-12-08 09:05:03');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (31, 33, 3, 'Hey', '2024-08-03 19:44:37');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (32, 34, 25, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-09-10 09:51:31');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (33, 6, 20, 'Congratulations on landing your new job! I''m so happy for you!', '2024-07-30 17:51:48');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (34, 12, 3, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-15 23:26:08');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (35, 31, 27, 'I saw your LinkedIn update about your new job. That''s awesome news!', '2024-03-18 07:59:45');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (36, 24, 17, 'Have you considered freelancing? I know someone who could use your skills on a project.', '2024-06-07 13:23:08');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (37, 35, 33, 'Hey', '2024-11-13 09:01:09');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (38, 34, 27, 'I heard about a job opening at XYZ company that might be a good fit for you!', '2024-08-11 11:04:19');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (39, 37, 34, 'Congratulations on landing your new job! I''m so happy for you!', '2024-09-14 17:30:12');
+insert into Messages (MessageID, SenderID, ReceiverID, MessageContent, TimeStamp) values (40, 31, 1, 'I have a contact at ABC company who is looking to hire. Let me know if you want me to connect you.', '2024-10-02 15:52:47');
 
 
 insert into Administrator (AdminID, Name, Email, Role) values (1, 'Julietta Maskelyne', 'jmaskelyne0@adobe.com', 'Super Admin');

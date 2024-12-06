@@ -73,8 +73,8 @@ m = st.markdown("""
 if 'first_name' not in st.session_state:
     st.session_state['first_name'] = 'Student'
 
-if 'alumni_id' not in st.session_state:
-    st.session_state['alumni_id'] = '14'
+if 'student_id' not in st.session_state:
+    st.session_state['student_id'] = '14'
 
 # Personalized welcome message
 st.markdown(f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>', unsafe_allow_html=True)
@@ -92,7 +92,7 @@ else:
     st.error("Failed to fetch messages from the backend.")
 
 # Convert the data to DataFrame for easier display
-messages_df = pd.DataFrame(messages_data, columns=['MessageID', 'MessageContent', 'SenderAlumniID', 'ReceiverAlumniID'])
+messages_df = pd.DataFrame(messages_data, columns=['MessageID', 'MessageContent', 'SenderID', 'ReceiverID'])
 
 messages_df["MessageID"] = messages_df["MessageID"].astype(int)
 messages_df = messages_df.sort_values(by="MessageID", ascending=False)
@@ -136,21 +136,21 @@ if not messages_df.empty:
     h_col1, h_col2, h_col3, h_col4, h_col5, h_col6 = st.columns([1,5,1,1,1,1])
     h_col1.write("MessageID")
     h_col2.write("Content")
-    h_col3.write("Sender AlumniID")
-    h_col4.write("Receiver AlumniID")
+    h_col3.write("Sender ID")
+    h_col4.write("Receiver ID")
     h_col5.write("Action")
 
-    our_id = int(st.session_state['alumni_id'])
+    our_id = int(st.session_state['student_id'])
 
     for idx, row in messages_df.iterrows():
-        rec_id = int(row.get('ReceiverAlumniID'))
-        sent_id = int(row.get('SenderAlumniID'))
+        rec_id = int(row.get('ReceiverID'))
+        sent_id = int(row.get('SenderID'))
         if rec_id == our_id or sent_id == our_id:
             col1, col2, col3, col4, col5, col6 = st.columns([1,5,1,1,1,1])
             message_id = row.get('MessageID')
             content = row.get('MessageContent')
-            sender_id = row.get('SenderAlumniID')
-            rec_id = row.get('ReceiverAlumniID')
+            sender_id = row.get('SenderID')
+            rec_id = row.get('ReceiverID')
             col1.write(message_id)
             col2.write(content)
             col3.write(sender_id)
@@ -170,10 +170,10 @@ if not messages_df.empty:
 
 
 # View Message Interaction: When a student clicks on a message
-# Ensure ReceiverAlumniID and alumni_id are the same type for comparison
+# Ensure ReceiverID and student_id are the same type for comparison
 filtered_messages_df = messages_df[
-    (messages_df['ReceiverAlumniID'].astype(str) == str(st.session_state['alumni_id'])) |
-    (messages_df['SenderAlumniID'].astype(str) == str(st.session_state['alumni_id']))
+    (messages_df['ReceiverID'].astype(str) == str(st.session_state['student_id'])) |
+    (messages_df['SenderID'].astype(str) == str(st.session_state['student_id']))
 ]
 
 
@@ -191,8 +191,8 @@ if message_id is not None:
 
     if message_response.status_code == 200:
         selected_message = message_response.json()
-        st.markdown(f"**From:** {selected_message[0]['SenderAlumniID']}")
-        st.markdown(f"**To:** {selected_message[0]['ReceiverAlumniID']}")
+        st.markdown(f"**From:** {selected_message[0]['SenderID']}")
+        st.markdown(f"**To:** {selected_message[0]['ReceiverID']}")
         st.markdown(f"**Message:** {selected_message[0]['MessageContent']}")
     
         # Responding to the message
@@ -203,8 +203,8 @@ if message_id is not None:
             # In a real application, you would send this response to the backend.
             response_data = {
                 'Content': response_content,
-                'SenderAlumniID': selected_message[0]['SenderAlumniID'], 
-                'ReceiverAlumniID': selected_message[0]['ReceiverAlumniID']
+                'SenderID': selected_message[0]['SenderID'], 
+                'ReceiverID': selected_message[0]['ReceiverID']
             }
             # Send the response to the backend (API call to add new message)
             post_response = requests.post(messages_url, json=response_data)
@@ -227,8 +227,8 @@ if st.button("Send Message"):
     # Send the new message to the backend
     new_message_data = {
         'Content': message_content,
-        'SenderAlumniID': st.session_state['alumni_id'],  # Sender info
-        'ReceiverAlumniID': recipient_id
+        'SenderID': st.session_state['student_id'],  # Sender info
+        'ReceiverID': recipient_id
     }
     response = requests.post(messages_url, json=new_message_data)
     
