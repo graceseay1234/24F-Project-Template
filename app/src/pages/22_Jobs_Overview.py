@@ -83,9 +83,6 @@ if response.status_code == 200:
     col1, col2 = st.columns([0.9, 0.1])
 
     with col1:
-        # Display Jobs Overview header
-        st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Jobs Overview</h1>', unsafe_allow_html=True)
-
         # Display Job DataFrame
         st.dataframe(jobs_df)
 
