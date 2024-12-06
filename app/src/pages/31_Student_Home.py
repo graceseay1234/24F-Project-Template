@@ -74,7 +74,11 @@ m = st.markdown("""
     } 
                 
     .st-f7 {
-       color: black         }            
+       color: black         }     
+
+    .st-dn {
+        color: black
+                }       
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
@@ -93,12 +97,6 @@ data = response.json()
 # Convert the response data to a DataFrame
 data_table1 = pd.DataFrame(data, columns=["Name", "Major", "Role", "Company", "GradYear"])
 
-# Ensure there's a 'Profile_Picture' column in the imported data
-# You can either set default placeholders or leave them empty for now
-# Assuming data_table1 has 40 rows and you want to assign Grad_Year
-
-
-# Repeat the grad_year list to match the length of the DataFrame
 # Sample alumni data based on imported API data
 alumni_data = data_table1.copy()
 
@@ -145,6 +143,9 @@ if selected_field_of_work:  # 'Company' filters 'Company'
 if selected_major:  # 'Major' filters 'Major'
     filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
 
+# Remove duplicates based on the alumni 'Name' only (keep first unique entry)
+filtered_data = filtered_data.drop_duplicates(subset=["Name"])
+
 # Number of items per page
 items_per_page = 10
 
@@ -154,7 +155,6 @@ total_pages = -(-len(filtered_data) // items_per_page)  # Round up division
 # Add pagination control
 current_page = sac.pagination(
     align='center', 
-    jump=True, 
     show_total=True, 
     total=len(filtered_data)
 ) or 1  # Default to page 1 if no selection
@@ -199,9 +199,10 @@ if not paginated_data.empty:
                     </p>
                 </div>
             """, unsafe_allow_html=True)
-            #View button **doesnt** update redirected page based on session state
+            # View button **doesn't** update redirected page based on session state
         with col4:
-            if st.button(f"View Profile", key=f"{current_page}_{index}"):
+            button_key = f"View Profile_{current_page}_{index}"
+            if st.button(f"View Profile", key=button_key):
                 st.session_state['selected_profile'] = row.to_dict()
                 st.switch_page('pages/33_Alumni_Profiles.py')
                 
