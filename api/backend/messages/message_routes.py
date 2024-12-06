@@ -67,7 +67,7 @@ def add_new_message():
 # Route to delete a message
 @message.route('/delete_message/<message_id>', methods=['DELETE'])
 def delete_message(message_id):
-    query = f"DELETE FROM message WHERE messageID = '{message_id}'"
+    query = f"DELETE FROM Messages WHERE MessageID = '{message_id}'"
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
