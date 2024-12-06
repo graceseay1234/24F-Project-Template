@@ -21,8 +21,8 @@ def get_messages():
 @message.route('/message/<id>', methods=['GET'])
 def get_message_by_id(id):
     query = f'''
-    SELECT messageID, Name, InterviewNotes, Status, Qualities
-    FROM message
+    SELECT MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID
+    FROM Messages
     WHERE messageID = {str(id)}
     '''
     current_app.logger.info(f'GET /message/<id> query={query}')
