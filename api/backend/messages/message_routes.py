@@ -78,5 +78,27 @@ def update_message():
     message_info = request.json
     current_app.logger.info(message_info)
 
-    # Here you would include the logic for updating the message's information in the database.
-    return jsonify({"message": "Update functionality to be implemented"}), 200
+    # Extracting variables
+    message_id = feedback_info.get('MessageID')
+    content = feedback_info.get('Content')
+
+    query = '''
+        UPDATE Messages
+        SET MessageContent = %s
+        WHERE MessageID = %s
+    '''
+
+    # Executing the SQL query
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (content, message_id))
+        db.get_db().commit()
+    except Exception as e:
+        current_app.logger.error(f"Failed to update message: {e}")
+        response = make_response("Failed to update message")
+        response.status_code = 500
+        return response
+
+    response = make_response("Successfully updated message")
+    response.status_code = 200
+    return response
