@@ -1,6 +1,7 @@
 import logging
 import pandas as pd
 import streamlit as st
+import requests
 from modules.nav import SideBarLinks
 try:
     import streamlit_antd_components as sac
@@ -75,48 +76,57 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Messages</h1>', unsaf
 
 sac.divider(align='center', color='gray')
 
-# Placeholder for Message Data (Can be replaced with real data from a backend or API)
-messages_data = {
-    'From': ['Professor A', 'Professor B', 'T.A. C', 'Professor D'],
-    'Subject': ['Assignment 1 Update', 'Exam Reminder', 'Course Feedback', 'Final Exam Info'],
-    'Date': ['2024-12-01', '2024-12-02', '2024-12-03', '2024-12-04'],
-    'Message': [
-        'The deadline for Assignment 1 has been extended by one week.',
-        'Reminder: Your exam is on December 5th.',
-        'Please provide feedback on the course using the form.',
-        'The final exam will take place on December 12th at 10 AM.'
-    ],
-    'Status': ['Unread', 'Read', 'Unread', 'Unread']
-}
+# Fetch messages from the Flask API
+messages_url = 'http://web-api:4000/message'  # Assuming Flask runs locally
+response = requests.get(messages_url)
 
-# Create a DataFrame with the mock messages data
-messages_df = pd.DataFrame(messages_data)
+if response.status_code == 200:
+    messages_data = response.json()  # Messages fetched from the backend
+else:
+    st.error("Failed to fetch messages from the backend.")
+
+# Convert the data to DataFrame for easier display
+messages_df = pd.DataFrame(messages_data, columns=['MessageID', 'MessageContent', 'SenderAlumniID', 'ReceiverAlumniID'])
 
 # Display Messages Table
 st.dataframe(messages_df)
 
 # View Message Interaction: When a student clicks on a message
-message_id = st.selectbox("Select a Message to View", messages_df.index)
+message_id = st.selectbox("Select a Message to View", messages_df['MessageID'])
 
-# Display the selected message's details
+# Fetch the selected message's details
 if message_id is not None:
-    selected_message = messages_df.iloc[message_id]
-    st.markdown(f"**From:** {selected_message['From']}")
-    st.markdown(f"**Subject:** {selected_message['Subject']}")
-    st.markdown(f"**Date:** {selected_message['Date']}")
-    st.markdown(f"**Message:** {selected_message['Message']}")
-    
-    # Responding to the message
-    st.markdown("### Respond to Message")
-    response = st.text_area("Write your response here:")
+    message_url = f'http://web-api:4000/message/{message_id}'
+    message_response = requests.get(message_url)
 
-    if st.button("Send Response"):
-        # In a real application, you would send this response to the backend.
-        st.success(f"Your response to {selected_message['From']} has been sent!")
+    if message_response.status_code == 200:
+        selected_message = message_response.json()
+        st.markdown(f"**From:** {selected_message[0]['SenderAlumniID']}")
+        st.markdown(f"**To:** {selected_message[0]['ReceiverAlumniID']}")
+        st.markdown(f"**Message:** {selected_message[0]['MessageContent']}")
     
-    # Change message status to "Read" once it's selected
-    messages_df.at[message_id, 'Status'] = 'Read'
-    st.dataframe(messages_df)
+        # Responding to the message
+        st.markdown("### Respond to Message")
+        response_content = st.text_area("Write your response here:")
+
+        if st.button("Send Response"):
+            # In a real application, you would send this response to the backend.
+            response_data = {
+                'MessageID': message_id,
+                'Content': response_content,
+                'SenderAlumniID': st.session_state['first_name'],  # Sender can be derived from session state or input
+                'ReceiverAlumniID': selected_message[0]['SenderAlumniID']
+            }
+            # Send the response to the backend (API call to add new message)
+            post_response = requests.post(messages_url, json=response_data)
+
+            if post_response.status_code == 201:
+                st.success(f"Your response has been sent!")
+            else:
+                st.error("Failed to send response.")
+    
+    else:
+        st.error("Failed to fetch the selected message.")
 
 # Compose New Message
 st.markdown("### Compose New Message")
@@ -125,6 +135,16 @@ subject = st.text_input("Subject:")
 message_content = st.text_area("Message Content:")
 
 if st.button("Send Message"):
-    # In a real application, you would send this message to the backend.
-    st.success(f"Message sent to {recipient} with subject: {subject}")
-
+    # Send the new message to the backend
+    new_message_data = {
+        'MessageID': str(pd.to_datetime('now').timestamp()),  # Unique message ID (timestamp as placeholder)
+        'Content': message_content,
+        'SenderAlumniID': st.session_state['first_name'],  # Sender info
+        'ReceiverAlumniID': recipient
+    }
+    response = requests.post(messages_url, json=new_message_data)
+    
+    if response.status_code == 201:
+        st.success(f"Message sent to {recipient} with subject: {subject}")
+    else:
+        st.error("Failed to send the message.")
