@@ -14,7 +14,7 @@ def get_alumni():
     query = '''
 Select Alumni.Name, Alumni.Major, WorkExperience.Role, WorkExperience.Company
 From Alumni
-JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID
+LEFT OUTER JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -107,7 +107,6 @@ def add_new_alumni():
     major = the_data['Major']
     grad_year = the_data['GradYear']
     work_experience = the_data['WorkExperience']
-    alumniid = f'''{name}{grad_year}'''
     #company = the_data['Company']
     #warning_reason = the_data["WarningReason"]
 
@@ -116,9 +115,9 @@ def add_new_alumni():
         INSERT INTO Alumni (Name,
                               Major,
                               GradYear,
-                              WorkExperience,
-                              AlumniID)
-        VALUES ('{name}', '{major}', '{grad_year}', '{work_experience}', '{alumniid}' )
+                              WorkExperience
+                              )
+        VALUES ('{name}', '{major}', '{grad_year}', '{work_experience}')
     '''
     current_app.logger.info(query)
 
