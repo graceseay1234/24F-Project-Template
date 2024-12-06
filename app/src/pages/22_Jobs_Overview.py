@@ -66,29 +66,28 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Jobs Overview</h1>', 
 
 sac.divider(align='center', color='gray')
 
-# Example Job Data with only Title, Status, and Description
-jobs_data = {
-    'Job Title': ['Software Engineer', 'Data Analyst', 'HR Manager', 'Marketing Specialist', 'Operations Lead'],
-    'Status': ['Open', 'Closed', 'Open', 'In Progress', 'Open'],
-    'Description': [
-        'Responsible for developing software solutions and collaborating with teams.',
-        'Analyzing data to generate insights and help guide decision-making.',
-        'Managing human resources functions, including recruitment and employee relations.',
-        'Creating and executing marketing strategies to promote products and services.',
-        'Overseeing day-to-day operations and ensuring efficiency in business processes.'
-    ]
-}
+# Fetch jobs data from the Flask API
+jobs_url = 'http://web-api:4000/job' 
+response = requests.get(jobs_url)
 
-# Convert to DataFrame
-jobs_df = pd.DataFrame(jobs_data)
+if response.status_code == 200:
+    # Assuming the response is a list of jobs, parse it
+    jobs_data = response.json()
 
+    # Convert to DataFrame
+    jobs_df = pd.DataFrame(jobs_data)
 
-col1, col2 = st.columns([0.9, 0.1])
+    # Reorder columns so that 'Title' is the first column
+    jobs_df = jobs_df[['Title', 'JobID', 'Description', 'Status']]
 
-with col1:
-    # Display Candidate DataFrame
-  st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Jobs Overview</h1>', unsafe_allow_html=True)
+    col1, col2 = st.columns([0.9, 0.1])
 
+    with col1:
+        # Display Jobs Overview header
+        st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Jobs Overview</h1>', unsafe_allow_html=True)
 
-# Display Job DataFrame
-st.dataframe(jobs_df)
+        # Display Job DataFrame
+        st.dataframe(jobs_df)
+
+else:
+    st.error(f"Failed to fetch job data. Status code: {response.status_code}")

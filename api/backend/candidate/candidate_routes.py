@@ -127,3 +127,16 @@ def delete_candidate_by_name(candidate_name):
     db.get_db().commit()
     return jsonify({"message": f"Candidate {candidate_name} deleted successfully."}), 200
 
+
+@candidate.route('/job', methods=['GET'])
+def get_jobs():
+    query = '''
+    SELECT JobID, Title, Description, Status
+    FROM Job
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
