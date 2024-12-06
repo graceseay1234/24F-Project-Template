@@ -112,7 +112,7 @@ with col2:
     # set the title of the page and provide a simple prompt.
     logger.info("Loading the Home page of the app")
     st.markdown('<h1 style="font-size: 50px;font-weight: 300;">Welcome to</h1>', unsafe_allow_html=True)  # Large font for 'Welcome to'
-    st.image("assets/huskynetlogosvg.svg", width=350)
+    st.image("assets/huskynetlogosvg.svg", width=300)
     st.write('\n\n')
     st.markdown('<p class="light-text" style="font-size: 24px;">Hi! Please select your role to login.</p>', unsafe_allow_html=True)
 
@@ -122,7 +122,7 @@ with col2:
     data = {
         "Position Title": ["Director of Alumni Relations", "System Admin", "Recruiter", "Student"],
         "Name": ["Carson McCullers", "Alice Walker", "Jordan Johnson", "Margaret Mitchell"],
-        "Page": ["pages/00_Dir_Alum_Eng_Home.py", "pages/10_System_Admin_Dashboard.py", 
+        "Page": ["pages/00_Dir_Alum_Eng_Home.py", "pages/10_System_Admin_Home.py", 
                 "pages/20_Recruiter_Home.py", "pages/31_Student_Home.py"],
         "Role": ["Director_of_Alumni_Engagment", "System_Admin", "Recruiter", "Student"]
     }
