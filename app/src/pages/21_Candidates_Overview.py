@@ -75,6 +75,7 @@ if response.status_code == 200:
     if candidates_data:
         # Convert the API response to DataFrame
         candidates_df = pd.DataFrame(candidates_data)
+        candidates_df = candidates_df[['CandidateID', 'Name', 'InterviewNotes', 'Qualities', "Status"]]
 
         # Display Candidate DataFrame
         st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
