@@ -97,9 +97,9 @@ def get_performance_metrics(metric_id):
 @administrator.route('/roles', methods=['GET'])
 def get_roles():
     query = '''
-    SELECT role, COUNT(*) AS count
-    FROM administrator
-    GROUP BY role
+    SELECT Role, COUNT(*) AS count
+    FROM Administrator
+    GROUP BY Role
     ORDER BY count DESC
     '''
     cursor = db.get_db().cursor()
