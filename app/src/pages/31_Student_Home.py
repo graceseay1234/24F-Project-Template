@@ -16,7 +16,6 @@ import requests
 # Show appropriate sidebar links for the role of the currently logged in user
 SideBarLinks()
 
-
 # Styling for the page
 m = st.markdown("""
 <style>
@@ -44,7 +43,6 @@ m = st.markdown("""
         padding: 20px;
         border-radius: 8px;
         border: 2px solid #ddd;
-
     }
 
     div.stButton > button:first-child {
@@ -65,18 +63,15 @@ m = st.markdown("""
 
     .ant-cascader-menu-item:hover {
         background-color: rgba(0, 0, 0, 0.1);
-                
     }  
 
     .st-d8 {
-     color: black;
-                                
+        color: black;
     }
                 
     .st-ek {
         color: black;
     } 
-
 </style>""", unsafe_allow_html=True)
 
 # Header and personalized greeting
@@ -84,7 +79,6 @@ if 'first_name' not in st.session_state:
     st.session_state['first_name'] = 'Student'
 
 # Personalized welcome message
-
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Search Alumni</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
@@ -106,7 +100,6 @@ data_table1['Grad_Year'] = (grad_years * (len(data_table1) // len(grad_years))) 
 # Sample alumni data based on imported API data
 alumni_data = data_table1.copy()
 
-
 # Create a 3-column layout for filtering options
 col1, col2, col3 = st.columns(3)
 
@@ -115,8 +108,8 @@ with col1:
     selected_internship = st.multiselect(
         'Field of Work',
         options=alumni_data['Role'].unique(),
-        default=[],  # No default selection\
-        help="Select one or more company"
+        default=[],  # No default selection
+        help="Select one or more companies"
     )
 
 with col2:
@@ -150,9 +143,6 @@ if selected_field_of_work:  # 'Company' filters 'Company'
 if selected_major:  # 'Major' filters 'Major'
     filtered_data = filtered_data[filtered_data['Major'].isin(selected_major)]
 
-
-
-
 # Number of items per page
 items_per_page = 10
 
@@ -161,10 +151,10 @@ total_pages = -(-len(filtered_data) // items_per_page)  # Round up division
 
 # Add pagination control
 current_page = sac.pagination(
-    total=total_pages,  # Total number of pages
-    align='center',
-    jump=True,
-    show_total=True
+    align='center', 
+    jump=True, 
+    show_total=True, 
+    total=len(filtered_data)
 ) or 1  # Default to page 1 if no selection
 
 # Calculate the range of data to display
@@ -208,7 +198,7 @@ if not paginated_data.empty:
                 </div>
             """, unsafe_allow_html=True)
         with col4:
-            if st.button(f"View {row['Name']}'s Profile", key=f"{current_page}_{index}"):
+            if st.button(f"View Profile", key=f"{current_page}_{index}"):
                 st.session_state['selected_profile'] = row.to_dict()
                 st.switch_page('pages/33_Alumni_Profiles.py')
                 
