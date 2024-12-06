@@ -44,15 +44,14 @@ def add_new_message():
     current_app.logger.info(the_data)
 
     # Extracting the variables
-    message_id = the_data['messageID']
-    name = the_data['Name']
-    interview_notes = the_data.get('InterviewNotes', '')
-    status = the_data.get('Status', '')
-    qualities = the_data.get('Qualities', '')
+    message_id = the_data.get('MessageID', '')
+    content = the_data.get('Content', '')
+    sender_alumni_id = the_data.get('SenderAlumniID', '')
+    receiver_alumni_id = the_data.get('ReceiverAlumniID', '')
 
     query = f'''
-    INSERT INTO message (messageID, Name, InterviewNotes, Status, Qualities)
-    VALUES ('{message_id}', '{name}', '{interview_notes}', '{status}', '{qualities}')
+    INSERT INTO Messages (MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID)
+    VALUES ('{message_id}', '{content}', '{sender_alumni_id}', '{receiver_alumni_id}')
     '''
     current_app.logger.info(query)
 
