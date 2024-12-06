@@ -70,6 +70,9 @@ m = st.markdown("""
 if 'first_name' not in st.session_state:
     st.session_state['first_name'] = 'Student'
 
+if 'alumni_id' not in st.session_state:
+    st.session_state['alumni_id'] = '14'
+
 # Personalized welcome message
 st.markdown(f'<p class="light-text" style="font-size: 24px;">Welcome, {st.session_state["first_name"]}.</p>', unsafe_allow_html=True)
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Messages</h1>', unsafe_allow_html=True)
@@ -136,21 +139,20 @@ if message_id is not None:
 
 # Compose New Message
 st.markdown("### Compose New Message")
-recipient = st.text_input("Recipient (e.g., Professor A, T.A. C):")
-subject = st.text_input("Subject:")
+recipient_id = st.text_input("Recipient ID:")
 message_content = st.text_area("Message Content:")
 
 if st.button("Send Message"):
     # Send the new message to the backend
     new_message_data = {
-        'MessageID': str(pd.to_datetime('now').timestamp()),  # Unique message ID (timestamp as placeholder)
         'Content': message_content,
-        'SenderAlumniID': st.session_state['first_name'],  # Sender info
-        'ReceiverAlumniID': recipient
+        'SenderAlumniID': st.session_state['alumni_id'],  # Sender info
+        'ReceiverAlumniID': recipient_id
     }
     response = requests.post(messages_url, json=new_message_data)
     
     if response.status_code == 201:
-        st.success(f"Message sent to {recipient} with subject: {subject}")
+        st.success(f"Message sent to {recipient_id}!")
+        st.rerun()
     else:
         st.error("Failed to send the message.")
