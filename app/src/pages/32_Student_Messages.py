@@ -88,6 +88,12 @@ else:
 # Convert the data to DataFrame for easier display
 messages_df = pd.DataFrame(messages_data, columns=['MessageID', 'MessageContent', 'SenderAlumniID', 'ReceiverAlumniID'])
 
+messages_df["MessageID"] = messages_df["MessageID"].astype(int)
+messages_df = messages_df.sort_values(by="MessageID", ascending=False)
+
+# Reset the index before displaying the DataFrame
+messages_df = messages_df.reset_index(drop=True)
+
 # Display Messages Table
 st.dataframe(messages_df)
 
