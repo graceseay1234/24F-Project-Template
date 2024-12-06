@@ -111,7 +111,7 @@ def add_feedback(content):
         st.error(f"Error adding feedback: {e}")
 
 # Function to edit feedback
-def edit_feedback(feedback_id, new_content):
+def put_feedback(feedback_id, new_content):
     payload = {
         "FeedbackID": feedback_id,
         "Content": new_content
@@ -119,8 +119,8 @@ def edit_feedback(feedback_id, new_content):
     try:
         response = requests.put(f"{BASE_URL}/feedback", json=payload)
         if response.status_code == 200:
-            st.success("Successfully updated feedback!")
-            
+            st.success("Successfully cleared feedback!")
+            st.rerun()
         elif response.status_code == 404:
             st.error("Feedback ID not found.")
         else:
@@ -163,29 +163,22 @@ with col2:
     feedback_df["FeedbackID"] = feedback_df["FeedbackID"].astype(int)
     feedback_df = feedback_df.sort_values(by="FeedbackID")
     if not feedback_df.empty:
-        h_col1, h_col2, h_col3 = st.columns([1,5,1])
+        h_col1, h_col2, h_col3, h_col4 = st.columns([1,5,1,1])
         h_col1.write("FeedbackID")
         h_col2.write("Content")
         h_col3.write("Action")
 
         for idx, row in feedback_df.iterrows():
-            col1, col2, col3 = st.columns([1,5,1])
+            col1, col2, col3, col4 = st.columns([1,5,1,1])
             feedback_id = row.get('FeedbackID')
             content = row.get('Content')
             col1.write(feedback_id)
             col2.write(content)
 
-            # Add an Edit button for this entry
-            edit_button_key = f"edit_{feedback_id}"
-            if col3.button("Edit", key=edit_button_key):
-                # Open a modal or expand a section to edit
-                with st.expander(f"Edit Feedback ID {feedback_id}", expanded=True):
-                    new_content = st.text_area("Updated Content", value=content, key=f"edit_content_{feedback_id}")
-                    if st.button("Save Changes", key=f"save_{feedback_id}"):
-                        if new_content.strip():
-                            edit_feedback(feedback_id, new_content.strip())
-                        else:
-                            st.error("Content cannot be empty.")
+            # Add a Clear Feedback button for this entry
+            clear_button_key = f"clear_{feedback_id}"
+            if col4.button("Clear", key=clear_button_key):
+                put_feedback(feedback_id, "")
 
             delete_button_key = f"delete_{feedback_id}"
             if col3.button("Delete", key=delete_button_key):
