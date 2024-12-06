@@ -1,4 +1,5 @@
 import logging
+import requests
 import pandas as pd
 import streamlit as st
 from modules.nav import SideBarLinks
@@ -69,40 +70,32 @@ st.markdown(
 st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Hiring Dashboard</h1>', unsafe_allow_html=True)
 
 sac.divider(align='center', color='gray')
-# Example Candidate Data
-candidates_data = {
-    'Name': ['Alice Smith', 'John Doe', 'Sarah Lee', 'Michael Brown', 'Emily White'],
-    'Interview Notes': ['Strong communicator', 'Needs improvement in technical skills', 'Great teamwork skills', 'Excellent technical knowledge', 'Good fit for leadership roles'],
-    'Status': ['Under Review', 'Interviewed', 'Offer Extended', 'Under Review', 'Offer Accepted'],
-    'Qualities': ['Leadership, Communication', 'Technical Skills, Problem Solving', 'Teamwork, Adaptability', 'Technical Knowledge, Problem Solving', 'Leadership, Initiative'],
-    'Jobs Considered For': ['Software Engineer, Data Analyst', 'HR Manager, Project Manager', 'Marketing Specialist, Content Creator', 'Software Engineer, IT Support', 'HR Manager, Operations Lead'],
-    'Traits': ['Empathy, Assertiveness', 'Perseverance, Focus', 'Collaboration, Motivation', 'Critical Thinking, Innovation', 'Confidence, Resilience']
-}
-
-candidates_df = pd.DataFrame(candidates_data)
-
-# Sample Job DataFrame
-jobs_data = {
-    'Job Title': ['Software Engineer', 'Data Analyst', 'HR Manager', 'Marketing Specialist', 'Operations Lead'],
-    'Status': ['Open', 'Closed', 'Open', 'In Progress', 'Open'],
-    'Description': [
-        'Responsible for developing software solutions and collaborating with teams.',
-        'Analyzing data to generate insights and help guide decision-making.',
-        'Managing human resources functions, including recruitment and employee relations.',
-        'Creating and executing marketing strategies to promote products and services.',
-        'Overseeing day-to-day operations and ensuring efficiency in business processes.'
-    ]
-}
-
-jobs_df = pd.DataFrame(jobs_data)
 
 # Layout with columns
 col1, col2 = st.columns([0.9, 0.1])
 
 # Candidates Overview Section
 with col1:
-    st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
-    st.dataframe(candidates_df)
+    response = requests.get("http://web-api:4000/candidate")
+    if response.status_code == 200:
+        candidates_data = response.json()
+
+        # Check if the response contains data
+        if candidates_data:
+            # Convert the API response to DataFrame
+            candidates_df = pd.DataFrame(candidates_data)
+            candidates_df = candidates_df[['CandidateID', 'Name', 'InterviewNotes', 'Qualities', "Status"]]
+
+            # Limit the number of results to 10
+            candidates_df = candidates_df.head(10)
+
+            # Display Candidate DataFrame
+            st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Candidates Overview</h1>', unsafe_allow_html=True)
+            st.dataframe(candidates_df)
+        else:
+            st.error("No candidates found.")
+    else:
+        st.error(f"Failed to fetch candidate data from the API. Status Code: {response.status_code}")
 
 with col2: 
     pages = {
@@ -121,14 +114,39 @@ col1, col2 = st.columns([0.9, 0.1])
 
 with col1:
     st.markdown('<h1 style="font-size: 20px;font-weight: 400;">Jobs Overview</h1>', unsafe_allow_html=True)
-    st.dataframe(jobs_df)
+
+    # Fetch jobs data from the Flask API
+    jobs_url = 'http://web-api:4000/job' 
+    response = requests.get(jobs_url)
+
+    if response.status_code == 200:
+        # Assuming the response is a list of jobs, parse it
+        jobs_data = response.json()
+
+        # Convert to DataFrame
+        jobs_df = pd.DataFrame(jobs_data)
+
+        # Reorder columns so that 'Title' is the first column
+        jobs_df = jobs_df[['Title', 'JobID', 'Description', 'Status']]
+
+        # Limit to 10 results
+        jobs_df = jobs_df.head(10)
+
+        # Display Job DataFrame
+        st.dataframe(jobs_df)
+
+    else:
+        st.error(f"Failed to fetch job data. Status code: {response.status_code}")
+
+
+
 
 with col2: 
     pages = {
         "Jobs Overview": "pages/22_Jobs_Overview.py",  # Match with page name in the .streamlit/pages folder
     }
 
-    switch_page = st.button("Expand")
+    switch_page = st.button("See More ")
     if switch_page:
         # Switch to the selected page
         page_file = pages["Jobs Overview"]

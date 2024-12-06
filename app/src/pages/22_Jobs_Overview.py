@@ -80,11 +80,9 @@ if response.status_code == 200:
     # Reorder columns so that 'Title' is the first column
     jobs_df = jobs_df[['Title', 'JobID', 'Description', 'Status']]
 
-    col1, col2 = st.columns([0.9, 0.1])
 
-    with col1:
-        # Display Job DataFrame
-        st.dataframe(jobs_df)
+    # Display Job DataFrame
+    st.dataframe(jobs_df)
 
 else:
     st.error(f"Failed to fetch job data. Status code: {response.status_code}")
