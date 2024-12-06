@@ -5,6 +5,7 @@ from backend.alumni.alumni_routes import alumni
 from backend.system_admin.systemadmin_routes import administrator
 from backend.feedback.feedback_routes import feedback
 from backend.candidate.candidate_routes import candidate
+from backend.messages.message_routes import message
 import os
 from dotenv import load_dotenv
 
@@ -52,6 +53,7 @@ def create_app():
     app.register_blueprint(administrator, url_prefix='/administrators')
     app.register_blueprint(feedback)
     app.register_blueprint(candidate)
+    app.register_blueprint(message)
     # Register the Blueprint
 
     # Don't forget to return the app object
