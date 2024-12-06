@@ -76,7 +76,7 @@ st.markdown('<h1 style="font-size: 50px;font-weight: 200;">Alumni Profiles</h1>'
 sac.divider(align='center', color='gray')
 
 # Replace this URL with your API's delete endpoint
-DELETE_API_URL = "http://web-api:4000/alumni/delete_alumni"
+DELETE_API_URL = "http://web-api:4000/delete_alumni"
 
 # Fetch the data based on warning filter
 filter_warnings = st.selectbox('Filter by Warnings', options=['All', 'With Warnings', 'Without Warnings'], index=0)
@@ -157,11 +157,10 @@ if not paginated_data.empty:
                 if pd.notna(row.get('AlumniID')):
                     response = requests.delete(f"{DELETE_API_URL}/{row['AlumniID']}")
                     if response.status_code == 200:
-                        st.success(f"{row['Name']}'s profile has been deleted successfully.")
-                        # Re-fetch the data after deletion to refresh the table
                         response = requests.get("http://web-api:4000/alumni")
                         alumni_data = pd.DataFrame(response.json(), columns=["AlumniID", "Name", "Major", "Role", "Company", "Warnings"])
-                        st.experimental_rerun()  # Trigger a rerun to reflect the changes
+                        st.rerun()  # Trigger a rerun to reflect the changes
+                        st.success(f"{row['Name']}'s profile has been deleted successfully.")
                     else:
                         st.error(f"Failed to delete {row['Name']}'s profile.")
                 else:
