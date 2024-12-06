@@ -117,10 +117,26 @@ def add_new_alumni():
 # The SQL query would be an UPDATE.
 @alumni.route('/alumni/<id>', methods = ['PUT'])
 def update_alumni():
+
     alumni_info = request.json
     current_app.logger.info(alumni_info)
-# update query
-    return "Success"
+
+    aboutme = alumni_info['AboutMe']
+    profilepic = alumni_info['ProfilePic']
+    workexperience = alumni_info['WorkExperience']
+
+
+    query = f'''
+    UPDATE Alumni
+    SET AboutMe = '{aboutme}', ProfilePic = '{profilepic}', WorkExperience = '{workexperience}')
+    WHERE AlumniID = {id}
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    response = make_response(jsonify({"message": "profile edited successfully"}))
+    response.status_code = 200
+    return response
 
 @alumni.route('/delete_alumni/<alumni_id>', methods=['DELETE'])
 def delete_alumni(alumni_id):
