@@ -150,7 +150,6 @@ with col1:
         st.plotly_chart(fig)
         
 
-
 with col2:
     st.download_button(label="",
                         icon=":material/download:",
@@ -185,11 +184,6 @@ else:
         (feedback_df["Rating"] <= rating_filter[1])
     ]
     st.dataframe(filtered_feedback, use_container_width=True)
-
-    # Display overall metrics
-    st.subheader("Feedback Summary")
-    average_rating = feedback_df["Rating"].mean()
-    st.write(f"**Average Rating:** {average_rating:.2f} / 5")
 
     # Download button for exporting feedback
     st.subheader("Download Feedback Report")
