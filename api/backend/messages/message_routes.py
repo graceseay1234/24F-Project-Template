@@ -4,11 +4,11 @@ from backend.db_connection import db
 message = Blueprint('Message', __name__)
 
 # Get all messages from the database
-@message.route('/messages', methods=['GET'])
+@message.route('/message', methods=['GET'])
 def get_messages():
     query = '''
-    SELECT messageID, Name, InterviewNotes, Status, Qualities
-    FROM message
+    SELECT MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID
+    FROM Messages
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -21,8 +21,8 @@ def get_messages():
 @message.route('/message/<id>', methods=['GET'])
 def get_message_by_id(id):
     query = f'''
-    SELECT messageID, Name, InterviewNotes, Status, Qualities
-    FROM message
+    SELECT MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID
+    FROM Messages
     WHERE messageID = {str(id)}
     '''
     current_app.logger.info(f'GET /message/<id> query={query}')
@@ -44,15 +44,14 @@ def add_new_message():
     current_app.logger.info(the_data)
 
     # Extracting the variables
-    message_id = the_data['messageID']
-    name = the_data['Name']
-    interview_notes = the_data.get('InterviewNotes', '')
-    status = the_data.get('Status', '')
-    qualities = the_data.get('Qualities', '')
+    message_id = the_data.get('MessageID', '')
+    content = the_data.get('Content', '')
+    sender_alumni_id = the_data.get('SenderAlumniID', '')
+    receiver_alumni_id = the_data.get('ReceiverAlumniID', '')
 
     query = f'''
-    INSERT INTO message (messageID, Name, InterviewNotes, Status, Qualities)
-    VALUES ('{message_id}', '{name}', '{interview_notes}', '{status}', '{qualities}')
+    INSERT INTO Messages (MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID)
+    VALUES ('{message_id}', '{content}', '{sender_alumni_id}', '{receiver_alumni_id}')
     '''
     current_app.logger.info(query)
 
@@ -67,7 +66,7 @@ def add_new_message():
 # Route to delete a message
 @message.route('/delete_message/<message_id>', methods=['DELETE'])
 def delete_message(message_id):
-    query = f"DELETE FROM message WHERE messageID = '{message_id}'"
+    query = f"DELETE FROM Messages WHERE MessageID = '{message_id}'"
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
@@ -79,5 +78,27 @@ def update_message():
     message_info = request.json
     current_app.logger.info(message_info)
 
-    # Here you would include the logic for updating the message's information in the database.
-    return jsonify({"message": "Update functionality to be implemented"}), 200
+    # Extracting variables
+    message_id = feedback_info.get('MessageID')
+    content = feedback_info.get('Content')
+
+    query = '''
+        UPDATE Messages
+        SET MessageContent = %s
+        WHERE MessageID = %s
+    '''
+
+    # Executing the SQL query
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (content, message_id))
+        db.get_db().commit()
+    except Exception as e:
+        current_app.logger.error(f"Failed to update message: {e}")
+        response = make_response("Failed to update message")
+        response.status_code = 500
+        return response
+
+    response = make_response("Successfully updated message")
+    response.status_code = 200
+    return response
