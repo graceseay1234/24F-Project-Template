@@ -15,6 +15,9 @@ st.set_page_config(layout='wide')
 # Show appropriate sidebar links for the role of the currently logged-in user
 SideBarLinks()
 
+# Base URL for the API
+BASE_URL = "http://web-api:4000"
+
 # Styling for the page
 m = st.markdown("""
 <style>
@@ -98,10 +101,88 @@ messages_df = messages_df.sort_values(by="MessageID", ascending=False)
 messages_df = messages_df.reset_index(drop=True)
 
 # Display Messages Table
-st.dataframe(messages_df)
+#st.dataframe(messages_df)
+
+
+def put_message(message_id, new_content):
+    payload = {
+        "MessageID": message_id,
+        "Content": new_content
+    }
+    try:
+        response = requests.put(f"{BASE_URL}/message", json=payload)
+        if response.status_code == 200:
+            st.success("Successfully cleared message!")
+            st.rerun()
+        elif response.status_code == 404:
+            st.error("Message ID not found.")
+        else:
+            st.error(f"Failed to update message. Status: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        st.error(f"Error updating message: {e}")
+
+def delete_message(message_id):
+    try:
+        response = requests.delete(f"{BASE_URL}/delete_message/{message_id}")
+        if response.status_code == 200:
+            st.success("Successfully deleted message!")
+            st.rerun()
+        else:
+            st.error(f"Failed to delete message. Status: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        st.error(f"Error deleting message: {e}")
+
+if not messages_df.empty:
+    h_col1, h_col2, h_col3, h_col4, h_col5, h_col6 = st.columns([1,5,1,1,1,1])
+    h_col1.write("MessageID")
+    h_col2.write("Content")
+    h_col3.write("Sender AlumniID")
+    h_col4.write("Receiver AlumniID")
+    h_col5.write("Action")
+
+    our_id = int(st.session_state['alumni_id'])
+
+    for idx, row in messages_df.iterrows():
+        rec_id = int(row.get('ReceiverAlumniID'))
+        sent_id = int(row.get('SenderAlumniID'))
+        if rec_id == our_id or sent_id == our_id:
+            col1, col2, col3, col4, col5, col6 = st.columns([1,5,1,1,1,1])
+            message_id = row.get('MessageID')
+            content = row.get('MessageContent')
+            sender_id = row.get('SenderAlumniID')
+            rec_id = row.get('ReceiverAlumniID')
+            col1.write(message_id)
+            col2.write(content)
+            col3.write(sender_id)
+            col4.write(rec_id)
+
+            # Add a Clear Feedback button for this entry
+            clear_button_key = f"clear_{message_id}"
+            if col5.button("Clear", key=clear_button_key):
+                put_message(message_id, "")
+
+            delete_button_key = f"delete_{message_id}"
+            if col6.button("Delete", key=delete_button_key):
+                delete_message(message_id)
+                # Refresh the data after deletion
+
+
+
 
 # View Message Interaction: When a student clicks on a message
-message_id = st.selectbox("Select a Message to View", messages_df['MessageID'])
+# Ensure ReceiverAlumniID and alumni_id are the same type for comparison
+filtered_messages_df = messages_df[
+    (messages_df['ReceiverAlumniID'].astype(str) == str(st.session_state['alumni_id'])) |
+    (messages_df['SenderAlumniID'].astype(str) == str(st.session_state['alumni_id']))
+]
+
+
+# Display a selectbox with the filtered MessageID values
+if not filtered_messages_df.empty:
+    message_id = st.selectbox("Select a Message to View", filtered_messages_df['MessageID'])
+else:
+    st.write("No messages available for the current alumni.")
+
 
 # Fetch the selected message's details
 if message_id is not None:

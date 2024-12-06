@@ -83,8 +83,8 @@ def update_message():
     current_app.logger.info(message_info)
 
     # Extracting variables
-    message_id = feedback_info.get('MessageID')
-    content = feedback_info.get('Content')
+    message_id = message_info.get('MessageID')
+    content = message_info.get('Content')
 
     query = '''
         UPDATE Messages
