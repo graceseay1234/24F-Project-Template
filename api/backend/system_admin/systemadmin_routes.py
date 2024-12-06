@@ -12,11 +12,11 @@ administrator = Blueprint('administrator', __name__)
 @administrator.route('/warnings/<alumni_id>', methods=['GET'])
 def get_warnings(alumni_id):
     query = '''
-    SELECT w.warning_id, w.reason, w.timestamp, a.name AS admin_name
-    FROM warnings w
-    INNER JOIN administrator a ON w.admin_id = a.admin_id
-    WHERE w.alumni_id = %s
-    ORDER BY w.timestamp DESC
+    SELECT w.WarningID, w.Reason, w.TimeStamp, a.Name AS Admin_name
+    FROM Warnings w
+    INNER JOIN Administrator a ON w.AdminID = a.AdminID
+    WHERE w.AlumniID = %s
+    ORDER BY w.Timestamp DESC
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query, (alumni_id,))
@@ -30,12 +30,12 @@ def get_warnings(alumni_id):
 @administrator.route('/warnings', methods=['GET'])
 def get_all_warnings():
     query = '''
-    SELECT w.warning_id, w.reason, w.timestamp, 
-           a.name AS admin_name, al.name AS alumni_name
-    FROM warnings w
-    INNER JOIN administrator a ON w.admin_id = a.admin_id
-    INNER JOIN alumni al ON w.alumni_id = al.alumni_id
-    ORDER BY w.timestamp DESC
+    SELECT w.WarningID, w.Reason, w.TimeStamp, 
+           a.Name AS admin_name, al.Name AS AlumniName
+    FROM Warnings w
+    INNER JOIN Administrator a ON w.AdminID = a.AdminID
+    INNER JOIN Alumni al ON w.AlumniID = al.AlumniID
+    ORDER BY w.Timestamp DESC
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
