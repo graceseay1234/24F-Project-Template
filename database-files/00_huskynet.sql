@@ -199,6 +199,24 @@ CREATE INDEX alumni_id ON Alumni(AlumniID);
 
 
 # ---------------------------------------------------------------------- #
+# Add table "Student"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE Student (
+  StudentID INTEGER AUTO_INCREMENT NOT NULL,
+  Name VARCHAR(50) NOT NULL,
+  Major VARCHAR(50) NOT NULL,
+  AboutMe VARCHAR(2000),
+  ProfilePic VARCHAR(2000),
+
+  PRIMARY KEY (StudentID)
+
+);
+
+CREATE INDEX stu_id ON Alumni(StudentID);
+
+
+# ---------------------------------------------------------------------- #
 # Add table "Messages"                                                      #
 # ---------------------------------------------------------------------- #
 
@@ -327,6 +345,48 @@ CREATE INDEX admin_id ON Administrator(AdminID);
 
 
 ###Begin inserting mock data
+
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (1, 'Doralyn Slayford', 'Psychology', 'I enjoy cooking and trying new recipes', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (2, 'Vickie Cayley', 'Sociology', 'I am a big fan of science fiction movies', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (3, 'Chery Baraja', 'English Literature', 'I enjoy cooking and trying new recipes', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (4, 'Bryanty Quarrell', 'Business Administration', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (5, 'Tami Billitteri', 'English Literature', 'I am a big fan of science fiction movies', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (6, 'Bartholomew Rumming', 'English Literature', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (7, 'Katharine O''Keefe', 'Biology', 'I am a big fan of science fiction movies', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (8, 'Marsiella Skipping', 'Sociology', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (9, 'Janeva Hof', 'Business Administration', 'I enjoy cooking and trying new recipes', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (10, 'Bradley Trays', 'English Literature', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (11, 'Chrissie Hoyland', 'Art History', 'I am a big fan of science fiction movies', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (12, 'Lemmy Burden', 'Mathematics', 'I am a big fan of science fiction movies', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (13, 'Eve Crackel', 'Engineering', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (14, 'Audre Featherby', 'Political Science', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (15, 'Dannye Enga', 'Biology', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (16, 'Nanice Crossdale', 'Sociology', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (17, 'Whitaker Kalderon', 'Sociology', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (18, 'Jule De Carteret', 'Biology', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (19, 'Daria Crombie', 'Sociology', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (20, 'Buffy Kidds', 'Art History', 'I am a big fan of science fiction movies', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (21, 'Chad Kleimt', 'Engineering', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (22, 'Allis Clendinning', 'English Literature', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (23, 'Doy Finlayson', 'Sociology', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (24, 'Beatrisa Syne', 'Art History', 'I am passionate about photography', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (25, 'Mose Stirling', 'Psychology', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (26, 'Leslie Maccrea', 'Art History', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (27, 'Lane Gerault', 'Art History', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (28, 'Barnabas Scoggin', 'Mathematics', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (29, 'Aron Sedgemore', 'Political Science', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (30, 'Justine Wasselin', 'Biology', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (31, 'Gayle Swatland', 'Mathematics', 'I am a big fan of science fiction movies', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (32, 'Maje Guidoni', 'Political Science', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (33, 'Renado Abramovitch', 'English Literature', 'I love traveling and experiencing new cultures', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (34, 'Cort Krelle', 'Mathematics', 'I enjoy cooking and trying new recipes', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (35, 'Matt Ort', 'Political Science', 'I enjoy cooking and trying new recipes', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (36, 'Waylan Ogus', 'English Literature', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (37, 'Brandyn Woolager', 'Computer Science', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (38, 'Filmore McPartlin', 'Art History', 'I enjoy cooking and trying new recipes', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (39, 'Lonnard McCutcheon', 'Sociology', 'I love hiking and exploring nature', 'https://i.imgur.com/u49LBXk.png');
+insert into Student (StudentID, Name, Major, AboutMe, ProfilePic) values (40, 'Pembroke Zanelli', 'Biology', 'I enjoy cooking and trying new recipes', 'https://i.imgur.com/u49LBXk.png');
+
 
 insert into Job (JobID, Title, Description, Status) values (1, 'Chief Design Engineer', 'Centralized discrete instruction set', 'inactive');
 insert into Job (JobID, Title, Description, Status) values (2, 'Media Manager IV', 'Public-key dedicated synergy', 'active');
