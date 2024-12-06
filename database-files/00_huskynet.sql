@@ -209,7 +209,8 @@ CREATE TABLE Messages (
   MessageContent VARCHAR(2000),
   TimeStamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (MessageID),
-  CONSTRAINT fk2_alumni FOREIGN KEY (SenderAlumniID) REFERENCES Alumni(AlumniID),
+  CONSTRAINT fk2_alumni FOREIGN KEY (SenderAlumniID) REFERENCES Alumni(AlumniID)
+  ON UPDATE cascade ON DELETE cascade,
   CONSTRAINT fk6_alumni FOREIGN KEY (ReceiverAlumniID) REFERENCES Alumni(AlumniID)
   ON UPDATE cascade ON DELETE cascade
 
