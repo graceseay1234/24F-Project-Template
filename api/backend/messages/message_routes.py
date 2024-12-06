@@ -44,18 +44,22 @@ def add_new_message():
     current_app.logger.info(the_data)
 
     # Extracting the variables
-    message_id = the_data.get('MessageID', '')
+    cursor = db.get_db().cursor()
+    cursor.execute("SELECT IFNULL(MAX(CAST(MessageID AS UNSIGNED)), -1) FROM Messages")
+    row = cursor.fetchone()
+
+    message_id = row.get('IFNULL(MAX(CAST(MessageID AS UNSIGNED)), -1)', 0)
+
     content = the_data.get('Content', '')
     sender_alumni_id = the_data.get('SenderAlumniID', '')
     receiver_alumni_id = the_data.get('ReceiverAlumniID', '')
 
     query = f'''
     INSERT INTO Messages (MessageID, MessageContent, SenderAlumniID, ReceiverAlumniID)
-    VALUES ('{message_id}', '{content}', '{sender_alumni_id}', '{receiver_alumni_id}')
+    VALUES ('{message_id + 1}', '{content}', '{sender_alumni_id}', '{receiver_alumni_id}')
     '''
     current_app.logger.info(query)
 
-    cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
 

@@ -112,15 +112,15 @@ if message_id is not None:
         if st.button("Send Response"):
             # In a real application, you would send this response to the backend.
             response_data = {
-                'MessageID': message_id,
                 'Content': response_content,
-                'SenderAlumniID': st.session_state['first_name'],  # Sender can be derived from session state or input
-                'ReceiverAlumniID': selected_message[0]['SenderAlumniID']
+                'SenderAlumniID': selected_message[0]['SenderAlumniID'], 
+                'ReceiverAlumniID': selected_message[0]['ReceiverAlumniID']
             }
             # Send the response to the backend (API call to add new message)
             post_response = requests.post(messages_url, json=response_data)
 
             if post_response.status_code == 201:
+                st.rerun()
                 st.success(f"Your response has been sent!")
             else:
                 st.error("Failed to send response.")
