@@ -107,11 +107,11 @@ def add_new_alumni():
     major = the_data['Major']
     grad_year = the_data['GradYear']
     work_experience = the_data['WorkExperience']
-    #company = the_data['Company']
+    company = the_data['Company']
     #warning_reason = the_data["WarningReason"]
 
 
-    query = f'''
+    query1 = f'''
         INSERT INTO Alumni (Name,
                               Major,
                               GradYear,
@@ -119,11 +119,22 @@ def add_new_alumni():
                               )
         VALUES ('{name}', '{major}', '{grad_year}', '{work_experience}')
     '''
-    current_app.logger.info(query)
+    query2 = '''
+        SET @last_id = LAST_INSERT_ID()
+    '''
+    query3 = f'''
+        INSERT INTO WorkExperience (Company, AlumniID)
+        VALUES ('{company}', @last_id)
+    '''
+    current_app.logger.info(query1)
+    current_app.logger.info(query2)
+    current_app.logger.info(query3)
 
     # executing and committing the insert statement
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query1)
+    cursor.execute(query2)
+    cursor.execute(query3)
     db.get_db().commit()
 
     response = make_response("Successfully added alumni")

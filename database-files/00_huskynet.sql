@@ -222,7 +222,7 @@ CREATE INDEX msgs_id ON Messages(MessageID);
 # ---------------------------------------------------------------------- #
 
 CREATE TABLE WorkExperience (
-  ExperienceID VARCHAR(50) NOT NULL,
+  ExperienceID INTEGER AUTO_INCREMENT NOT NULL,
   AlumniID INT,
   Role VARCHAR(50),
   Company VARCHAR(50),
