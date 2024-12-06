@@ -19,7 +19,7 @@ st.markdown("""
 # Initialize session state for selected_profile
 if 'selected_profile' not in st.session_state:
     st.session_state['selected_profile'] = None
-
+    
 # Check if a profile has been selected
 if st.session_state['selected_profile']:
     selected_alumni = st.session_state['selected_profile']
@@ -29,47 +29,54 @@ if st.session_state['selected_profile']:
     st.subheader(selected_alumni['Name'])  # Display selected name
     st.write(f"{selected_alumni['Major']} | {selected_alumni['GradYear']}")
 
-    if selected_alumni.get('AboutMe'):
-        st.write(f"**About Me:** {selected_alumni['AboutMe']}")
+    with st.container(border=True):
+        if selected_alumni.get('AboutMe'):
+            st.write(f"**About Me:** {selected_alumni['AboutMe']}")
 
     st.divider()
 
-    # Education Section (Dynamically populated)
-    st.markdown('<h2 class="sub-header">Education</h2>', unsafe_allow_html=True)
-    st.write("**Northeastern University**")
-    st.write(f"Major: **{selected_alumni['Major']}**")
-    st.write(f"Graduation Year: **{selected_alumni['GradYear']}**")
+    with st.container(border=True):
+        # Education Section (Dynamically populated)
+        st.markdown('<h2 class="sub-header">Education</h2>', unsafe_allow_html=True)
+        st.write("**Northeastern University**")
+        st.write(f"Major: **{selected_alumni['Major']}**")
+        st.write(f"Graduation Year: **{selected_alumni['GradYear']}**")
+    with st.container(border=True):
 
-    st.divider()
+        # Work Experience Section
+        st.markdown('<h2 class="sub-header">Work Experience</h2>', unsafe_allow_html=True)
 
-    # Work Experience Section
-    st.markdown('<h2 class="sub-header">Work Experience</h2>', unsafe_allow_html=True)
-
-    # Fetch alumni work experience from the API
-    api_url = "http://web-api:4000/jobs"  # Endpoint for work experience data
-    try:
-        response = requests.get(api_url)
-        if response.status_code == 200:
-            work_experience_entries = response.json()
-            work_experience_for_selected = [
-                entry for entry in work_experience_entries if entry['Name'] == selected_alumni['Name']
-            ]
+        # Fetch alumni work experience from the API
+        api_url = "http://web-api:4000/jobs"  # Endpoint for work experience data
+        try:
+            response = requests.get(api_url)
+            if response.status_code == 200:
+                work_experience_entries = response.json()
+                work_experience_for_selected = [
+                    entry for entry in work_experience_entries if entry['Name'] == selected_alumni['Name']
+                ]
 
             if work_experience_for_selected:
-                for work in work_experience_for_selected:
-                    st.write(f"**Role:** {work['Role']}")
-                    st.write(f"**Company:** {work['Company']}")
-                    st.write(f"**Start Date:** {work['Startdate']}")
-                    st.write(f"**End Date:** {work['EndDate']}")
-                    st.write(f"**Status:** {'Current' if work['IsCurrent'] else 'Not Current'}")
-                    st.divider()  # Optional: Add a divider between entries
-            else:
-                st.write("No work experience information available.")
-        else:
-            st.error(f"Failed to fetch work experience data: {response.status_code}")
+                # Sort work experience, making current roles appear first
+                work_experience_for_selected = sorted(
+                    work_experience_for_selected, 
+                    key=lambda work: not work['IsCurrent']
+                )
 
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error connecting to the API: {e}")
+                for work in work_experience_for_selected:
+                    with st.container(border=True):
+                        st.write(f"{work['Company']}")
+                        st.write(f"**Role:** {work['Role']}")
+                        st.write(f"{work['Startdate']} - {work['EndDate']}")
+                        st.write(f"**Status:** {'Current' if work['IsCurrent'] else 'Not Current'}")
+                        
+                else:
+                    st.write("No work experience information available.")
+            else:
+                st.error(f"Failed to fetch work experience data: {response.status_code}")
+
+        except requests.exceptions.RequestException as e:
+            st.error(f"Error connecting to the API: {e}")
 
 else:
     # Default dropdown interface when no profile is selected
