@@ -69,9 +69,6 @@ if st.session_state['selected_profile']:
                         st.write(f"**Role:** {work['Role']}")
                         st.write(f"{work['Startdate']} - {work['EndDate']}")
                         st.write(f"**Status:** {'Current' if work['IsCurrent'] else 'Not Current'}")
-                        
-                else:
-                    st.write("No work experience information available.")
             else:
                 st.error(f"Failed to fetch work experience data: {response.status_code}")
 
