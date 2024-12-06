@@ -43,7 +43,7 @@ def DAEUserFeedback():
 
 def AdminDashNav():
     st.sidebar.page_link(
-        "pages/10_System_Admin_Dashboard.py", label="System Admin Dashboard", icon=":material/dashboard:"
+        "pages/10_System_Admin_Home.py", label="System Admin Dashboard", icon=":material/dashboard:"
     )
 
 
