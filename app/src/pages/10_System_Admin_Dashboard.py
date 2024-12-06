@@ -96,9 +96,7 @@ if performance_metrics_df is not None:
     logger.info(f"Fetched DataFrame with {performance_metrics_df.shape[0]} rows and {performance_metrics_df.shape[1]} columns.")
     logger.info(performance_metrics_df.head())
 
-    # Display data preview
-    st.write("### Data Preview", performance_metrics_df.head())
-
+    
     # Verify required columns
     required_columns = ['TimeStamp', 'ResponseTime', 'UpTime']
     missing_columns = [col for col in required_columns if col not in performance_metrics_df.columns]
