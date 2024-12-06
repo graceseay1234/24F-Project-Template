@@ -137,7 +137,6 @@ def SideBarLinks(show_home=False):
             RecruiterHomeNav()
             CandidateOverviewNav()
             JobsOverviewNav()
-            RecruiterMessages()
 
         # If the user is an student, give them access to the administrator pages
         if st.session_state["role"] == "Student":
