@@ -43,7 +43,6 @@ def get_alumniid (id):
     response.status_code = 200
     return response
 
-# ------------------------------------------------------------
 # view profiles of alumni that include their education, work history, and career journey
 
 @alumni.route('/jobs')
@@ -64,36 +63,7 @@ JOIN WorkExperience ON Alumni.AlumniID = WorkExperience.AlumniID;
     response.status_code = 200
     return response
 
-# ------------------------------------------------------------
-# Route to get the 10 most expensive items from the
-# database.
-@alumni.route('/tenMostExpensive', methods=['GET'])
-def get_10_most_expensive_alumni():
-
-    query = '''
-        SELECT alumni_code,
-               alumni_name,
-               list_price,
-               reorder_level
-        FROM alumni
-        ORDER BY list_price DESC
-        LIMIT 10
-    '''
-
-    # Same process as above
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    theData = cursor.fetchall()
-
-    response = make_response(jsonify(theData))
-    response.status_code = 200
-    return response
-
-
-# ------------------------------------------------------------
-# This is a POST route to add a new alumni.
-# Remember, we are using POST routes to create new entries
-# in the database.
+# post new alumni 
 @alumni.route('/alumni', methods=['POST'])
 def add_new_alumni():
 
@@ -143,35 +113,14 @@ def add_new_alumni():
     return response
 
 # ------------------------------------------------------------
-### Get all alumni categories
-@alumni.route('/categories', methods = ['GET'])
-def get_all_categories():
-    query = '''
-        SELECT DISTINCT category AS label, category as value
-        FROM alumni
-        WHERE category IS NOT NULL
-        ORDER BY category
-    '''
-
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    theData = cursor.fetchall()
-
-    response = make_response(jsonify(theData))
-    response.status_code = 200
-    return response
-
-# ------------------------------------------------------------
 # This is a stubbed route to update a alumni in the catalog
 # The SQL query would be an UPDATE.
-@alumni.route('/alumni', methods = ['PUT'])
+@alumni.route('/alumni/<id>', methods = ['PUT'])
 def update_alumni():
     alumni_info = request.json
     current_app.logger.info(alumni_info)
-
+# update query
     return "Success"
-
-
 
 @alumni.route('/delete_alumni/<alumni_id>', methods=['DELETE'])
 def delete_alumni(alumni_id):
@@ -180,7 +129,6 @@ def delete_alumni(alumni_id):
     cursor.execute(query)
     db.get_db().commit()
     return jsonify({"message": f"Alumni ID {alumni_id} deleted successfully."}), 200
-
 
 
 @alumni.route('/alumni_with_warnings', methods=['GET'])
@@ -202,8 +150,6 @@ def get_alumni_with_warnings():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
-
-
 
 
 @alumni.route('/alumni_without_warnings', methods=['GET'])
