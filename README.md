@@ -48,6 +48,9 @@ To run the containers in detached mode, use:
 - Lucas Rouaix
 
 ## Walking Through Video
+- Dropbox: 
 https://www.dropbox.com/scl/fi/8fqrbz9awyq5sgowgwkoa/CS3200FHuskyNet.mp4?rlkey=u3f93r0we3i6gnrlzn4ilbqsg&st=dyzu1h8q&dl=0
+- Google Drive:
+https://drive.google.com/file/d/1PKPn2Ot0QStw9uL49_v0Uj_CR0x5VXFX/view?usp=sharing
 
  
