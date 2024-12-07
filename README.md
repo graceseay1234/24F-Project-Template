@@ -40,11 +40,14 @@ To run the containers in detached mode, use:
 - `docker compose up db -d` only start the database container (replace db with the other services as needed)
 - `docker compose stop` to "turn off" the containers but not delete them. 
 
-## Contributers:
+## Contributers
 - Addison Seay
 - Blake Waldner
 - Amir Marat
 - Anne Hu	
 - Lucas Rouaix
+
+## Walking Through Video
+https://www.dropbox.com/scl/fi/8fqrbz9awyq5sgowgwkoa/CS3200FHuskyNet.mp4?rlkey=u3f93r0we3i6gnrlzn4ilbqsg&st=dyzu1h8q&dl=0
 
  
