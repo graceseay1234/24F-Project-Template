@@ -9,6 +9,9 @@ tailored to your unique academic and professional journey. Major functions inclu
 - **Data Insights** : Gain valuable analytics on student career paths and outcomes.
 
 - **Professional Connections** : Students can filter by major and find alumni in their field.
+
+<img width="1408" alt="Screenshot 2024-12-04 at 5 23 45 PM" src="https://github.com/user-attachments/assets/7e7bf2f0-ac4b-4793-83a4-d6415a3874b6" />
+
 ## Prerequisites
 
 - Docker desktop must be installed on your laptop.
